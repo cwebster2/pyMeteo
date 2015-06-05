@@ -1,0 +1,36 @@
+#!/usr/bin/env python
+
+import os,sys
+from optparse import OptionParser
+
+from pymeteo import skewt
+
+usage = "usage: %prog [-p PATH] -d DATASET [options] or %prog -f FILE"
+parser = OptionParser(usage=usage)
+parser.add_option("-p", dest="path", help="dataset path", default='data/')
+parser.add_option("-d", dest="dataset", help="dataset basename")
+parser.add_option("-x", dest="x", help="x gridpoint of sounding", default=0)
+parser.add_option("-y", dest="y", help="y gridpoint of sounding", default=0)
+parser.add_option("-o", dest="out", help="output filename", default='skewt.eps')
+parser.add_option("-f", dest="fname", help="tabular sounding data file", default=None)
+
+(options, args) = parser.parse_args()
+
+if options.fname == None:
+
+   if not options.dataset:
+      parser.error('DATASET not specified')
+
+   path = options.path
+   base = options.dataset
+   xloc = int(options.x)
+   yloc = int(options.y)
+   out  = options.out
+
+   skewt.plot_cm1(path,base,xloc,yloc,out)
+
+else: #sounding data provided
+
+   out  = options.out
+   skewt.plot_sounding_data(options.fname, out)
+
