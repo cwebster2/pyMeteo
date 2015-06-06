@@ -1,5 +1,31 @@
 #!/usr/bin/env python
+"""
+.. module:: pymeteo.skewt
+   :platform: Unix, Windows
+   :synopsis: Skew-T/Log-P plotting
 
+.. moduleauthor:: Casey Webster <casey.webster@gmail.com>
+
+This module allows plotting Skew-T/Log-P diagrams 
+and hodographs from arrays of 
+data with helper functions to plot directly from CM1 output files
+in either Grads or HDF5 format and also from sounding data text
+files in the format used for WRF and CM1 initialization.
+
+This module also has code to produce rudimentary analysis of
+the soundings data.  Currently this is limited to CAPE (surface 
+and most unstable), CIN, wind shear, storm relative helicity, lifted index
+and a rough estimate of storm motion based on the Bunkers (2000)
+method.
+
+.. figure:: _static/images/skewt.png
+  :align: center
+
+  Example Skew-T/Log-P with hodograph
+
+Plotting methods
+++++++++++++++++
+"""
 import math
 import pymeteo.thermo as met
 import pymeteo.dynamics as dyn
@@ -113,9 +139,6 @@ def plot_sounding_data(filename, output):
         
         Missing values should be filled with the value -9999.00
         """
-# in the following order: pressure (mb), height (m), temp (C), dewpoint (C),
-# wind direction (degrees), wind speed (m/s) with any missing values coded with
-# the value -9999.00 .
 
         p,z,T,Td,wdir,wspd = np.loadtxt(filename, delimiter=',',  unpack=True)
         # Pressure to Pa
@@ -198,6 +221,20 @@ def plot_sounding_data(filename, output):
 # in grads format
 #
 def plot_cm1(_path, _filename, xi, yi,_output):
+  """Plot skewt from a Grads format CM1 output file
+
+  :parameter _path: Path to CM1 dataset
+  :type _path: str
+  :parameter _filename: Filename of dataset
+  :type _filename: str
+  :parameter x1: X gridpoint to plot SkewT
+  :parameter y1: Y gridpoint to plot SkewT
+  :parameter _output: Filename to save skewt plot
+
+  This function plots a skewt from a CM1 output file.  
+  This routine uses winds interpolated to the scalar
+  gridpoints.  
+  """
   f = cm1.CM1(_path,_filename)
   _x = f.dimX
   _y = f.dimY
@@ -245,6 +282,26 @@ def plot_cm1(_path, _filename, xi, yi,_output):
 # A skewt, hodograph and an information block (currently disabled).
 #  
 def plot(_x,_y,_z,_t,_th,_p,_qv,_u,_v,_title,_output):
+  """Plots Skew-T/Log-P diagrapms with hodograph
+
+  The helper functions above facilitate loading data from
+  various formats and then call this function.  If you have
+  data in another format or arrays of data in python already,
+  then this is the function you want to use.
+
+  :parameter _x: Unused
+  :parameter _y: Unused
+  :parameter _z: z grid mesh (1D)
+  :parameter _t: Unused
+  :parameter _th: Potential temperature at z points
+  :parameter _p: Pressure at z points
+  :parameter _qv: Water vapor mixing ratio at z points
+  :parameter _u: u winds at z points
+  :parameter _v: v winds at z points
+  :parameter _title: Title for plot
+  :parameter _output: Filename to save plot to
+
+  """
   fig = plt.figure(1, figsize=(10, 8), dpi=300, edgecolor='k')
   ax1 = plt.subplot(121)
   plot_sounding_axes(ax1)

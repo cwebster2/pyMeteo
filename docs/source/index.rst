@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to pyMeteo's documentation!
+pyMeteo documentation
 ===================================
 
 Contents:
@@ -12,15 +12,33 @@ Contents:
    :maxdepth: 2
 
 .. automodule:: pymeteo
-              
+   :members:
+                
+Skew-t/Log-p Plotting       
+---------------------------                
 .. automodule:: pymeteo.skewt
-   :members: plot_cm1h5,  plot_sounding_data
+   :members: plot_cm1h5,  plot_sounding_data, plot_cm1, plot
+   :noindex:
 
+Interfacining with CM1
+----------------------
 .. automodule:: pymeteo.cm1
    :members:
+
+Dynamics
+----------------------
 .. automodule:: pymeteo.dynamics
    :members:
 
+Thermodynamic routines
+----------------------
+
+These routines 
+
+.. automodule:: pymeteo.thermo
+   :members:
+   :noindex:
+      
 Indices and tables
 ==================
 

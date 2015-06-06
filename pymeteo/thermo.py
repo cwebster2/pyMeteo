@@ -1,5 +1,12 @@
 #!/usr/bin/env python
+"""
+.. module:: pymeteo.thermo
+   :platform: Unix, Windows
+   :synopsis: Thermodynamic routines
 
+.. moduleauthor:: Casey Webster <casey.webster@gmail.com>
+
+"""
 #todo
 # complete constants and function library
 
@@ -10,9 +17,14 @@ import numpy as np
 from pymeteo.constants import *
 import pymeteo.interp
 
-#
 def T(theta,p):
-	return theta * (p00/p)**-kappa_d
+    """Convert Potential Temperature :math:`\\theta` to Temperature
+    
+    :parameter theta: Potential temperature (K)
+    :parameter p: Pressure (Pa)
+    :returns: Temperature (K) 
+    """
+    return theta * (p00/p)**-kappa_d
 
 def theta(T,p):
 	return T * (p00/p)**kappa_d

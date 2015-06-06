@@ -13,6 +13,7 @@ License :: OSI Approved :: BSD License
 Topic :: Scientific/Engineering :: Atmospheric Science
 Development Status :: 3 - Alpha
 Topic :: Software Development :: Libraries :: Python Modules
+Programming Language :: Python :: 3
 """
 
 from distutils.core import setup
