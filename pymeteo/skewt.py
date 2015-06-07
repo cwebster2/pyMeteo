@@ -23,8 +23,18 @@ method.
 
   Example Skew-T/Log-P with hodograph
 
+Variables effecting the plot output
++++++++++++++++++++++++++++++++++++
+
+.. autodata:: skew_angle
+.. autodata:: Tmin
+.. autodata:: Tmax
+.. autodata:: pbot
+.. autodata:: ptop
+
 Plotting methods
 ++++++++++++++++
+
 """
 import math
 import pymeteo.thermo as met
@@ -36,13 +46,18 @@ import pymeteo.cm1.read_grads as cm1
 import pymeteo.interp
 
 # This defines the skew-angle of the T axis
-skew_angle = 37.5
+skew_angle = 37.5 
+"""This defines the skewness of the T axis"""
 
 # These define the domain plotted.  T values are at @1000 mb (e.g. unskewed)
 Tmin = -40.0
+"""Sets the left boundary of the plot. Temperature at 1000 mb (C)"""
 Tmax = 40.0
+"""Sets the right boundary of the plot. Temperature at 1000 mb (C)"""
 pbot = 105000.0
+"""Sets the bottom boundary of the plot. Pressure (Pa)"""
 ptop = 10000.0
+"""Sets the top boundary of the plot. Pressure (Pa)"""
 
 ## Values below used for plotting 
 dp = 5000.0
