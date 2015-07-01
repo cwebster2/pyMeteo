@@ -13,6 +13,12 @@ pyMeteo is developed with python 3.4 and should work with any version of python 
 with python 2.  Open an issue or send me a pull request if you want to make python 2 work but make
 sure any submissions do not regress against python 3.
 
+You can obtain the most recent development version of pymeteo by cloing this repository.
+
+    git clone https://github.com/cwebster2/pyMeteo.git
+    cd pyMeteo
+    python3 setup.py install
+
 ## Inlcuded scripts
 
 skewt -- plots skewt from CM1 output (Grads format) or from CM1 or WRF input soundings  
