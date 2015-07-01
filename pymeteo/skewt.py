@@ -32,6 +32,11 @@ Variables effecting the plot output
 .. autodata:: pbot
 .. autodata:: ptop
 
+.. autodata:: dp
+.. autodata:: ptickbot
+.. autodata:: pticktop
+.. autodata:: tickdp
+
 Plotting methods
 ++++++++++++++++
 
@@ -61,10 +66,15 @@ ptop = 10000.0
 
 ## Values below used for plotting 
 dp = 5000.0
+"""The delta pressure used in calculating adiabats"""
 ptickbot = 100000.0
+"""Lowest elevated pressure level to be labelled in the plot (Pa)"""
 pticktop = 10000.0
+"""Highest elevated pressure level to be labelled in the plot (Pa)"""
 tickdp = 10**4
+"""The spacing between pressure labels in the plot (Pa)"""
 plevs = np.arange(pbot,ptop-1,-dp)
+"""List of pressure levels to do calculations on"""
 fontscalefactor = 1
 
 #for plotted lines
@@ -84,17 +94,17 @@ vmin = -12.5
 vmax = 27.5
 
 ##################################################################################
-def plot_cm1h5(_filename, xi, yi,_output):
+def plot_cm1h5(filename, xi, yi, output):
     """ Plots a skewt from an HDF5 file.
 
-    :param _filename: The name of the HDF5 file to open.
-    :type _filename: str
+    :param filename: The name of the HDF5 file to open.
+    :type filename: str
     :param xi: The X gridpoint of the skewt plot.
     :type xi: int
     :param yi: The Y gridpoint of the skewt plot.
     :type yi: int
-    :param _output: Output filename to save plot
-    :type _output: str
+    :param output: Output filename to save plot
+    :type output: str
 
     To use this function the HDF5 file must have the following
     variables:
@@ -114,22 +124,20 @@ def plot_cm1h5(_filename, xi, yi,_output):
     CM1 using HDF5 output.
 
     """
-    f = h5py.File(_filename, 'r')
-    _x = f["xh"]
-    _y = f["yh"]
-    z = f["z"][:]
+    f = h5py.File(filename, 'r')
+    z = f["/mesh/zh"][:]    # m 
 
-    x = _x[xi]
-    y = _y[yi]
-    t = f["time"][0]
-    th = f["th"][0,:,yi,xi]
-    thpert = f["thpert"][0,:,yi,xi]
-    p = f["prs"][0,:,yi,xi]
-    u = f["u"][0,:,yi,xi]
-    v = f["v"][0,:,yi,xi]
-    qv = f["qv"][0,:,yi,xi]
+    x = f["/mesh/xh"][xi]   # m
+    y = f["/mesh/yh"][yi]   # m
+    t = f["/time"][0]       # s
+    th = f["/3d_s/thpert"][:,yi,xi] + f["/basestate/th0"][:] # K
+    p = f["/3d_s/ppert"][:,yi,xi] + f["/basestate/pres0"][:] # Pa
+    u = f["/3d_u/u"][:,yi,xi] # m/s
+    v = f["/3d_v/v"][:,yi,xi] # m/s
+    qv = f["/3d_s/qvpert"][:,yi,xi] 
 
-    plot(x,y,z,t,th,p,qv,u,v,_filename, _output)
+    print(x,y,z[0],t,th[0],u[0],v[0],p[0],qv[0])
+    plot(x,y,z,t,th,p,qv,u,v,filename, output)
 
 ##################################################################################
 #
@@ -235,28 +243,28 @@ def plot_sounding_data(filename, output):
 # This plots a skewt at domain location xi,yi at time t=0 for a given CM1 dataset
 # in grads format
 #
-def plot_cm1(_path, _filename, xi, yi,_output):
+def plot_cm1(path, filename, xi, yi,output):
   """Plot skewt from a Grads format CM1 output file
 
   :parameter _path: Path to CM1 dataset
-  :type _path: str
+  :type path: str
   :parameter _filename: Filename of dataset
-  :type _filename: str
+  :type filename: str
   :parameter x1: X gridpoint to plot SkewT
   :parameter y1: Y gridpoint to plot SkewT
-  :parameter _output: Filename to save skewt plot
+  :parameter output: Filename to save skewt plot
 
   This function plots a skewt from a CM1 output file.  
   This routine uses winds interpolated to the scalar
   gridpoints.  
   """
-  f = cm1.CM1(_path,_filename)
-  _x = f.dimX
-  _y = f.dimY
-  _z = f.dimZ[:] * 1000.
+  f = cm1.CM1(path, filename)
+  #_x = f.dimX
+  #_y = f.dimY
+  _z = f.dimZ[:] * 1000.   # km->m
 
-  x = _x[xi]
-  y = _y[yi]
+  x = f.dimX[xi]
+  y = f.dimY[yi]
   t = int(f.dimT[0])
         
   f.read3dMultStart(t)
@@ -288,7 +296,7 @@ def plot_cm1(_path, _filename, xi, yi,_output):
   v[0] = v[1]
   z[0] = 0.
 
-  plot(x,y,z,t,th,p,qv,u,v,_filename, _output)
+  plot(x,y,z,t,th,p,qv,u,v,filename, output)
 
 ##################################################################################
 # plot
@@ -296,7 +304,7 @@ def plot_cm1(_path, _filename, xi, yi,_output):
 # This is the main skewT plotting function for a single output page containing
 # A skewt, hodograph and an information block (currently disabled).
 #  
-def plot(_x,_y,_z,_t,_th,_p,_qv,_u,_v,_title,_output):
+def plot(x, y, z, t, th, p, qv, u, v, title, output):
   """Plots Skew-T/Log-P diagrapms with hodograph
 
   The helper functions above facilitate loading data from
@@ -304,32 +312,41 @@ def plot(_x,_y,_z,_t,_th,_p,_qv,_u,_v,_title,_output):
   data in another format or arrays of data in python already,
   then this is the function you want to use.
 
-  :parameter _x: Unused
-  :parameter _y: Unused
-  :parameter _z: z grid mesh (1D)
-  :parameter _t: Unused
-  :parameter _th: Potential temperature at z points
-  :parameter _p: Pressure at z points
-  :parameter _qv: Water vapor mixing ratio at z points
-  :parameter _u: u winds at z points
-  :parameter _v: v winds at z points
-  :parameter _title: Title for plot
-  :parameter _output: Filename to save plot to
+  :parameter x: Unused
+  :parameter y: Unused
+  :parameter z: z grid mesh (1D)
+  :parameter t: Unused
+  :parameter th: Potential temperature at z points
+  :parameter p: Pressure at z points
+  :parameter qv: Water vapor mixing ratio at z points
+  :parameter u: u winds at z points
+  :parameter v: v winds at z points
+  :parameter title: Title for plot
+  :parameter output: Filename to save plot to
 
   """
   fig = plt.figure(1, figsize=(10, 8), dpi=300, edgecolor='k')
   ax1 = plt.subplot(121)
   plot_sounding_axes(ax1)
-  plot_sounding(_z, _th, _p, _qv, _u, _v, ax1)
+  plot_sounding(z, th, p, qv, u, v, ax1)
   ax2 = plt.subplot(222)
   plot_hodo_axes(ax2)
-  plot_hodograph(_z, _u, _v, ax2)
+  plot_hodograph(z, u, v, ax2)
   #ax3 = fig.add_subplot(132)
-  #plot_the_rest(_x,_y,_z,_t,_th,_p,_qv,_u,_v,_title,_output)
-  plt.savefig(_output, dpi=300,bbox_inches=0)
+  #plot_the_rest(x,y,z,t,th,p,qv,u,v,title,output)
+  # plot_wind_axes?????
+  plt.savefig(output, dpi=300,bbox_inches=0)
   plt.close()
 
 def plot_sounding_axes(axes):
+  """Plots Skew-T/Log-P axes
+
+  This will plot isotherms, isobars, dry and moist adiabats, 
+  lines of constant water vapor mixing ratio, labels and 
+  setup the y axes to be reversed.
+
+  :paramter axes: The axes to draw on
+  """
   draw_isotherms(axes)
   draw_isobars(axes)
   draw_dry_adiabat(axes)
@@ -339,33 +356,63 @@ def plot_sounding_axes(axes):
   axes.axis([Tmin, Tmax, pbot, ptop])
   axes.set_ylim(axes.get_ylim()[::1])
 
+def plot_wind_axes(axes):
+  # plot wind barbs
+  # TODO: also do storm-relative winds
+  draw_wind_line()
+  axes.set_axis_off()
+  axes.axis([-1,1,pbot,ptop])
+
 def plot_hodo_axes(axes):
+  """Plot hodograph axes
+
+  This will plot range arcs and labels for a hodograph plot
+  """
   bounds = [-25,25,-25,25]
   axes.axis('equal')
   draw_hodograph(axes, bounds)
   remove_tick_labels(axes)
   axes.axis(bounds)
 
-def plot_sounding(_z, _th, _p, _qv, _u, _v, axes):
+def plot_wind(z, p, u, v, axes, x=0):  
+  for i in np.arange(0,len(z),1):
+    if (p[i] > pt_plot):
+      plt.barbs(x,p[i],u[i],v[i], length=5, linewidth=.5)
 
+  
+def plot_sounding(z, th, p, qv, u, v, axes):
+  """Plot sounding data
+
+  This plots temperature, dewpoint and wind data on a Skew-T/Log-P plot.
+  This will also plot derived values such as wetbulb temperature and
+  label the surface based LCL, LFC and EL.
+
+  :parameter z: height values (1D array)
+  :parameter th: potential temperature at z heights (1D array)
+  :parameter p: pressure at z heights (1D array)
+  :parameter qv: water vapor mixing ratio at z heights (1D array)
+  :parameter u: U component of wind at z heights (1D array)
+  :parameter v: V component of wind at z heights (1D array)
+  :paramter axes: The axes instance to draw on
+  """
   #calculate data
-  T = met.T(_th,_p) - met.T00                          # T (C)
-  Td = met.Td(_p, _qv) - met.T00                       # Td (C)
+  T = met.T(th,p) - met.T00                          # T (C)
+  Td = met.Td(p, qv) - met.T00                       # Td (C)
   # wetbulb
-  Twb = np.empty(len(_z), np.float32)                  # Twb (C)
-  for zlvl in range(len(_z)):
-    Twb[zlvl] = met.Twb(_z, _p, _th, _qv, _z[zlvl])
+  Twb = np.empty(len(z), np.float32)                  # Twb (C)
+  for zlvl in range(len(z)):
+    Twb[zlvl] = met.Twb(z, p, th, qv, z[zlvl])
 
-  pcl = met.CAPE(_z, _p, T+met.T00, _qv, 1)        # CAPE
+  pcl = met.CAPE(z, p, T+met.T00, qv, 1)        # CAPE
   T_parcel = pcl['t_p'] - met.T00                      # parcel T (C)
   T_vparcel = pcl['tv_p'] - met.T00                     # parcel Tv (C)
   T_venv = met.T(pcl['thv_env'], pcl['pp']) - met.T00  # Env Tv (C)
 
   # plot data
-  axes.semilogy(T + skew(_p), _p, basey=math.e, color = 'black', linewidth = 1.5)
-  axes.semilogy(Td + skew(_p), _p, basey=math.e, color = 'green', linewidth = 1.5)
+  axes.semilogy(T + skew(p), p, basey=math.e, color = 'black', linewidth = 1.5)
+  axes.semilogy(Td + skew(p), p, basey=math.e, color = 'green', linewidth = 1.5)
   axes.semilogy(T_parcel + skew(pcl['pp']), pcl['pp'], basey=math.e, color='red', linewidth=1.0)
-  axes.semilogy(Twb + skew(_p), _p, basey=math.e, color='blue', linewidth=0.5)
+  axes.semilogy(Twb + skew(p), p, basey=math.e, color='blue', linewidth=0.5)
 
   axes.semilogy(T_venv + skew(pcl['pp']), pcl['pp'], basey=math.e, color='black', linewidth=0.7, linestyle='--')
   axes.semilogy(T_vparcel + skew(pcl['pp']), pcl['pp'], basey=math.e, color='red', linewidth=0.7, linestyle='--')
@@ -377,31 +424,41 @@ def plot_sounding(_z, _th, _p, _qv, _u, _v, axes):
 
 	# plot std heights
   for plvl in plevs_std:
-    zlvl = pymeteo.interp.interp_height(_z,_p,plvl)
+    zlvl = pymeteo.interp.interp_height(z,p,plvl)
     #print('hieight for level {0} is {1}'.format(plvl,zlvl))
     label_m(Tmin-.5,plvl, str(int(zlvl)), axes)
 
 	#draw_wind_line()
-  for i in np.arange(0,len(_z),2):
-    if (_p[i] > pt_plot):
-      plt.barbs(Tmin+4,_p[i],_u[i],_v[i], length=5, linewidth=.5)
+  for i in np.arange(0,len(z),2):
+    if (p[i] > pt_plot):
+      plt.barbs(Tmin+4,p[i],u[i],v[i], length=5, linewidth=.5)
 
-def plot_hodograph(_z, _u, _v, axes):
-	# plot hodograph
+def plot_hodograph(z, u, v, axes):
+  """Plot Hodograph data
+
+  This plots u and v winds vs height on a hodograph.
+
+  :parameter z: height values (1D array)
+  :parameter u: U component of wind at z heights (1D array)
+  :parameter v: V component of wind at z heights (1D array)
+  :paramter axes: The axes instance to draw on
+  """
+  
+  # plot hodograph
   z6km = 0
-  while _z[z6km] <= 12000:
+  while z[z6km] <= 12000:
     z6km += 1
-  axes.plot(_u[0:z6km],_v[0:z6km], color='black', linewidth=1.5)
+  axes.plot(u[0:z6km],v[0:z6km], color='black', linewidth=1.5)
 
   for zlvl in np.arange(0,7000,1000):
-    ulvl = pymeteo.interp.linear(_z,_u,zlvl)
-    vlvl = pymeteo.interp.linear(_z,_v,zlvl)
+    ulvl = pymeteo.interp.linear(z,u,zlvl)
+    vlvl = pymeteo.interp.linear(z,v,zlvl)
     #print('calculating winds at height {0} = ({1},{2})'.format(zlvl,ulvl,vlvl))
     label_h2(ulvl+1,vlvl-1,str(zlvl/1000), 'black', 0, axes)
     axes.plot(ulvl,vlvl, color='black', markersize=5, marker='.')
 
   #TODO: fix this
-  ucb = dyn.storm_motion_bunkers(_u,_v,_z)
+  ucb = dyn.storm_motion_bunkers(u,v,z)
   axes.plot(ucb[0],ucb[1],markersize=4,color='black',marker='x')
   axes.plot(ucb[2],ucb[3],markersize=4,color='black',marker='x')
 
@@ -457,15 +514,6 @@ def plot_the_rest(_x,_y,_z,_t,_th,_p,_qv,_u,_v,_title,_output):
  # pcl, mupcl, mlpcl = calc_sounding_stats(_z, _th, _p, _qv)
  # shear = calc_hodograph_stats(_z, _u, _v)
 
-  # plot wind barbs
-  # TODO: also do storm-relative winds
-  ax3.set_axis_off()
-  plt.axis([-1,1,pbot,ptop])
-
-  draw_wind_line()
-  for i in np.arange(0,len(_z),1):
-    if (_p[i] > pt_plot):
-      plt.barbs(0,_p[i],_u[i],_v[i], length=5, linewidth=.5)
 
 
 # brn = dyn.brn(_u, _v, _z, pcl['cape'])

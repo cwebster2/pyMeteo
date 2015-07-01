@@ -16,8 +16,8 @@ Topic :: Software Development :: Libraries :: Python Modules
 Programming Language :: Python :: 3
 """
 
-from distutils.core import setup
-#from setuptools import setup
+#from distutils.core import setup
+from setuptools import setup
 
 def readme():
   with open('README.md') as f:
@@ -26,7 +26,7 @@ def readme():
 doclines = __doc__.split("\n")
 
 setup(name='pymeteo',
-      version='0.2',
+      version='0.2.1',
       description=doclines[0],
       long_description="\n".join(doclines[2:]),
       url='http://github.com/cwebster2/pymeteo',
@@ -40,6 +40,7 @@ setup(name='pymeteo',
                 'pymeteo.cm1.hodographs',
                 'pymeteo.cm1.soundings'],
       scripts=['bin/cm1_geninit',
-               'bin/skewt'],
+               'bin/skewt',
+               'bin/skewt-hdf'],
       classifiers=filter(None, classifiers.split("\n")))
 
