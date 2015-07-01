@@ -1,24 +1,38 @@
+"""Class to read GRaDS style CM1 model output data
 
-# cm1.py
-#
-# access routines for cm1 grads format output 
-
+"""
 #TODO exception throwing?  Error handling, support the u,v,w,stats files
 
 import numpy as np
 import mmap
 
 class CM1(object):
+   """Class that implements reading CM1 model data
+
+   :param path: path to CM1 data files
+   :param datasetname: the CM1 data files basename
+   
+   """
    nx   = 0
+   """gridpoints in the x direction"""
    ny   = 0
+   """gridpoints in the y direction"""
    nz   = 0
+   """gridpoints in the z direction"""
    nv   = 0
+   """number of variables in the dataset"""
    nt   = 0
+   """number of time levels in the dataset"""
    dt   = 0
+   """timestep between time levels"""
    dimX = 0
+   """X grid dimension (1D)"""
    dimY = 0
+   """Y grid dimension (1D)"""
    dimZ = 0
+   """Z grid dimension (1D)"""
    dimT = 0
+   """T grid dimension (1D)"""
    vars = 0
    n2d  = 0
    recl = 0
@@ -204,7 +218,12 @@ class CM1(object):
 # Reads a single 3d variable from the datafile
 
    def read3d(self, time, varname):
+      """Reads a 3D variable from the dataset
 
+      :param time: the timelevel to read
+      :param varname: the variable name to read
+      :reaturns: 3D array containing the variable at the time
+      """
       var = self.getVarByName(varname)
 
       # open dat file 

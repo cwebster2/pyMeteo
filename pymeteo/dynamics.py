@@ -1,5 +1,7 @@
 #!/usr/bin/env python
+"""This module provides routine thermodynamic functions
 
+"""
 #todo
 # complete constants and function library
 
@@ -167,86 +169,118 @@ def integral_dt(i, t):
 # helper functions
 
 def uv_to_deg(u,v):
-   # transforms u, v, to direction, maginutide
+   """transforms u, v, to direction, maginutide
 
+   :param u: u wind component
+   :param v: v wind component
+   :returns: wind direction and magnitude
+   """
    direction = np.arctan2(u,v)*(180./np.pi)
    speed = (u**2 + v**2)**(0.5)
 
    return direction,speed
 
 def wind_deg_to_uv(direction, speed):
+   """Converts direction and speed into u,v wind
 
+   :param direction: wind direction (mathmatical angle)
+   :param speed: wind magnitude
+   :returns: u and v wind components
+   """
    u = speed * np.sin(np.pi * (direction+180.) / 180.)
    v = speed * np.cos(np.pi * (direction+180.) / 180.)
 
    return u,v
 
 def shear(_u, _v, _z, zbot, ztop):
+    """Calculates the shear in the layer between zbot and ztop
 
-   if zbot < _z[0]:
-      zbot = _z[0]
+    :param _u: U winds (1D vector in z)
+    :param _u: V winds (1D vector in z)
+    :param _z: z heights (1D vector in z)
+    :param zbot: Bottom of the layer
+    :param ztop: Top of the layer
 
-   #print('Calculating shear between {0} - {1} m'.format(zbot,ztop))
+    """
 
-   ubot = pymeteo.interp.linear(_z,_u, zbot)
-   vbot = pymeteo.interp.linear(_z,_v, zbot)
-   utop = pymeteo.interp.linear(_z,_u, ztop)
-   vtop = pymeteo.interp.linear(_z,_v, ztop)
+    if zbot < _z[0]:
+        zbot = _z[0]
 
-   u = utop-ubot
-   v = vtop-vbot
-   #print('Shear = {0},{1}'.format(u,v))
-   return u,v
+    ubot = pymeteo.interp.linear(_z,_u, zbot)
+    vbot = pymeteo.interp.linear(_z,_v, zbot)
+    utop = pymeteo.interp.linear(_z,_u, ztop)
+    vtop = pymeteo.interp.linear(_z,_v, ztop)
+
+    u = utop-ubot
+    v = vtop-vbot
+    return u,v
 
 def srh(_u,_v,_z, zbot, ztop, cx, cy):
+    """Calculates the storm relative helicity in the layer between zbot and ztop
 
-   if zbot < _z[0]:
-      zbot = _z[0]
+    :param _u: U winds (1D vector in z)
+    :param _u: V winds (1D vector in z)
+    :param _z: z heights (1D vector in z)
+    :param zbot: Bottom of the layer
+    :param ztop: Top of the layer
+    :param cx: u component of storm motion
+    :param cy: v component of storm motion
 
-   #print('Calculating SRH for the layer {0} - {1} m'.format(zbot,ztop))
+    """
 
-   dz = 10.
-   z = np.arange(zbot, ztop+dz, dz)
-   nk = len(z)
-   u = np.empty(nk, np.float32)
-   v = np.empty(nk, np.float32)
-   du = np.empty(nk-1, np.float32)
-   dv = np.empty(nk-1, np.float32)
-   uavg = np.empty(nk-1, np.float32)
-   vavg = np.empty(nk-1, np.float32)
+    if zbot < _z[0]:
+        zbot = _z[0]
 
-   for k in range(nk):
-      u[k] = pymeteo.interp.linear(_z,_u,z[k]) 
-      v[k] = pymeteo.interp.linear(_z,_v,z[k]) 
+    dz = 10.
+    z = np.arange(zbot, ztop+dz, dz)
+    nk = len(z)
+    u = np.empty(nk, np.float32)
+    v = np.empty(nk, np.float32)
+    du = np.empty(nk-1, np.float32)
+    dv = np.empty(nk-1, np.float32)
+    uavg = np.empty(nk-1, np.float32)
+    vavg = np.empty(nk-1, np.float32)
 
-   du = np.ediff1d(u)
-   dv = np.ediff1d(v)
+    for k in range(nk):
+        u[k] = pymeteo.interp.linear(_z,_u,z[k]) 
+        v[k] = pymeteo.interp.linear(_z,_v,z[k]) 
 
-   uavg[0:nk-1] = 0.5 * (u[0:nk-1] + u[1:nk])
-   vavg[0:nk-1] = 0.5 * (v[0:nk-1] + v[1:nk])
+    du = np.ediff1d(u)
+    dv = np.ediff1d(v)
 
-   srh = np.sum(-(uavg-cx)*dv + (vavg-cy)*du)
-   #print('SRH = {0}'.format(srh))
-   return srh
+    uavg[0:nk-1] = 0.5 * (u[0:nk-1] + u[1:nk])
+    vavg[0:nk-1] = 0.5 * (v[0:nk-1] + v[1:nk])
+
+    srh = np.sum(-(uavg-cx)*dv + (vavg-cy)*du)
+    return srh
 
 def mean_wind(_u,_v,_z, zbot, ztop):
+    """Calculates the mean wind in the layer between zbot and ztop
 
-   if zbot < _z[0]:
-      zbot = _z[0]
+    :param _u: U winds (1D vector in z)
+    :param _u: V winds (1D vector in z)
+    :param _z: z heights (1D vector in z)
+    :param zbot: Bottom of the layer
+    :param ztop: Top of the layer
 
-   dz = 10.
-   z = np.arange(zbot, ztop+dz, dz)
-   nk = len(z)
-   u = np.empty(nk, np.float32)
-   v = np.empty(nk, np.float32)
+    """
 
-   for k in range(nk):
-      u[k] = pymeteo.interp.linear(_z,_u,z[k])
-      v[k] = pymeteo.interp.linear(_z,_v,z[k])
+    if zbot < _z[0]:
+        zbot = _z[0]
 
-   uavg = np.mean(u, dtype=np.float64)
-   vavg = np.mean(v, dtype=np.float64)
-   return uavg, vavg
+    dz = 10.
+    z = np.arange(zbot, ztop+dz, dz)
+    nk = len(z)
+    u = np.empty(nk, np.float32)
+    v = np.empty(nk, np.float32)
+
+    for k in range(nk):
+        u[k] = pymeteo.interp.linear(_z,_u,z[k])
+        v[k] = pymeteo.interp.linear(_z,_v,z[k])
+
+    uavg = np.mean(u, dtype=np.float64)
+    vavg = np.mean(v, dtype=np.float64)
+    return uavg, vavg
 
 def brn(_u,_v,_z,cape):
 

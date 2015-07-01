@@ -16,8 +16,8 @@ Topic :: Software Development :: Libraries :: Python Modules
 Programming Language :: Python :: 3
 """
 
-#from distutils.core import setup
-from setuptools import setup
+from distutils.core import setup
+#from setuptools import setup
 
 def readme():
   with open('README.md') as f:
@@ -26,7 +26,7 @@ def readme():
 doclines = __doc__.split("\n")
 
 setup(name='pymeteo',
-      version='0.2.1',
+      version='0.3',
       description=doclines[0],
       long_description="\n".join(doclines[2:]),
       url='http://github.com/cwebster2/pymeteo',

@@ -1,4 +1,6 @@
+"""This module provides constants used in the rest of the package
 
+"""
 # some constants
 
 missingval = -99999999.

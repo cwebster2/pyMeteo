@@ -21,7 +21,10 @@ Skew-t/Log-p Plotting
 
 Interfacining with CM1
 ----------------------
-.. automodule:: pymeteo.cm1
+.. automodule:: pymeteo.cm1.read_grads
+   :members:
+
+.. automodule:: pymeteo.cm1.read_hdf5
    :members:
 
 Dynamics
@@ -32,12 +35,15 @@ Dynamics
 Thermodynamic routines
 ----------------------
 
-These routines 
-
 .. automodule:: pymeteo.thermo
    :members:
-   :noindex:
       
+Meteorological constants
+------------------------
+
+.. automodule:: pymeteo.constants
+   :members:
+
 Indices and tables
 ==================
 
