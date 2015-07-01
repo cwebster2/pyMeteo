@@ -17,8 +17,7 @@ Contents:
 Skew-t/Log-p Plotting       
 ---------------------------                
 .. automodule:: pymeteo.skewt
-   :members: plot_cm1h5,  plot_sounding_data, plot_cm1, plot
-   :noindex:
+   :members: 
 
 Interfacining with CM1
 ----------------------

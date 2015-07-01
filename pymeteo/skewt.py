@@ -23,21 +23,39 @@ method.
 
   Example Skew-T/Log-P with hodograph
 
-Variables effecting the plot output
-+++++++++++++++++++++++++++++++++++
+Plotting
+++++++++
 
-.. autodata:: skew_angle
-.. autodata:: Tmin
-.. autodata:: Tmax
-.. autodata:: pbot
-.. autodata:: ptop
+High level plotting functions
+-----------------------------
 
-.. autodata:: dp
-.. autodata:: ptickbot
-.. autodata:: pticktop
-.. autodata:: tickdp
+* :py:func:`plot_cm1h5` -- plots skewt from CM1 generated hdf5 files processed by ingest_cm1
+* :py:func:`plot_cm1` -- plots skewt from CM1 generated GRaDS style output
+* :py:func:`plot_sounding_data` -- plots skewt from CM1/WRF input sounding files
+* :py:func:`plot` -- generic high level plot function
 
-Plotting methods
+Variables affecting the plot output
+-----------------------------------
+
+These variables affect the skewness of the plot and the bounds of the plot
+
+* :py:data:`skew_angle` -- skewness
+* :py:data:`Tmin`, :py:data:`Tmax` -- T dimension bounds (temperature, C)
+* :py:data:`pbot`, :py:data:`ptop` -- p dimension bounds (pressure, Pa)
+
+Functions to draw isolines
+--------------------------
+
+If you are manually plotting skew-t data, these functions can be used to draw
+various lines on your plot.  These are used by the high level plotting functions.
+
+* :py:func:`draw_isotherms`
+* :py:func:`draw_isobars`
+* :py:func:`draw_dry_adiabat`
+* :py:func:`draw_moist_adiabat`
+* :py:func:`draw_water_mix_ratio`
+
+Module reference
 ++++++++++++++++
 
 """
@@ -259,8 +277,6 @@ def plot_cm1(path, filename, xi, yi,output):
   gridpoints.  
   """
   f = cm1.CM1(path, filename)
-  #_x = f.dimX
-  #_y = f.dimY
   _z = f.dimZ[:] * 1000.   # km->m
 
   x = f.dimX[xi]
@@ -395,40 +411,44 @@ def plot_sounding(z, th, p, qv, u, v, axes):
   :parameter v: V component of wind at z heights (1D array)
   :paramter axes: The axes instance to draw on
   """
-  #calculate data
+  # calculate Temperature and dewpoint
   T = met.T(th,p) - met.T00                          # T (C)
   Td = met.Td(p, qv) - met.T00                       # Td (C)
-  # wetbulb
+
+  # calculate wetbulb temperature
   Twb = np.empty(len(z), np.float32)                  # Twb (C)
   for zlvl in range(len(z)):
     Twb[zlvl] = met.Twb(z, p, th, qv, z[zlvl])
 
+  # Get surface parcel CAPE and temperature / height profiles
   pcl = met.CAPE(z, p, T+met.T00, qv, 1)        # CAPE
   T_parcel = pcl['t_p'] - met.T00                      # parcel T (C)
   T_vparcel = pcl['tv_p'] - met.T00                     # parcel Tv (C)
   T_venv = met.T(pcl['thv_env'], pcl['pp']) - met.T00  # Env Tv (C)
 
-  # plot data
+  # plot Temperature, dewpoint, wetbulb and lifted surface parcel profiles on skew axes
   axes.semilogy(T + skew(p), p, basey=math.e, color = 'black', linewidth = 1.5)
   axes.semilogy(Td + skew(p), p, basey=math.e, color = 'green', linewidth = 1.5)
   axes.semilogy(T_parcel + skew(pcl['pp']), pcl['pp'], basey=math.e, color='red', linewidth=1.0)
   axes.semilogy(Twb + skew(p), p, basey=math.e, color='blue', linewidth=0.5)
 
+  # plot virtual temperature of environment and lifted parcel
   axes.semilogy(T_venv + skew(pcl['pp']), pcl['pp'], basey=math.e, color='black', linewidth=0.7, linestyle='--')
   axes.semilogy(T_vparcel + skew(pcl['pp']), pcl['pp'], basey=math.e, color='red', linewidth=0.7, linestyle='--')
 
+  # Add labels for levels based on surface parcel
   label_m(Tmax-.5, pcl['lfcprs'], '--LFC', axes)
   label_m(Tmax-.5, pcl['lclprs'], '--LCL', axes)
   label_m(Tmax-.5, pcl['elprs'], '--EL', axes)
   label_m(Tmax-.5, pcl['ptops'], '--TOPS', axes)
 
-	# plot std heights
+  # plot labels for std heights
   for plvl in plevs_std:
     zlvl = pymeteo.interp.interp_height(z,p,plvl)
-    #print('hieight for level {0} is {1}'.format(plvl,zlvl))
     label_m(Tmin-.5,plvl, str(int(zlvl)), axes)
 
-	#draw_wind_line()
+  # plot wind barbs on left side of plot.  move this?  right side?
+  #draw_wind_line()
   for i in np.arange(0,len(z),2):
     if (p[i] > pt_plot):
       plt.barbs(Tmin+4,p[i],u[i],v[i], length=5, linewidth=.5)
@@ -677,90 +697,139 @@ def draw_wind_line(axes):
 
 # Puts the skew in skew-T
 def skew(p):
-	return skew_angle * np.log(met.p00/p)
+    """Puts the skew in skew-T
+
+    :parameter p: pressure level of the point.
+
+    This calculates the skew of the T axis for a point to plot.  
+    This assumes a logarithmic y axes and uses the variable
+    :py:data:skew_angle to determine the skew.  This is the 
+    magic that turns a cartesian plot into a Skew-T/Log-p plot.
+    """
+    return skew_angle * np.log(met.p00/p)
 
 # Draw isotherms on skew-T / log p axes
 def draw_isotherms(axes):
-	for T in np.arange(-150, 51, 10):
-		axes.semilogy(T + skew(plevs_plot), plevs_plot, basey=math.e, color = 'grey', linewidth=.5)
-	for T in np.arange(-40, 40, 10):
-		label(T+skew(87500),875, str(T), 'red', 45, axes)
-	for T in np.arange(-100, -20, 10):
-		label(T+skew(17500),175, str(T), 'red', 45, axes)
+    """Plot isotherms on axes
 
-# draw isobars
+    :parameter axes: The axes to draw on
+    :type axes: :py:class:`matplotlib.axes`
+
+    This function draws isotherms every 10 C.
+    """
+    for T in np.arange(-150, 51, 10):
+        axes.semilogy(T + skew(plevs_plot), plevs_plot, basey=math.e, color = 'grey', linewidth=.5)
+    for T in np.arange(-40, 40, 10):
+        label(T+skew(87500),875, str(T), 'red', 45, axes)
+    for T in np.arange(-100, -20, 10):
+        label(T+skew(17500),175, str(T), 'red', 45, axes)
+
 def draw_isobars(axes):
-	for i in np.arange(pbot,ptop-1,-2*dp):
-		axes.plot([Tmin, Tmax], [i,i], color = 'grey', linewidth = .3)
-	for i in np.arange(ptickbot,ptop-1,-2*dp):
-		axes.plot([Tmin, Tmax], [i,i], color = 'grey', linewidth = .5)
-	for i in np.arange(1000,100,-50):
-		label(-10-((1000-i)*.025),i,str(i),'black',0, axes)
+    """Plot isobars on axes
 
-# Draw dry adiabats on a skew-T / log P axes
+    :parameter axes: The axes to draw on
+    :type axes: :py:class:`matplotlib.axes`
+
+    This function draws isobars at intervals of 2*dp.
+    """
+    for i in np.arange(pbot,ptop-1,-2*dp):
+        axes.plot([Tmin, Tmax], [i,i], color = 'grey', linewidth = .3)
+    for i in np.arange(ptickbot,ptop-1,-2*dp):
+        axes.plot([Tmin, Tmax], [i,i], color = 'grey', linewidth = .5)
+    for i in np.arange(1000,100,-50):
+        label(-10-((1000-i)*.025),i,str(i),'black',0, axes)
+
 def draw_dry_adiabat(axes):
-	for Tk in met.T00 + np.arange(-40, 210, 10):
-		dry_adiabat = met.T(Tk,plevs_plot) - met.T00 + skew(plevs_plot)
-		axes.semilogy(dry_adiabat, plevs_plot, basey=math.e, color = 'grey', linewidth = .5)
+    """Plot dry adiabats on axes
 
-	for T in np.arange(-20, 150, 10):
-		p = (600. - 3.5*T)*100.
-		x = met.T(T+met.T00,p) -met.T00 + skew(p)
-		x1 = met.T(T+met.T00,p+.5*dp_plot) -met.T00 + skew(p+.5*dp_plot)
-		x2 = met.T(T+met.T00,p-.5*dp_plot) -met.T00 + skew(p-.5*dp_plot)
-		dx = x2-x1
-		theta = math.atan2(-dp_plot,-dx) * 180/math.pi +37
-		label(x,p/100,str(T),'black',theta, axes)
+    :parameter axes: The axes to draw on
+    :type axes: :py:class:`matplotlib.axes`
+
+    This function calculates dry adiabats
+    and plots these lines.  Adiabats are calculated 
+    every 10 K
+    """
+    for Tk in met.T00 + np.arange(-40, 210, 10):
+        dry_adiabat = met.T(Tk,plevs_plot) - met.T00 + skew(plevs_plot)
+        axes.semilogy(dry_adiabat, plevs_plot, basey=math.e, color = 'grey', linewidth = .5)
+
+    for T in np.arange(-20, 150, 10):
+        p = (600. - 3.5*T)*100.
+        x = met.T(T+met.T00,p) -met.T00 + skew(p)
+        x1 = met.T(T+met.T00,p+.5*dp_plot) -met.T00 + skew(p+.5*dp_plot)
+        x2 = met.T(T+met.T00,p-.5*dp_plot) -met.T00 + skew(p-.5*dp_plot)
+        dx = x2-x1
+        theta = math.atan2(-dp_plot,-dx) * 180/math.pi +37
+        label(x,p/100,str(T),'black',theta, axes)
 
 
-# Draw moist adiabats on a skew-T / log P axes
 def draw_moist_adiabat(axes):
-	ps_blo = [p for p in plevs_plot if p > 100000]
-	ps_blo.reverse()
-	ps = [p for p in plevs_plot2 if p < 100000]
-	Temps = np.concatenate((np.arange(-15.,10.1,5.),np.arange(12.5,45.1,2.5)))
-	for T in Temps:
-		T_1000 = T = T + met.T00
-		moist_adiabat = []
-		# work backwards from 1000mb
-		for p in ps_blo:
-			T += met.dTdp_moist(T,p) * dp_plot
-			moist_adiabat.append(T - met.T00 + skew(p))
-		#reverse list order
-		moist_adiabat.reverse()
-		# insert 1000mb point
-		T = T_1000
-		moist_adiabat.append(T - met.T00)
-		# work forwards from 1000mb
-		for p in ps:
-			T -= met.dTdp_moist(T,p) * dp_plot
-			moist_adiabat.append(T - met.T00 + skew(p))
-			# draw labels
-			if (p == 22000):
-				if (T_1000 >= met.T00 and T_1000 <= 30+met.T00):
-					label(T-met.T00+skew(p),p/100,str(int(T_1000-met.T00)),'green', 0, axes)
-		axes.semilogy(moist_adiabat, plevs_plot2, basey=math.e, color = 'grey', linewidth = .5)
+    """Plot moist adiabats on axes
+
+    :parameter axes: The axes to draw on
+    :type axes: :py:class:`matplotlib.axes`
+
+    This function calculates moist adiabats
+    and plots these lines.  Adiabats are calculated for
+    values of T at 1000mb from -15 to 45 C every 5 C between
+    -15 and 10 C and every 2.5 C between 12.5 and 45 C.
+    """
+    ps_blo = [p for p in plevs_plot if p > 100000]
+    ps_blo.reverse()
+    ps = [p for p in plevs_plot2 if p < 100000]
+    Temps = np.concatenate((np.arange(-15.,10.1,5.),np.arange(12.5,45.1,2.5)))
+    for T in Temps:
+        T_1000 = T = T + met.T00
+        moist_adiabat = []
+        # work backwards from 1000mb
+        for p in ps_blo:
+            T += met.dTdp_moist(T,p) * dp_plot
+            moist_adiabat.append(T - met.T00 + skew(p))
+        #reverse list order
+        moist_adiabat.reverse()
+        # insert 1000mb point
+        T = T_1000
+        moist_adiabat.append(T - met.T00)
+        # work forwards from 1000mb
+        for p in ps:
+            T -= met.dTdp_moist(T,p) * dp_plot
+            moist_adiabat.append(T - met.T00 + skew(p))
+            # draw labels
+            if (p == 22000):
+                if (T_1000 >= met.T00 and T_1000 <= 30+met.T00):
+                    label(T-met.T00+skew(p),p/100,str(int(T_1000-met.T00)),'green', 0, axes)
+            axes.semilogy(moist_adiabat, plevs_plot2, basey=math.e, color = 'grey', linewidth = .5)
 
 
-# Draw lines of constant mixing ratio on skew-T / log P axes
 def draw_water_mix_ratio(axes):
-	w = [0.2,0.4,0.8,1,2,3,4,6,8,10,14,18,24,32,40]
-	ps = [p for p in plevs if p>=20000 and p<=105000]
-	for W in w:
-		water_mix = []
-		for p in ps:
-			T = TMR(W,p/100.) 
-			water_mix.append(T + skew(p))
-		axes.semilogy(water_mix, ps, basey=math.e, color = 'grey', linestyle = '--', linewidth = .5)
+    """Plot lines of constant water vapor mixing ratio on axes
 
-		T = TMR(W,1075.)
-		label(T+skew(107500.), 1075, str(W), 'black', -15, axes)
+    :parameter axes: The axes to draw on
+    :type axes: :py:class:`matplotlib.axes`
+
+    This function calculates isolines of constant water vapor
+    mixing ratio and plots these lines.  Values of w calculated
+    are given by the list variable w.
+    """
+    #TODO: put w and the top plevel for plotting somewhere configurable
+    w = [0.2,0.4,0.8,1,2,3,4,6,8,10,14,18,24,32,40]
+    ps = [p for p in plevs if p>=20000 and p<=105000]
+    for W in w:
+        water_mix = []
+        for p in ps:
+            T = TMR(W,p/100.) 
+            water_mix.append(T + skew(p))
+        axes.semilogy(water_mix, ps, basey=math.e, color = 'grey', linestyle = '--', linewidth = .5)
+
+        # Label the isoline
+        T = TMR(W,1075.)
+        label(T+skew(107500.), 1075, str(W), 'black', -15, axes)
 
 
 def TMR(W, p):
   # Computes temperature on mixing ratio w at pressure p.
   # TMR in C, w in g/kg dry air, p in millibars.
-  # TODO: change this to something else
+  # TODO: change this to something else?
   x = np.log10(W * p / (622 + W))
   TMR = 10 ** (0.0498646455 * x + 2.4082965) - 280.23475 + 38.9114 * ((10 ** (0.0915 * x) - 1.2035) ** 2)
   return TMR
