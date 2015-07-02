@@ -26,7 +26,7 @@ def readme():
 doclines = __doc__.split("\n")
 
 setup(name='pymeteo',
-      version='0.3',
+      version='0.3.1',
       description=doclines[0],
       long_description="\n".join(doclines[2:]),
       url='http://github.com/cwebster2/pymeteo',

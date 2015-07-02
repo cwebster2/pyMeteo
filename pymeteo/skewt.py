@@ -152,7 +152,7 @@ def plot_cm1h5(filename, xi, yi, output):
     p = f["/3d_s/ppert"][:,yi,xi] + f["/basestate/pres0"][:] # Pa
     u = f["/3d_u/u"][:,yi,xi] # m/s
     v = f["/3d_v/v"][:,yi,xi] # m/s
-    qv = f["/3d_s/qvpert"][:,yi,xi] 
+    qv = f["/3d_s/qvpert"][:,yi,xi] + f["/basestate/qv0"][:] #kg/kg
 
     print(x,y,z[0],t,th[0],u[0],v[0],p[0],qv[0])
     plot(x,y,z,t,th,p,qv,u,v,filename, output)
@@ -798,7 +798,7 @@ def draw_moist_adiabat(axes):
             if (p == 22000):
                 if (T_1000 >= met.T00 and T_1000 <= 30+met.T00):
                     label(T-met.T00+skew(p),p/100,str(int(T_1000-met.T00)),'green', 0, axes)
-            axes.semilogy(moist_adiabat, plevs_plot2, basey=math.e, color = 'grey', linewidth = .5)
+        axes.semilogy(moist_adiabat, plevs_plot2, basey=math.e, color = 'grey', linewidth = .5)
 
 
 def draw_water_mix_ratio(axes):
