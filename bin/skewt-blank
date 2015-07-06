@@ -1,0 +1,19 @@
+#!/usr/bin/env python
+
+import os,sys
+from optparse import OptionParser
+import matplotlib.pyplot as plt
+from pymeteo import skewt
+
+usage = "usage: %prog [options]"
+parser = OptionParser(usage=usage)
+parser.add_option("-o", dest="out", help="output filename", default='skewt.eps')
+
+(options, args) = parser.parse_args()
+out  = options.out
+
+fig = plt.figure(1, figsize=(8, 12), dpi=300, edgecolor='k')
+ax1 = plt.subplot(111)
+skewt.plot_sounding_axes(ax1)
+plt.savefig(out, dpi=300,bbox_inches=0)
+plt.close()

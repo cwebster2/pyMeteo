@@ -41,6 +41,7 @@ setup(name='pymeteo',
                 'pymeteo.cm1.soundings'],
       scripts=['bin/cm1_geninit',
                'bin/skewt',
-               'bin/skewt-hdf'],
+               'bin/skewt-hdf',
+               'bin/skewt-blank'],
       classifiers=filter(None, classifiers.split("\n")))
 
