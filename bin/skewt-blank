@@ -3,7 +3,9 @@
 import os,sys
 from optparse import OptionParser
 import matplotlib.pyplot as plt
+import numpy as np
 from pymeteo import skewt
+from pymeteo import constants
 
 usage = "usage: %prog [options]"
 parser = OptionParser(usage=usage)
@@ -12,8 +14,21 @@ parser.add_option("-o", dest="out", help="output filename", default='skewt.eps')
 (options, args) = parser.parse_args()
 out  = options.out
 
-fig = plt.figure(1, figsize=(8, 12), dpi=300, edgecolor='k')
+fig = plt.figure(1, figsize=(8, 10.5), dpi=1200, edgecolor='k')
 ax1 = plt.subplot(111)
+
+#redefine some lines
+skewt.isotherms = np.arange(-150,51,2)
+skewt.isobars = np.arange(skewt.pbot, skewt.ptop-1, -1000)
+skewt.dry_adiabats = np.arange(-40,210,2)
+skewt.moist_adiabats = np.arange(-15,45.1,1)
+
+#redefine line properties
+skewt.lc_minor = 'grey'
+skewt_lc_major = 'black'
+
 skewt.plot_sounding_axes(ax1)
-plt.savefig(out, dpi=300,bbox_inches=0)
+skewt.label_std_heights(ax1)
+fig.tight_layout()
+plt.savefig(out, dpi=1200,bbox_inches=0)
 plt.close()

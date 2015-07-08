@@ -43,6 +43,18 @@ These variables affect the skewness of the plot and the bounds of the plot
 * :py:data:`Tmin`, :py:data:`Tmax` -- T dimension bounds (temperature, C)
 * :py:data:`pbot`, :py:data:`ptop` -- p dimension bounds (pressure, Pa)
 
+These variables affect the lines plotted on the skew-t
+
+* :py:data:`isobars`
+* :py:data:`isotherms`
+* :py:data:`dry_adiabats`
+
+These variables affect the plotting of the lines above
+
+* :py:data:`lw_major`, :py:data:`lw_minor`
+* :py:data:`lc_major`, :py:data:`lc_minor`
+
+
 Functions to draw isolines
 --------------------------
 
@@ -94,6 +106,30 @@ tickdp = 10**4
 plevs = np.arange(pbot,ptop-1,-dp)
 """List of pressure levels to do calculations on"""
 fontscalefactor = 1
+
+## Lines to plot
+isotherms    = np.arange(-150,51,10)              # in degrees C
+"""List of isotherms to plot on the skew-t.  In degrees C"""
+isobars      = np.arange(ptickbot,ptop-1,-5000)   # in Pa
+"""List of isobars to plot on the skew-t.  In Pascals"""
+dry_adiabats = np.arange(-40,210,10)              # in degrees C
+"""List of dry adiabats to plot on the skew-t.  In degrees C"""
+moist_adiabats = np.concatenate((np.arange(-15.,10.1,5.),np.arange(12.5,45.1,2.5)))
+"""List of moist adiabats to plot on the skew-t.  In degrees C"""
+mixing_ratios = [0.2,0.4,0.8,1,2,3,4,6,8,10,14,18,24,32,40]
+"""List of water vapor mixing ratio lines to plot. In g/kg"""
+
+## Linewidths
+lw_major = 0.6
+"""Line width of 'major' lines.  E.g. Lines plotted at 10 C intervals or 50 mb intervals"""
+lw_minor = 0.25
+"""Line width of 'minor' lines.  E.g. Lines not plotted at the major intervals"""
+
+## Linecolors
+lc_major = 'grey'
+"""Line color of 'major' lines.  E.g. Lines plotted at 10 C intervals or 50 mb intervals"""
+lc_minor = 'lightgrey'
+"""Line color of 'minor' lines.  E.g. Lines not plotted at the major intervals"""
 
 #for plotted lines
 pb_plot=105000
@@ -717,12 +753,15 @@ def draw_isotherms(axes):
 
     This function draws isotherms every 10 C.
     """
-    for T in np.arange(-150, 51, 10):
-        axes.semilogy(T + skew(plevs_plot), plevs_plot, basey=math.e, color = 'grey', linewidth=.5)
+    for T in isotherms:
+        if (T % 10 == 0):
+           axes.semilogy(T + skew(plevs_plot), plevs_plot, basey=math.e, color = lc_major, linewidth= lw_major)
+        else:
+           axes.semilogy(T + skew(plevs_plot), plevs_plot, basey=math.e, color = lc_minor, linewidth= lw_minor)
     for T in np.arange(-40, 40, 10):
-        label(T+skew(87500),875, str(T), 'red', 45, axes)
+        label(T+skew(87500),875, str(T), 'red', 90.-skew_angle, axes)
     for T in np.arange(-100, -20, 10):
-        label(T+skew(17500),175, str(T), 'red', 45, axes)
+        label(T+skew(17500),175, str(T), 'red', 90.-skew_angle, axes)
 
 def draw_isobars(axes):
     """Plot isobars on axes
@@ -732,10 +771,11 @@ def draw_isobars(axes):
 
     This function draws isobars at intervals of 2*dp.
     """
-    for i in np.arange(pbot,ptop-1,-2*dp):
-        axes.plot([Tmin, Tmax], [i,i], color = 'grey', linewidth = .3)
-    for i in np.arange(ptickbot,ptop-1,-2*dp):
-        axes.plot([Tmin, Tmax], [i,i], color = 'grey', linewidth = .5)
+    for i in isobars:
+        if (i % 5000 == 0):
+            axes.plot([Tmin, Tmax], [i,i], color = lc_major, linewidth = lw_major)
+        else:
+            axes.plot([Tmin, Tmax], [i,i], color = lc_minor, linewidth = lw_minor)
     for i in np.arange(1000,100,-50):
         label(-10-((1000-i)*.025),i,str(i),'black',0, axes)
 
@@ -749,10 +789,13 @@ def draw_dry_adiabat(axes):
     and plots these lines.  Adiabats are calculated 
     every 10 K
     """
-    for Tk in met.T00 + np.arange(-40, 210, 10):
-        dry_adiabat = met.T(Tk,plevs_plot) - met.T00 + skew(plevs_plot)
-        axes.semilogy(dry_adiabat, plevs_plot, basey=math.e, color = 'grey', linewidth = .5)
-
+    for T in dry_adiabats:
+        dry_adiabat = met.T(T+met.T00,plevs_plot) - met.T00 + skew(plevs_plot)
+        if (T % 10 == 0):
+            axes.semilogy(dry_adiabat, plevs_plot, basey=math.e, color = lc_major, linewidth = lw_major)
+        else:
+            axes.semilogy(dry_adiabat, plevs_plot, basey=math.e, color = lc_minor, linewidth = lw_minor)
+            
     for T in np.arange(-20, 150, 10):
         p = (600. - 3.5*T)*100.
         x = met.T(T+met.T00,p) -met.T00 + skew(p)
@@ -777,8 +820,7 @@ def draw_moist_adiabat(axes):
     ps_blo = [p for p in plevs_plot if p > 100000]
     ps_blo.reverse()
     ps = [p for p in plevs_plot2 if p < 100000]
-    Temps = np.concatenate((np.arange(-15.,10.1,5.),np.arange(12.5,45.1,2.5)))
-    for T in Temps:
+    for T in moist_adiabats:
         T_1000 = T = T + met.T00
         moist_adiabat = []
         # work backwards from 1000mb
@@ -798,7 +840,10 @@ def draw_moist_adiabat(axes):
             if (p == 22000):
                 if (T_1000 >= met.T00 and T_1000 <= 30+met.T00):
                     label(T-met.T00+skew(p),p/100,str(int(T_1000-met.T00)),'green', 0, axes)
-        axes.semilogy(moist_adiabat, plevs_plot2, basey=math.e, color = 'grey', linewidth = .5)
+        if (int(T_1000 - met.T00) % 5 == 0):            
+            axes.semilogy(moist_adiabat, plevs_plot2, basey=math.e, color = lc_major, linewidth = lw_major)
+        else:
+            axes.semilogy(moist_adiabat, plevs_plot2, basey=math.e, color = lc_minor, linewidth = lw_minor)
 
 
 def draw_water_mix_ratio(axes):
@@ -812,9 +857,8 @@ def draw_water_mix_ratio(axes):
     are given by the list variable w.
     """
     #TODO: put w and the top plevel for plotting somewhere configurable
-    w = [0.2,0.4,0.8,1,2,3,4,6,8,10,14,18,24,32,40]
     ps = [p for p in plevs if p>=20000 and p<=105000]
-    for W in w:
+    for W in mixing_ratios:
         water_mix = []
         for p in ps:
             T = TMR(W,p/100.) 
@@ -825,6 +869,17 @@ def draw_water_mix_ratio(axes):
         T = TMR(W,1075.)
         label(T+skew(107500.), 1075, str(W), 'black', -15, axes)
 
+def label_std_heights(axes):
+   """Plot heights of standard pressure levels 
+
+   :paramter axes: The axes to draw on
+   :type axes: :py:class:`matplotlib.axes`
+   """
+   xpos = Tmin+1.5
+   std_heights = [(1000,111),(925,2512),(850,1457),(700,3012),(500,5574),(400,7185),
+                 (300,9164),(250,10363),(200,11784),(150,13608)]#,(100,16180)]
+   for p,z in std_heights:
+      label(xpos, p, str(z), 'black', 0, axes)
 
 def TMR(W, p):
   # Computes temperature on mixing ratio w at pressure p.
