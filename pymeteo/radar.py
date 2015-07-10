@@ -8,8 +8,11 @@ import os
 cmap_radar_level_step = 0.1
 """Used to define the resolution of the color map."""
 
-def cmap_radar_levels():
+def cmap_radar_levels_full():
    return list(np.arange(-25,75,cmap_radar_level_step))
+
+def cmap_radar_levels():
+   return list(np.arange(0,75,cmap_radar_level_step))
 
 def cmap_radar_colors():
    return ('#ffffff', # -25  0.0   1.0    1.0    1.0     white
@@ -33,6 +36,47 @@ def cmap_contour_levels():
    return [30, 40, 50, 60, 65]
 
 def cmap_radar():
+   cdict = { 'red' : [(0.0,   1.0,   1.0),
+                      (0.067, 1.0,   0.0),
+                      (0.133, 0.004, 0.004),
+                      (0.2,   0.0,   0.0),
+                      (0.467, 0.0,   1.0),  
+                      (0.533, 0.905, 0.905),
+                      (0.6,   1.0,   1.0),
+                      (0.667, 1.0,   1.0),
+                      (0.733, 0.839, 0.839),
+                      (0.8,   0.753, 0.753),
+                      (0.867, 0.588, 1.0),
+                      (0.933, 0.6,   0.6),
+                      (1.0,   1.0,   1.0)], 
+
+           'green':  [(0.0,   1.0,   1.0),
+                      (0.067, 0.923, 0.923),
+                      (0.133, 0.627, 0.627),
+                      (0.2,   0.0,   0.0),
+                      (0.267, 1.0,   1.0),
+                      (0.333, 0.784, 0.784),
+                      (0.4,   0.6,   0.6),
+                      (0.467, 0.55,  1.0),
+                      (0.533, 0.753, 0.753),
+                      (0.6,   0.656, 0.656),
+                      (0.667, 0.0,   0.0),
+                      (0.933, 0.0,   0.333),
+                      (1.0,   0.333, 1.0)],
+
+           'blue' :  [(0.0,   1.0,   1.0),
+                      (0.067, 0.923, 0.923), 
+                      (0.133, 0.965, 0.965), 
+                      (0.2,   0.965, 0.965), 
+                      (0.267, 0.0,   0.0), 
+                      (0.867, 0.0,   1.0), 
+                      (0.933, 0.788, 0.788), 
+                      (1.0,   1.0,   1.0)] }
+
+   #return matplotlib.colors.LinearSegmentedColormap('my_radar', cdict)#, lut=512)
+   matplotlib.cm.register_cmap(name='pymeteo_radar', data=cdict, lut=512)
+
+def cmap_radar_full():
    cdict = { 'red' : [(0.0, 1.0, 1.0),
                       (0.3, 1.0, 0.0),
                       (0.35, 0.004, 0.004),
@@ -71,8 +115,9 @@ def cmap_radar():
                       (1.0 , 1.0, 1.0)] }
 
    #return matplotlib.colors.LinearSegmentedColormap('my_radar', cdict)#, lut=512)
-   matplotlib.cm.register_cmap(name='pymeteo_radar', data=cdict, lut=512)
+   matplotlib.cm.register_cmap(name='pymeteo_radar_full', data=cdict, lut=512)
 
 
-#setup colormap
+#setup colormaps
 cmap_radar()
+cmap_radar_full()
