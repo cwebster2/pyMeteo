@@ -48,6 +48,8 @@ These variables affect the lines plotted on the skew-t
 * :py:data:`isobars`
 * :py:data:`isotherms`
 * :py:data:`dry_adiabats`
+* :py:data:`moist_adiabats`
+* :py:data:`mixing_ratios`
 
 These variables affect the plotting of the lines above
 
@@ -114,7 +116,7 @@ isobars      = np.arange(ptickbot,ptop-1,-5000)   # in Pa
 """List of isobars to plot on the skew-t.  In Pascals"""
 dry_adiabats = np.arange(-40,210,10)              # in degrees C
 """List of dry adiabats to plot on the skew-t.  In degrees C"""
-moist_adiabats = np.concatenate((np.arange(-15.,10.1,5.),np.arange(12.5,45.1,2.5)))
+moist_adiabats = np.concatenate((np.arange(-15.,10.1,5.),np.arange(12.,45.1,2.)))
 """List of moist adiabats to plot on the skew-t.  In degrees C"""
 mixing_ratios = [0.2,0.4,0.8,1,2,3,4,6,8,10,14,18,24,32,40]
 """List of water vapor mixing ratio lines to plot. In g/kg"""
