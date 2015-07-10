@@ -209,5 +209,30 @@ class CM1(object):
 
 #-------------------------------------------------------
 
+   def restrict_bounds(self,east,west,north,south,height):
+
+       def find_nearest_idx(array,value):
+           return (np.abs(array-value)).argmin()
+
+       idx_s_e = find_nearest_idx(self.dimX, east)
+       idx_u_e = find_nearest_idx(self.dimU, east)
+
+       idx_s_w = find_nearest_idx(self.dimX, west)
+       idx_u_w = find_nearest_idx(self.dimU, west)
+
+       idx_s_n = find_nearest_idx(self.dimY, north)
+       idx_v_n = find_nearest_idx(self.dimV, north)
+
+       idx_s_s = find_nearest_idx(self.dimY, south)
+       idx_v_s = find_nearest_idx(self.dimV, south)
+
+       idx_s_z = find_nearest_idx(self.dimZ, height)
+       idx_w_z = find_nearest_idx(self.dimW, height)
+
+       return (idx_s_e, idx_s_w, idx_s_n, idx_s_s,
+               idx_u_e, idx_u_w, idx_v_n, idx_v_s,
+               idx_s_z, idx_w_z)
+
+#-------------------------------------------------------
 # def get var by id, get varid by name
 # def var exists?
