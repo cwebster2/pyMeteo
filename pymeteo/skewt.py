@@ -382,10 +382,10 @@ def plot(x, y, z, t, th, p, qv, u, v, title, output):
   fig = plt.figure(1, figsize=(10, 8), dpi=300, edgecolor='k')
   ax1 = plt.subplot(121)
   plot_sounding_axes(ax1)
-  plot_sounding(z, th, p, qv, u, v, ax1)
+  plot_sounding(ax1, z, th, p, qv, u, v)
   ax2 = plt.subplot(222)
   plot_hodo_axes(ax2)
-  plot_hodograph(z, u, v, ax2)
+  plot_hodograph(ax2, z, u, v)
   #ax3 = fig.add_subplot(132)
   #plot_the_rest(x,y,z,t,th,p,qv,u,v,title,output)
   # plot_wind_axes?????
@@ -428,13 +428,13 @@ def plot_hodo_axes(axes):
   remove_tick_labels(axes)
   axes.axis(bounds)
 
-def plot_wind(z, p, u, v, axes, x=0):  
+def plot_wind(axes, z, p, u, v, x=0):  
   for i in np.arange(0,len(z),1):
     if (p[i] > pt_plot):
       plt.barbs(x,p[i],u[i],v[i], length=5, linewidth=.5)
 
   
-def plot_sounding(z, th, p, qv, u, v, axes):
+def plot_sounding(axes, z, th, p, qv, u = None, v = None):
   """Plot sounding data
 
   This plots temperature, dewpoint and wind data on a Skew-T/Log-P plot.
@@ -486,12 +486,13 @@ def plot_sounding(z, th, p, qv, u, v, axes):
     label_m(Tmin-.5,plvl, str(int(zlvl)), axes)
 
   # plot wind barbs on left side of plot.  move this?  right side?
-  #draw_wind_line()
-  for i in np.arange(0,len(z),2):
-    if (p[i] > pt_plot):
-      plt.barbs(Tmin+4,p[i],u[i],v[i], length=5, linewidth=.5)
+  if (u is not None and v is not None):
+      #draw_wind_line()
+      for i in np.arange(0,len(z),2):
+          if (p[i] > pt_plot):
+              plt.barbs(Tmin+4,p[i],u[i],v[i], length=5, linewidth=.5)
 
-def plot_hodograph(z, u, v, axes):
+def plot_hodograph(axes, z, u, v):
   """Plot Hodograph data
 
   This plots u and v winds vs height on a hodograph.
