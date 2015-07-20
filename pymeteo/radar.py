@@ -5,7 +5,7 @@ import matplotlib
 from pylab import pcolor, colorbar
 import os
 
-cmap_radar_level_step = 0.1
+cmap_radar_level_step = 0.5
 """Used to define the resolution of the color map."""
 
 def cmap_radar_levels_full():
