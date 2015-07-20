@@ -81,6 +81,7 @@ import matplotlib.pyplot as plt
 import h5py
 import pymeteo.cm1.read_grads as cm1
 import pymeteo.interp
+import pymeteo.constants as metconst
 
 # This defines the skew-angle of the T axis
 skew_angle = 37.5 
@@ -198,7 +199,7 @@ def plot_cm1h5(filename, xi, yi, output):
 ##################################################################################
 #
 def plot_sounding_data(filename, output):
-        """Plot SkewT from a WRF / CM! compatible sounding data file
+        """Plot SkewT from a WRF / CM1 compatible sounding data file
     
         :param filename: The name of the file to open.
         :type filename: str
@@ -206,8 +207,65 @@ def plot_sounding_data(filename, output):
         :type output: str
 
         The datafile is the same format as used in sounding initalization
-        files for WRF and CM1. This format contains tabular data with
-        the following fields:
+        files for WRF and CM1. 
+        
+        The format is:
+        1 line header with surface pressure (mb), theta (K) and qv (g/kg)
+        n number of lines with z (m), theta (K), qv (g/kg), u (m/s), v(m/s)
+
+        """
+        # load first line of file
+        with open(filename, 'r') as f:
+            surface = f.readline()
+
+        p0, th0, qv0 = surface.split()
+
+        # load rest of file
+        _z, _th, _qv, _u, _v = np.loadtxt(filename, unpack=True, skiprows=1)
+
+        # create arrays with one more z index for surface values
+        nk = len(_z) + 1
+        z = np.empty(nk, np.float32)
+        th= np.empty(nk, np.float32)
+        qv= np.empty(nk, np.float32)
+        u = np.empty(nk, np.float32)
+        v = np.empty(nk, np.float32)
+        p = np.empty(nk, np.float32)
+
+        # copy the arrays, leaving room at the surface
+        z[1:nk] = _z
+        th[1:nk] = _th
+        qv[1:nk] = _qv / 1000.
+        u[1:nk] = _u
+        v[1:nk] = _v
+
+        # assign surface values
+        z[0] = 0.
+        th[0] = float(th0)
+        qv[0] = float(qv0) / 1000.
+        u[0] = 1.75*u[1]-u[2]+0.25*u[3]
+        v[0] = 1.75*v[1]-v[2]+0.25*v[3]
+        p[0] = float(p0) * 100.
+
+        # integrate pressure, assume hydrostatic
+        # dp = -rho*g*dz
+        for k in np.arange(1,nk):
+            p[k] = p[k-1] * np.exp((metconst.g*(z[k-1]-z[k]))/(metconst.Rd*met.T((th[k]+th[k-1])/2.,p[k-1])))
+
+        for k in np.arange(nk):
+            print(z[k], p[k], th[k], qv[k], u[k], v[k])
+            
+        plot(0., 0., z, 0., th, p, qv, u, v, "input sounding", output)
+        
+def plot_sounding_data_csv(filename, output):
+        """Plot SkewT from a CSV sounding data file
+    
+        :param filename: The name of the file to open.
+        :type filename: str
+        :param output: The name of the file to output plot
+        :type output: str
+
+        The datafile format is CSV with the following columns: 
 
         - pressure (mb)
         - height (m)
@@ -218,7 +276,6 @@ def plot_sounding_data(filename, output):
         
         Missing values should be filled with the value -9999.00
         """
-
         p,z,T,Td,wdir,wspd = np.loadtxt(filename, delimiter=',',  unpack=True)
         # Pressure to Pa
         p = p * 100.
