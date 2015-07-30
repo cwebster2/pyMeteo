@@ -54,6 +54,9 @@ class CM1(object):
       cm1hdf_files.sort()
       # replaces curved90-qv14.(\d{5}).h5  with \1
       self.dimT = np.array([int(re.sub(r'{0}.(\d{{5}}).h5'.format(self.dsetname),r'\1',os.path.basename(f))) for f in cm1hdf_files])
+      if len(self.dimT) == 0:
+         raise ValueError('Invalid dataset specified: {0}/{1}'.format(self.path, self.dsetname))
+#TODO: check dimT, if 0 then no dataset found, bail out
       self.nt   = len(self.dimT)
       #self.dt   = self.dimT[1] - self.dimT[0]
       self.dt = 15
@@ -124,6 +127,24 @@ class CM1(object):
 
       datafile.close()
       return data
+
+   
+   def read3d_slice_derived(self, time, ib, ie, jb, je, kb, ke, varname3D, varname1D):
+      filename = self.path + '/' + self.dsetname + '.{0:05d}.h5'.format(int(time))
+      datafile = h5py.File(filename, 'r')
+      print('    Reading {0} and {8} from ({1}:{2},{3}:{4},{5}:{6}) at time {7} s'.format(varname3D, ib, ie, jb, je, kb, ke, time, varname1D))
+
+      nx = ie-ib
+      ny = je-jb
+      nz = ke-kb
+
+      data = np.empty((nz, ny, nx), dtype=np.float32)
+      # Have to transpose before right-broadcasting doesnt work
+      data = (datafile[varname3D][kb:ke, jb:je, ib:ie].T + datafile[varname1D][kb:ke].T).T
+
+      datafile.close()
+      return data
+
 
 #-------------------------------------------------------
 # Reads a single 3d variable from the datafile
