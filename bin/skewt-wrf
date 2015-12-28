@@ -1,0 +1,28 @@
+#!/usr/bin/env python
+
+import os,sys
+from optparse import OptionParser
+
+from pymeteo import skewt
+
+usage = "usage: %prog -d DATASET [options]"
+parser = OptionParser(usage=usage)
+parser.add_option("-d", dest="dataset", help="WRF NetCDF Dataset filename")
+parser.add_option("--lat", dest="lat", help="lattitude of sounding", default=0)
+parser.add_option("--lon", dest="lon", help="longitude of sounding", default=0)
+parser.add_option("-t", dest="time", help="timestep of sounding", default=0)
+parser.add_option("-o", dest="out", help="output filename", default='skewt.eps')
+
+(options, args) = parser.parse_args()
+
+if not options.dataset:
+   parser.error('DATASET not specified')
+
+base = options.dataset
+lat = float(options.lat)
+lon = float(options.lon)
+time = int(options.time)
+out  = options.out
+
+skewt.plot_wrf(base,lat,lon,time,out)
+

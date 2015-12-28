@@ -31,6 +31,7 @@ High level plotting functions
 
 * :py:func:`plot_cm1h5` -- plots skewt from CM1 generated hdf5 files processed by ingest_cm1
 * :py:func:`plot_cm1` -- plots skewt from CM1 generated GRaDS style output
+* :py:func:`plot_wrf` -- plots skewt from WRF generated NetCDF output
 * :py:func:`plot_sounding_data` -- plots skewt from CM1/WRF input sounding files
 * :py:func:`plot` -- generic high level plot function
 
@@ -82,6 +83,9 @@ import h5py
 import pymeteo.cm1.read_grads as cm1
 import pymeteo.interp
 import pymeteo.constants as metconst
+from netCDF4 import Dataset
+import datetime as dt
+import pymeteo.wrf as wrf
 
 # This defines the skew-angle of the T axis
 skew_angle = 37.5 
@@ -196,6 +200,126 @@ def plot_cm1h5(filename, xi, yi, output):
     print(x,y,z[0],t,th[0],u[0],v[0],p[0],qv[0])
     plot(x,y,z,t,th,p,qv,u,v,filename, output)
 
+##################################################################################
+def plot_wrf(filename, lat, lon, time, output):
+    """ Plots a skewt from an WRF NetCDF output file.
+
+    :param filename: The name of the NetCDF file to open.
+    :type filename: str
+    :param lat: The latitude of the location of the skewt plot.
+    :type lat: float
+    :param lon: The longitude of the location of the skewt plot.
+    :type lon: int
+    :param output: Output filename to save plot
+    :type output: str
+
+    This function assumes the NetCDF file was produce by the WRF model.
+    If another program produces the file but names variables in the same
+    manner as the WRF model, this function should work for that dat as well.
+
+    The variables using in the wrfout.nc data are:
+    - Times ?
+    - U(Time, bottom_top, south_north, west_east_stag)
+    - V(Time, bottom_top, south_north_stag, west_east)
+    - T(Time, bottom_top, south_north, west_east)   Theta perturbation
+    - P(Time, bottom_top, south_north, west_east)   Pres perturbation
+    - PB(Time, bottom_top, south_north, west_east)  pres base state
+    - QVAPOR(Time, bottom_top, south_north, west_east)
+
+    - PH(Time, bottom_top_stag, south_north, west_east)
+    - PHB(Time, bottom_top_stag, south_north, west_east)
+      Z = (((PH(k)+PH(k+1)) / 2) + ((PHB(k)+(PHB(k+1)) / 2) / 9.81
+
+    - TH2(Time, south_north, west_east) -- 2m pot temp
+    - PSFC(Time, south_north, west_east) -- surface pres
+    - U10(Time, south_north, west_east) -- 10m U
+    - V10(Time, south_north, west_east) -- 10m V
+    - XTIME(Time) -- minutes since start of sim
+
+    - XLAT, XLONG, XLAT_U/V, XLONG_U/V
+    - Start_date
+
+    Need time, theta, pressure
+    """
+
+    # Open NetCDF file
+    f = Dataset(filename, 'r')
+
+    wrf_lats = f.variables['XLAT'][time,:,:] # :,0
+    wrf_lons = f.variables['XLONG'][time,:,:]# 0,:
+    wrf_time = (f.variables['Times'][time]).tostring().decode('UTF-8')
+
+    print(wrf_time)
+
+    # refactor this into a wrf utility module
+
+    map_proj = f.getncattr('MAP_PROJ')
+    truelat1 = f.getncattr('TRUELAT1')
+    truelat2 = f.getncattr('TRUELAT2')
+    stand_lon= f.getncattr('STAND_LON')
+    dx = f.getncattr('DX')
+    dy = f.getncattr('DY')
+    ref_lat = wrf_lats[0,0]
+    ref_lon = wrf_lons[0,0]
+
+    i,j = wrf.ll_to_ij(map_proj, truelat1, truelat2, stand_lon, dx, dy, ref_lat, ref_lon, lat, lon)
+    # end refactor this
+    print('LAT ',lat,': ',i, ': ',wrf_lats[j,i])
+    print('LON ',lon,': ',j, ': ',wrf_lons[j,i])
+
+    #TODO: refactor coordinate finder into a function
+    #TODO: call again for staggered u and v grids
+
+    # pressure
+    p_surface = f.variables['PSFC'][time,j,i]
+    p = f.variables['P'][time,:,j,i] + f.variables['PB'][time,:,j,i]
+    print(p_surface)
+    print(p)
+
+    # z heights
+    ph = f.variables['PH'][time,:,j,i]
+    phb = f.variables['PHB'][time,:,j,i]
+    z = np.zeros(len(ph)-1, np.float32)
+    for k in range(len(z)):
+         z[k] = ((( ph[k]+ph[k+1] ) / 2.0) + ( phb[k] + phb[k+1]) / 2.0 ) / 9.81
+    print(z)
+    # t
+
+    # theta
+    th_surface = f.variables['TH2'][time,j,i]
+    th = f.variables['T'][time,:,j,i]
+    print(th_surface)
+    print(th)
+
+    # u
+    #TODO: use staggered grid
+    u = f.variables['U'][time,:,j,i]
+    print(u)
+
+    # v
+    #TODO: use staggered grid
+    v = f.variables['V'][time,:,j,i]
+    print(v)
+
+    # qv
+    qv = f.variables['QVAPOR'][time,:,j,i]
+    print(qv)
+    
+    #z = f["/mesh/zh"][:]    # m 
+
+    #x = f["/mesh/xh"][xi]   # m
+    #y = f["/mesh/yh"][yi]   # m
+    #t = f["/time"][0]       # s
+    #th = f["/3d_s/thpert"][:,yi,xi] + f["/basestate/th0"][:] # K
+    
+    #u = f["/3d_u/u"][:,yi,xi] # m/s
+    #v = f["/3d_v/v"][:,yi,xi] # m/s
+    #qv = f["/3d_s/qvpert"][:,yi,xi] + f["/basestate/qv0"][:] #kg/kg
+
+    #print(0,0,z[0],t,th[0],u[0],v[0],p[0],qv[0])
+    #plot(0. ,0. ,z, t, th, p, qv, u, v, filename, output)
+
+    
 ##################################################################################
 #
 def plot_sounding_data(filename, output):

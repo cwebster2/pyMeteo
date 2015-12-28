@@ -5,7 +5,7 @@ from optparse import OptionParser
 
 from pymeteo import skewt
 
-usage = "usage: %prog [-p PATH] -d DATASET [options] or %prog -f FILE"
+usage = "\t%prog [-p PATH] -d DATASET [options] \n\t%prog -f FILE"
 parser = OptionParser(usage=usage)
 parser.add_option("-p", dest="path", help="dataset path", default='data/')
 parser.add_option("-d", dest="dataset", help="dataset basename")
