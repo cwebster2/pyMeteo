@@ -263,6 +263,15 @@ def plot_wrf(filename, lat, lon, time, output):
     ref_lon = wrf_lons[0,0]
 
     i,j = wrf.ll_to_ij(map_proj, truelat1, truelat2, stand_lon, dx, dy, ref_lat, ref_lon, lat, lon)
+
+    ref_lat_u = f.variables['XLAT_U'][time,0,0]
+    ref_lon_u = f.variables['XLONG_U'][time,0,0]
+    ref_lat_v = f.variables['XLAT_V'][time,0,0]
+    ref_lon_v = f.variables['XLONG_V'][time,0,0]
+
+    i_u,j_u = wrf.ll_to_ij(map_proj, truelat1, truelat2, stand_lon, dx, dy, ref_lat_u, ref_lon_u, lat, lon)
+    i_v,j_v = wrf.ll_to_ij(map_proj, truelat1, truelat2, stand_lon, dx, dy, ref_lat_v, ref_lon_v, lat, lon)
+
     # end refactor this
     print('LAT ',lat,': ',i, ': ',wrf_lats[j,i])
     print('LON ',lon,': ',j, ': ',wrf_lons[j,i])
@@ -273,51 +282,42 @@ def plot_wrf(filename, lat, lon, time, output):
     # pressure
     p_surface = f.variables['PSFC'][time,j,i]
     p = f.variables['P'][time,:,j,i] + f.variables['PB'][time,:,j,i]
-    print(p_surface)
-    print(p)
+    p = np.insert(p, 0, p_surface)
 
     # z heights
     ph = f.variables['PH'][time,:,j,i]
     phb = f.variables['PHB'][time,:,j,i]
+    z_surface = ph[0]
     z = np.zeros(len(ph)-1, np.float32)
     for k in range(len(z)):
          z[k] = ((( ph[k]+ph[k+1] ) / 2.0) + ( phb[k] + phb[k+1]) / 2.0 ) / 9.81
-    print(z)
+    z = np.insert(z, 0, z_surface)
+
     # t
+    t = time
 
     # theta
     th_surface = f.variables['TH2'][time,j,i]
-    th = f.variables['T'][time,:,j,i]
-    print(th_surface)
-    print(th)
+    th = f.variables['T'][time,:,j,i] + 300.0
+    th = np.insert(th, 0, th_surface)
 
     # u
-    #TODO: use staggered grid
-    u = f.variables['U'][time,:,j,i]
-    print(u)
+    u_surface = f.variables['U10'][time,j,i]
+    u = f.variables['U'][time,:,j_u,i_u]
+    u = np.insert(u, 0, u_surface)
 
     # v
-    #TODO: use staggered grid
-    v = f.variables['V'][time,:,j,i]
-    print(v)
+    v_surface = f.variables['V10'][time,j,i]
+    v = f.variables['V'][time,:,j_v,i_v]
+    v = np.insert(v, 0, v_surface)
 
     # qv
+    qv_surface = f.variables['Q2'][time,j,i]
     qv = f.variables['QVAPOR'][time,:,j,i]
-    print(qv)
-    
-    #z = f["/mesh/zh"][:]    # m 
+    qv = np.insert(qv, 0, qv_surface)
 
-    #x = f["/mesh/xh"][xi]   # m
-    #y = f["/mesh/yh"][yi]   # m
-    #t = f["/time"][0]       # s
-    #th = f["/3d_s/thpert"][:,yi,xi] + f["/basestate/th0"][:] # K
-    
-    #u = f["/3d_u/u"][:,yi,xi] # m/s
-    #v = f["/3d_v/v"][:,yi,xi] # m/s
-    #qv = f["/3d_s/qvpert"][:,yi,xi] + f["/basestate/qv0"][:] #kg/kg
-
-    #print(0,0,z[0],t,th[0],u[0],v[0],p[0],qv[0])
-    #plot(0. ,0. ,z, t, th, p, qv, u, v, filename, output)
+    print(0,0,z[0],t,th[0],u[0],v[0],p[0],qv[0])
+    plot(0. ,0. ,z, t, th, p, qv, u, v, filename, output)
 
     
 ##################################################################################

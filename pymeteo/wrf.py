@@ -33,17 +33,17 @@ import numpy as np
 def ll_to_ij(map_proj, truelat1, truelat2, stand_lon, dx, dy, ref_lat, ref_lon, lat, lon):
     
     if (map_proj == 6):
-            pole_lat = f.getncattr('POLE_LAT')
-            pole_lon = f.getncattr('POLE_LON')
-            latinc = ( dy * 360. ) / 2.0 / np.pi / 6.37e6
-            loninc = ( dx * 360. ) / 2.0 / np.pi / 6.37e6
+        #TODO: implement map_proj 6
+        #pole_lat = f.getncattr('POLE_LAT')
+        #pole_lon = f.getncattr('POLE_LON')
+        latinc = ( dy * 360. ) / 2.0 / np.pi / 6.37e6
+        loninc = ( dx * 360. ) / 2.0 / np.pi / 6.37e6
     else:
-             pole_lat = 90.0
-             pole_lon = 0.0
-             latinc = 0.0
-             loninc = 0.0
+        pole_lat = 90.0
+        pole_lon = 0.0
+        latinc = 0.0
+        loninc = 0.0
                     
-    
     rebydx = 6.37e6 / dx
     radperdeg = np.pi/180.0
     degperrad = 180.0/np.pi
@@ -120,6 +120,7 @@ def ll_to_ij(map_proj, truelat1, truelat2, stand_lon, dx, dy, ref_lat, ref_lon, 
         i = hemi*i
         j = hemi*j
 
+    #TODO: implement map projection 6
     #elif (map_proj == 6):
     else:
         print("Unsupported map projection")
