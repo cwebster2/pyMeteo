@@ -545,7 +545,11 @@ def plot_cm1(path, filename, xi, yi,output):
 #
 # This is the main skewT plotting function for a single output page containing
 # A skewt, hodograph and an information block (currently disabled).
-#  
+#
+#TODO: turn x,y into "location text" at end of arg list default None
+#TODO: put title at end default None.
+#TODO: pass both to plot_the_rest
+#TODO: rename plot_the_rest to plot_datablock
 def plot(x, y, z, t, th, p, qv, u, v, title, output):
   """Plots Skew-T/Log-P diagrapms with hodograph
 
@@ -576,8 +580,6 @@ def plot(x, y, z, t, th, p, qv, u, v, title, output):
   plot_hodograph(ax2, z, u, v)
   ax3 = fig.add_subplot(224)
   plot_the_rest(ax3, x,y,z,t,th,p,qv,u,v)
-  # plot_wind_axes?????
-
   ax4 = fig.add_subplot(132)
   plot_wind_axes(ax4)
   plot_wind_barbs(ax4,z,p,u,v)
@@ -668,10 +670,15 @@ def plot_sounding(axes, z, th, p, qv, u = None, v = None):
   axes.semilogy(T_vparcel + skew(pcl['pp']), pcl['pp'], basey=math.e, color='red', linewidth=0.7, linestyle='--')
 
   # Add labels for levels based on surface parcel
-  label_m(Tmax-.5, pcl['lfcprs'], '--LFC', axes)
-  label_m(Tmax-.5, pcl['lclprs'], '--LCL', axes)
-  label_m(Tmax-.5, pcl['elprs'], '--EL', axes)
-  label_m(Tmax-.5, pcl['ptops'], '--TOPS', axes)
+  print(pcl['lfcprs'], pcl['lclprs'], pcl['elprs'], pcl['ptops'])
+  if (pcl['lfcprs'] > 0):
+    label_m(Tmax-.5, pcl['lfcprs'], '--LFC', axes)
+  if (pcl['lclprs'] > 0):
+    label_m(Tmax-.5, pcl['lclprs'], '--LCL', axes)
+  if (pcl['elprs'] > 0):
+    label_m(Tmax-.5, pcl['elprs'], '--EL', axes)
+  if (pcl['ptops'] > 0):
+    label_m(Tmax-.5, pcl['ptops'], '--TOPS', axes)
 
   # plot labels for std heights
   for plvl in plevs_std:
