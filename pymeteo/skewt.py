@@ -317,6 +317,13 @@ def plot_wrf(filename, lat, lon, time, output):
     qv = np.insert(qv, 0, qv_surface)
 
     print(0,0,z[0],t,th[0],u[0],v[0],p[0],qv[0])
+    print(p)
+    print(z)
+    print(th)
+    print(u)
+    print(v)
+    print(p)
+    print(qv)
     plot(0. ,0. ,z, t, th, p, qv, u, v, filename, output)
 
     
