@@ -574,9 +574,14 @@ def plot(x, y, z, t, th, p, qv, u, v, title, output):
   ax2 = plt.subplot(222)
   plot_hodo_axes(ax2)
   plot_hodograph(ax2, z, u, v)
-  #ax3 = fig.add_subplot(132)
-  #plot_the_rest(x,y,z,t,th,p,qv,u,v,title,output)
+  ax3 = fig.add_subplot(224)
+  plot_the_rest(ax3, x,y,z,t,th,p,qv,u,v)
   # plot_wind_axes?????
+
+  ax4 = fig.add_subplot(132)
+  plot_wind_axes(ax4)
+  plot_wind_barbs(ax4,z,p,u,v)
+  
   plt.savefig(output, dpi=300,bbox_inches=0)
   plt.close()
 
@@ -601,7 +606,7 @@ def plot_sounding_axes(axes):
 def plot_wind_axes(axes):
   # plot wind barbs
   # TODO: also do storm-relative winds
-  draw_wind_line()
+  draw_wind_line(axes)
   axes.set_axis_off()
   axes.axis([-1,1,pbot,ptop])
 
@@ -675,11 +680,17 @@ def plot_sounding(axes, z, th, p, qv, u = None, v = None):
 
   # plot wind barbs on left side of plot.  move this?  right side?
   if (u is not None and v is not None):
-      #draw_wind_line()
+      #draw_wind_line(axes)
       for i in np.arange(0,len(z),2):
           if (p[i] > pt_plot):
               plt.barbs(Tmin+4,p[i],u[i],v[i], length=5, linewidth=.5)
 
+def plot_wind_barbs(axes, z, p, u, v):
+    for i in np.arange(0,len(z)):
+        if (p[i] > pt_plot):
+            plt.barbs(0,p[i],u[i],v[i], length=5, linewidth=.5)
+
+              
 def plot_hodograph(axes, z, u, v):
   """Plot Hodograph data
 
@@ -757,31 +768,28 @@ def calc_hodograph_stats(_z, _u, _v):
 ################ UPDATE BELOW THIS LINE #############################
 ################                        #############################
 
-def plot_the_rest(_x,_y,_z,_t,_th,_p,_qv,_u,_v,_title,_output):
- # pcl, mupcl, mlpcl = calc_sounding_stats(_z, _th, _p, _qv)
- # shear = calc_hodograph_stats(_z, _u, _v)
+def plot_the_rest(ax4, _x,_y,_z,_t,_th,_p,_qv,_u,_v):
+  pcl, mupcl, mlpcl = calc_sounding_stats(_z, _th, _p, _qv)
+  shear = calc_hodograph_stats(_z, _u, _v)
 
+  brn = dyn.brn(_u, _v, _z, pcl['cape'])
+  #brn = 0
 
-
-# brn = dyn.brn(_u, _v, _z, pcl['cape'])
-  brn = 0
-
-	# draw datablock
-  ax4 = fig.add_subplot(224)
+  # draw datablock
   ax4.set_axis_off()
   plt.axis([-1,1,-1,1])
-  plt.text(0,1,_title, verticalalignment='top', horizontalalignment='center', weight='bold', fontsize=10)
+  #plt.text(0,1,_title, verticalalignment='top', horizontalalignment='center', weight='bold', fontsize=10)
   line = 'Sounding at location ' + str(_x) + ' km,' + str(_y) + ' km.  Time = ' + str(_t) + '.  '
   line += str(len(_z)) + ' vertical levels'
   plt.text(0,.85, line, verticalalignment='center', horizontalalignment='center', fontsize=5)
 
-  cth,cr = dyn.uv_to_deg(ucb[0],ucb[1])
+  cth,cr = dyn.uv_to_deg(shear['bunkers'][0],shear['bunkers'][1])
   line = 'Bunkers et al. (2000) right mover -> {0:3d}$^\circ$ {1:3.1f} m/s'.format(int(cth),cr)
   plt.text(-1,.75, line, verticalalignment='center', horizontalalignment='left', fontsize=5)
 
   print_parcel_info('Surface Parcel', pcl, -1., .65)
-  print_parcel_info('Most Unstable Parcel', mupcl, -0.5, .65)
-  print_parcel_info('500 m Mixed Layer Parcel', mlpcl, 0., .65)
+  print_parcel_info('Most Unstable Parcel', mupcl, -0.3, .65)
+  print_parcel_info('500 m Mixed Layer Parcel', mlpcl, 0.4, .65)
 
 	# LCL, CCL, EL, convective temp?
 	# other data?
@@ -791,56 +799,52 @@ def plot_the_rest(_x,_y,_z,_t,_th,_p,_qv,_u,_v,_title,_output):
   line = 'Hodograph'        
   plt.text(x,y, line, verticalalignment='center', horizontalalignment='left', fontsize=5)
   y -= 0.05
-  line = '0-1 km shear {0:3d}$^\circ$ {1:3.1f} m/s'.format(int(shear01[0]),shear01[1])
+  line = '0-1 km shear {0:3d}$^\circ$ {1:3.1f} m/s'.format(int(shear['s01'][0]),shear['s01'][1])
   plt.text(x,y, line, verticalalignment='center', horizontalalignment='left', fontsize=5)
   y -= 0.05
-  line = '0-3 km shear {0:3d}$^\circ$ {1:3.1f} m/s'.format(int(shear03[0]),shear03[1])
+  line = '0-3 km shear {0:3d}$^\circ$ {1:3.1f} m/s'.format(int(shear['s03'][0]),shear['s03'][1])
   plt.text(x,y, line, verticalalignment='center', horizontalalignment='left', fontsize=5)
   y -= 0.05
-  line = '0-6 km shear {0:3d}$^\circ$ {1:3.1f} m/s'.format(int(shear06[0]),shear06[1])
+  line = '0-6 km shear {0:3d}$^\circ$ {1:3.1f} m/s'.format(int(shear['s06'][0]),shear['s06'][1])
   plt.text(x,y, line, verticalalignment='center', horizontalalignment='left', fontsize=5)
   y -= 0.05
-  line = 'SRH 0-1 : {0:d} m2/s2'.format(int(srh01))
+  line = 'SRH 0-1 : {0:d} m2/s2'.format(int(shear['srh01']))
   plt.text(x,y, line, verticalalignment='center', horizontalalignment='left', fontsize=5)
   y -= 0.05
-  line = 'SRH 0-3 : {0:d} m2/s2'.format(int(srh03))
+  line = 'SRH 0-3 : {0:d} m2/s2'.format(int(shear['srh03']))
   plt.text(x,y, line, verticalalignment='center', horizontalalignment='left', fontsize=5)
   y -= 0.05
-  line = 'ERH 0-1 : {0:d} m2/s2'.format(int(erh01))
+  line = 'ERH 0-1 : {0:d} m2/s2'.format(int(shear['erh01']))
   plt.text(x,y, line, verticalalignment='center', horizontalalignment='left', fontsize=5)
   y -= 0.05
-  line = 'ERH 0-3 : {0:d} m2/s2'.format(int(erh03))
+  line = 'ERH 0-3 : {0:d} m2/s2'.format(int(shear['erh03']))
   plt.text(x,y, line, verticalalignment='center', horizontalalignment='left', fontsize=5)
   y -= 0.05
   line = 'BRN : {0:d}'.format(int(brn))
   plt.text(x,y, line, verticalalignment='center', horizontalalignment='left', fontsize=5)
   y -= 0.05
-  line = '0-1 km shear {0:3d}$^\circ$ {1:3.1f} m/s'.format(int(shear01[0]),shear01[1])
+  line = '0-1 km shear {0:3d}$^\circ$ {1:3.1f} m/s'.format(int(shear['s01'][0]),shear['s01'][1])
   plt.text(x,y, line, verticalalignment='center', horizontalalignment='left', fontsize=5)
   y -= 0.05
-  line = '1-2 km shear {0:3d}$^\circ$ {1:3.1f} m/s'.format(int(shear12[0]),shear12[1])
+  line = '1-2 km shear {0:3d}$^\circ$ {1:3.1f} m/s'.format(int(shear['s12'][0]),shear['s12'][1])
   plt.text(x,y, line, verticalalignment='center', horizontalalignment='left', fontsize=5)
   y -= 0.05
-  line = '2-3 km shear {0:3d}$^\circ$ {1:3.1f} m/s'.format(int(shear23[0]),shear23[1])
+  line = '2-3 km shear {0:3d}$^\circ$ {1:3.1f} m/s'.format(int(shear['s23'][0]),shear['s23'][1])
   plt.text(x,y, line, verticalalignment='center', horizontalalignment='left', fontsize=5)
   y -= 0.05
-  line = '3-4 km shear {0:3d}$^\circ$ {1:3.1f} m/s'.format(int(shear34[0]),shear34[1])
+  line = '3-4 km shear {0:3d}$^\circ$ {1:3.1f} m/s'.format(int(shear['s34'][0]),shear['s34'][1])
   plt.text(x,y, line, verticalalignment='center', horizontalalignment='left', fontsize=5)
   y -= 0.05
-  line = '4-5 km shear {0:3d}$^\circ$ {1:3.1f} m/s'.format(int(shear45[0]),shear45[1])
+  line = '4-5 km shear {0:3d}$^\circ$ {1:3.1f} m/s'.format(int(shear['s45'][0]),shear['s45'][1])
   plt.text(x,y, line, verticalalignment='center', horizontalalignment='left', fontsize=5)
   y -= 0.05
-  line = '5-6 km shear {0:3d}$^\circ$ {1:3.1f} m/s'.format(int(shear56[0]),shear56[1])
+  line = '5-6 km shear {0:3d}$^\circ$ {1:3.1f} m/s'.format(int(shear['s56'][0]),shear['s56'][1])
   plt.text(x,y, line, verticalalignment='center', horizontalalignment='left', fontsize=5)
-
-	#plt.show()
-  plt.savefig(_output, dpi=300,bbox_inches=0)
-  plt.close()
 
 def print_3col(name, value, unit, x, y):
    plt.text(x,y, name, verticalalignment='center', horizontalalignment='left', fontsize=5)
-   plt.text(x+.25,y, value, verticalalignment='center', horizontalalignment='right', fontsize=5)
-   plt.text(x+.3,y, unit, verticalalignment='center', horizontalalignment='left', fontsize=5)
+   plt.text(x+.35,y, value, verticalalignment='center', horizontalalignment='right', fontsize=5)
+   plt.text(x+.4,y, unit, verticalalignment='center', horizontalalignment='left', fontsize=5)
 
 def print_parcel_info(title, pcl, x, y):
   plt.text(x,y, title, verticalalignment='center', horizontalalignment='left', fontsize=5)
