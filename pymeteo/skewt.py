@@ -272,9 +272,9 @@ def plot_wrf(filename, lat, lon, time, output):
     i_u,j_u = wrf.ll_to_ij(map_proj, truelat1, truelat2, stand_lon, dx, dy, ref_lat_u, ref_lon_u, lat, lon)
     i_v,j_v = wrf.ll_to_ij(map_proj, truelat1, truelat2, stand_lon, dx, dy, ref_lat_v, ref_lon_v, lat, lon)
 
-    # end refactor this
-    print('LAT ',lat,': ',i, ': ',wrf_lats[j,i])
-    print('LON ',lon,': ',j, ': ',wrf_lons[j,i])
+    print('lats/lons dims: ', wrf_lats.shape)
+    print('LAT ',lat,': ',j, ': ',wrf_lats[j,i])
+    print('LON ',lon,': ',i, ': ',wrf_lons[j,i])
 
     #TODO: refactor coordinate finder into a function
     #TODO: call again for staggered u and v grids

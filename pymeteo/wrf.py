@@ -43,8 +43,9 @@ def ll_to_ij(map_proj, truelat1, truelat2, stand_lon, dx, dy, ref_lat, ref_lon, 
         pole_lon = 0.0
         latinc = 0.0
         loninc = 0.0
-                    
-    rebydx = 6.37e6 / dx
+
+    re = 6.37e6                
+    rebydx = re / dx
     radperdeg = np.pi/180.0
     degperrad = 180.0/np.pi
     hemi = 1.0
@@ -52,18 +53,18 @@ def ll_to_ij(map_proj, truelat1, truelat2, stand_lon, dx, dy, ref_lat, ref_lon, 
         hemi = -1.0
 
     if (map_proj == 3): # mercator
-        clain = np.cos(radperdeg*truelat1)
-        dlon = dx / ( 6.37e6 * clain)
+        clain = np.cos(radperdeg * truelat1)
+        dlon = dx / ( re * clain)
         rsw = 0.0
-        if (ref_lat < 0):
-                rsw = np.log(np.tan(0.5*((ref_lat-90.0)*radperdeg)))/dlon
+        if (ref_lat != 0):
+                rsw = np.log(np.tan(0.5*((ref_lat+90.0) * radperdeg))) / dlon
         deltalon = lon - ref_lon
         if (deltalon < -180.0):
                 deltalon = deltalon + 360.0
         if (deltalon > 180.0):
                 deltalon = deltalon - 360.0
-        i = 1 + (deltalon / (dlon*degperrad))
-        j = 1 + np.log(np.tan(0.5*((lat+90.0)*radperdeg)))/dlon - rsw
+        i = 0 + (deltalon / (dlon * degperrad))
+        j = 0 + np.log(np.tan(0.5*((lat+90.0)*radperdeg)))/dlon - rsw
 
     elif (map_proj == 2): # polar-stereo
         reflon = stand_lon + 90.0
