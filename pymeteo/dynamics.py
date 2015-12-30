@@ -24,6 +24,8 @@ def avg_wind(_u, _v, _z, zmin, zmax):
                         u += _u[i]
                         v += _v[i]
                         n += 1
+        if (n == 0):
+            return 0
         return (u/n, v/n)
 
 def storm_motion_rasmussen(_u,_v,_z):
