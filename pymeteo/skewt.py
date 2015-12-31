@@ -33,7 +33,35 @@ High level plotting functions
 * :py:func:`plot_cm1` -- plots skewt from CM1 generated GRaDS style output
 * :py:func:`plot_wrf` -- plots skewt from WRF generated NetCDF output
 * :py:func:`plot_sounding_data` -- plots skewt from CM1/WRF input sounding files
+
+These functions are called by command line scripts provided to make plotting from data files easy. 
+You can invoke these through command line scripts as:
+
+.. code-block:: bash
+
+   # From tabular sounding data (e.g. WRF or CM1 intial sounding data)
+   $ skewt -f sounding.dat -o skewt.pdf
+
+   # From GrADS stlye CM1 output
+   $ skewt -p . -d cm1out -x 0 -y 0 -o skewt-cm1.pdf
+
+   # From HDF5 CM1 output
+   $ skewt-hdf -d model-data.h5 -x 0 -y 0 -o output.pdf
+
+   # From WRF output 
+   $ skewt-wrf -d wrfout.nc --lat 30 --lon -80 -t 0 -o skewt.pdf
+
 * :py:func:`plot` -- generic high level plot function
+
+.. code-block:: python
+
+   import numpy as np
+   import pymeteo.skewt as skewt
+
+   # prepare 1D arrays height (z), pressure (p), potential temperature (th), 
+   # water vapor mixing ratio (qv), winds (u and v) all of the same length.
+
+   skewt.plot(None, z, th, p, qv, u, v, 'output.pdf')
 
 Variables affecting the plot output
 -----------------------------------
@@ -60,10 +88,10 @@ These variables affect the plotting of the lines above
 These variables affect the plotting style of skewt data
 
 * :py:data:`linecolor_T`, :py:data:`linewidth_T`
-* :py:data:`linecolor_Tve`, :py:data:`linewidth_Tve`
+* :py:data:`linecolor_Tve`, :py:data:`linewidth_Tve`, :py:data:`linestyle_Tve`
 * :py:data:`linecolor_Td`, :py:data:`linewidth_Td`
 * :py:data:`linecolor_Twb`, :py:data:`linewidth_Twb`
-* :py:data:`linecolor_Parcel_T`, :py:data:`linewidth_Parcel_T`, :py:data:`linestyle_Parcel_T`
+* :py:data:`linecolor_Parcel_T`, :py:data:`linewidth_Parcel_T`
 * :py:data:`linecolor_Tvp`, :py:data:`linewidth_Tvp`, :py:data:`linestyle_Tvp`
 
 
@@ -150,24 +178,38 @@ lc_minor = 'lightgrey'
 
 ## Skew-T line parameters
 linecolor_T = 'black'
+"""Line color of environmental temperature profile"""
 linewidth_T = 1.5
+"""Line width of environmental temperature profile"""
 
 linecolor_Td = 'green'
+"""Line color of environmental dew-point temperature profile"""
 linewidth_Td = 1.5
+"""Line width of environmental dew-point temperature profile"""
 
 linecolor_Parcel_T = 'red'
+"""Line color of lifted surface parcel temperature profile"""
 linewidth_Parcel_T = 1.0
+"""Line width of lifted surface parcel temperature profile"""
 
 linecolor_Twb = 'blue'
+"""Line color of environmental wet-bulb temperature profile"""
 linewidth_Twb = 0.5
+"""Line width of environmental wet-bulb temperature profile"""
 
 linecolor_Tve = 'black'
+"""Line color of environmental virtual temperature profile"""
 linewidth_Tve = 0.7
+"""Line width of environmental virtual temperature profile"""
 linestyle_Tve = '--'
+"""Line style of environmental virtual temperature profile"""
 
 linecolor_Tvp = 'red'
+"""Line color of lifted surface parcel virtual temperature profile"""
 linewidth_Tvp = 0.7
+"""Line width of lifted surface parcel virtual temperature profile"""
 linestyle_Tvp = '--'
+"""Line style of lifted surface parcel virtual temperature profile"""
 
 #for plotted lines
 pb_plot=105000

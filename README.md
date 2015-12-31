@@ -101,7 +101,7 @@ import pymeteo.skewt as skewt
 # prepare 1D arrays height (z), pressure (p), potential temperature (th), 
 # water vapor mixing ratio (qv), winds (u and v) all of the same length.
 
-skewt.plot(0., 0., z, 0., th, p, qv, u, v, None, 'output,pdf')
+skewt.plot(None, z, th, p, qv, u, v, 'output,pdf')
 ```
 
 You can also choose to plot just the sounding, just the hodograph or plot each on on axes that you define.  For details see the implementation of `pymeteo.skewt.plot()` and the [pyMeteo documentation][1].
