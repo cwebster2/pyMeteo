@@ -79,6 +79,7 @@ import pymeteo.thermo as met
 import pymeteo.dynamics as dyn
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
 import h5py
 import pymeteo.cm1.read_grads as cm1
 import pymeteo.interp
@@ -137,6 +138,27 @@ lc_major = 'grey'
 """Line color of 'major' lines.  E.g. Lines plotted at 10 C intervals or 50 mb intervals"""
 lc_minor = 'lightgrey'
 """Line color of 'minor' lines.  E.g. Lines not plotted at the major intervals"""
+
+## Skew-T line parameters
+linecolor_T = 'black'
+linewidth_T = 1.5
+
+linecolor_Td = 'green'
+linewidth_Td = 1.5
+
+linecolor_Parcel_T = 'red'
+linewidth_Parcel_T = 1.0
+
+linecolor_Twb = 'blue'
+linewidth_Twb = 0.5
+
+linecolor_Tve = 'black'
+linewidth_Tve = 0.7
+linestyle_Tve = '--'
+
+linecolor_Tvp = 'red'
+linewidth_Tvp = 0.7
+linestyle_Tvp = '--'
 
 #for plotted lines
 pb_plot=105000
@@ -276,9 +298,15 @@ def plot_wrf(filename, lat, lon, time, output):
     print('LAT ',lat,': ',j, ': ',wrf_lats[j,i])
     print('LON ',lon,': ',i, ': ',wrf_lons[j,i])
 
-    #TODO: refactor coordinate finder into a function
-    #TODO: call again for staggered u and v grids
-
+    # location
+    N = 'N'
+    if (lat < 0.):
+        N = 'S'
+    E = 'E'
+    if (lon < 0.):
+        E = 'W'
+    x = "{0} {1}, {2} {3}".format(abs(lat), N, abs(lon), E)
+    
     # pressure
     p_surface = f.variables['PSFC'][time,j,i]
     p = f.variables['P'][time,:,j,i] + f.variables['PB'][time,:,j,i]
@@ -294,7 +322,7 @@ def plot_wrf(filename, lat, lon, time, output):
     z = np.insert(z, 0, z_surface)
 
     # t
-    t = time
+    t = wrf_time
 
     # theta
     th_surface = f.variables['TH2'][time,j,i]
@@ -317,14 +345,7 @@ def plot_wrf(filename, lat, lon, time, output):
     qv = np.insert(qv, 0, qv_surface)
 
     print(0,0,z[0],t,th[0],u[0],v[0],p[0],qv[0])
-    print(p)
-    print(z)
-    print(th)
-    print(u)
-    print(v)
-    print(p)
-    print(qv)
-    plot(0. ,0. ,z, t, th, p, qv, u, v, filename, output)
+    plot(x ,0. ,z, t, th, p, qv, u, v, filename, output)
 
     
 ##################################################################################
@@ -549,7 +570,7 @@ def plot_cm1(path, filename, xi, yi,output):
 #TODO: turn x,y into "location text" at end of arg list default None
 #TODO: put title at end default None.
 #TODO: pass both to plot_the_rest
-#TODO: rename plot_the_rest to plot_datablock
+
 def plot(x, y, z, t, th, p, qv, u, v, title, output):
   """Plots Skew-T/Log-P diagrapms with hodograph
 
@@ -558,10 +579,10 @@ def plot(x, y, z, t, th, p, qv, u, v, title, output):
   data in another format or arrays of data in python already,
   then this is the function you want to use.
 
-  :parameter x: Unused
+  :parameter x: Location string
   :parameter y: Unused
   :parameter z: z grid mesh (1D)
-  :parameter t: Unused
+  :parameter t: Time string
   :parameter th: Potential temperature at z points
   :parameter p: Pressure at z points
   :parameter qv: Water vapor mixing ratio at z points
@@ -572,18 +593,31 @@ def plot(x, y, z, t, th, p, qv, u, v, title, output):
 
   """
   fig = plt.figure(1, figsize=(10, 8), dpi=300, edgecolor='k')
+  
+  # sounding
   ax1 = plt.subplot(121)
   plot_sounding_axes(ax1)
   plot_sounding(ax1, z, th, p, qv, u, v)
+  # hodograph
   ax2 = plt.subplot(222)
   plot_hodo_axes(ax2)
   plot_hodograph(ax2, z, u, v)
+  # datablock
   ax3 = fig.add_subplot(224)
-  plot_the_rest(ax3, x,y,z,t,th,p,qv,u,v)
+  plot_datablock(ax3, x,y,z,t,th,p,qv,u,v)
+  plt.title(title)
+
+  # wind barbs
   ax4 = fig.add_subplot(132)
   plot_wind_axes(ax4)
   plot_wind_barbs(ax4,z,p,u,v)
+  # legend
+  ax5 = fig.add_subplot(4,4,15)
+  plot_legend(ax5)
+
   
+  # Adjust plot margins.
+  plt.subplots_adjust(left=0.03, bottom=0.03, right=0.97, top=0.97, wspace=0.12, hspace=0.12)
   plt.savefig(output, dpi=300,bbox_inches=0)
   plt.close()
 
@@ -623,6 +657,36 @@ def plot_hodo_axes(axes):
   remove_tick_labels(axes)
   axes.axis(bounds)
 
+
+def plot_legend(axes):
+  """Plot skew-t legend"""
+
+  tT = r'Temperature'
+  lT = Line2D(range(10), range(10), linestyle='-', marker='', linewidth=linewidth_T, color=linecolor_T)
+
+  tTd = r'Dew-point Temperature'
+  lTd = Line2D(range(10), range(10), linestyle='-', marker='', linewidth=linewidth_Td, color=linecolor_Td)
+
+  tPT = r'Lifted Surface Parcel Temperature'
+  lPT = Line2D(range(10), range(10), linestyle='-', marker='', linewidth=linewidth_Parcel_T,
+               color=linecolor_Parcel_T)
+
+  tTwb = r'Wet-bulb Temperature'
+  lTwb = Line2D(range(10), range(10), linestyle='-', marker='', linewidth=linewidth_Twb, color=linecolor_Twb)
+
+  tTve = r'Virtual Temperature'
+  lTve = Line2D(range(10), range(10), linestyle=linestyle_Tve, marker='', linewidth=linewidth_Tve,
+                color=linecolor_Tve)
+
+  tTvp = r'Lifted Surface Parcel Virtual Temperature'
+  lTvp = Line2D(range(10), range(10), linestyle=linestyle_Tvp, marker='', linewidth=linewidth_Tvp,
+                color=linecolor_Tvp)
+
+  plt.legend((lT, lTve, lTd, lTwb, lPT, lTvp,),(tT, tTve, tTd, tTwb, tPT, tTvp,), loc=(0.125,0), fontsize=6)
+  # loc =, frameon=, fontsize=
+  axes.set_axis_off()
+  
+  
 def plot_wind(axes, z, p, u, v, x=0):  
   for i in np.arange(0,len(z),1):
     if (p[i] > pt_plot):
@@ -660,14 +724,17 @@ def plot_sounding(axes, z, th, p, qv, u = None, v = None):
   T_venv = met.T(pcl['thv_env'], pcl['pp']) - met.T00  # Env Tv (C)
 
   # plot Temperature, dewpoint, wetbulb and lifted surface parcel profiles on skew axes
-  axes.semilogy(T + skew(p), p, basey=math.e, color = 'black', linewidth = 1.5)
-  axes.semilogy(Td + skew(p), p, basey=math.e, color = 'green', linewidth = 1.5)
-  axes.semilogy(T_parcel + skew(pcl['pp']), pcl['pp'], basey=math.e, color='red', linewidth=1.0)
-  axes.semilogy(Twb + skew(p), p, basey=math.e, color='blue', linewidth=0.5)
+  axes.semilogy(T + skew(p), p, basey=math.e, color=linecolor_T , linewidth = linewidth_T)
+  axes.semilogy(Td + skew(p), p, basey=math.e, color=linecolor_Td, linewidth = linewidth_Td)
+  axes.semilogy(T_parcel + skew(pcl['pp']), pcl['pp'], basey=math.e,
+                color=linecolor_Parcel_T, linewidth=linewidth_Parcel_T)
+  axes.semilogy(Twb + skew(p), p, basey=math.e, color=linecolor_Twb, linewidth=linewidth_Twb)
 
   # plot virtual temperature of environment and lifted parcel
-  axes.semilogy(T_venv + skew(pcl['pp']), pcl['pp'], basey=math.e, color='black', linewidth=0.7, linestyle='--')
-  axes.semilogy(T_vparcel + skew(pcl['pp']), pcl['pp'], basey=math.e, color='red', linewidth=0.7, linestyle='--')
+  axes.semilogy(T_venv + skew(pcl['pp']), pcl['pp'], basey=math.e, color=linecolor_Tve,
+                linewidth=linewidth_Tve, linestyle=linestyle_Tve)
+  axes.semilogy(T_vparcel + skew(pcl['pp']), pcl['pp'], basey=math.e, color=linecolor_Tvp,
+                linewidth=linewidth_Tvp, linestyle=linestyle_Tvp)
 
   # Add labels for levels based on surface parcel
   print(pcl['lfcprs'], pcl['lclprs'], pcl['elprs'], pcl['ptops'])
@@ -772,26 +839,27 @@ def calc_hodograph_stats(_z, _u, _v):
 
   return dict
 
-################ UPDATE BELOW THIS LINE #############################
-################                        #############################
 
-def plot_the_rest(ax4, _x,_y,_z,_t,_th,_p,_qv,_u,_v):
+def plot_datablock(ax4, _x,_y,_z,_t,_th,_p,_qv,_u,_v):
   pcl, mupcl, mlpcl = calc_sounding_stats(_z, _th, _p, _qv)
   shear = calc_hodograph_stats(_z, _u, _v)
 
   brn = dyn.brn(_u, _v, _z, pcl['cape'])
-  #brn = 0
 
   # draw datablock
   ax4.set_axis_off()
   plt.axis([-1,1,-1,1])
   #plt.text(0,1,_title, verticalalignment='top', horizontalalignment='center', weight='bold', fontsize=10)
-  line = 'Sounding at location ' + str(_x) + ' km,' + str(_y) + ' km.  Time = ' + str(_t) + '.  '
-  line += str(len(_z)) + ' vertical levels'
+  line = ""
+  if (_x != None):
+    line += "Sounding at location " + str(_x) + "."
+  if (_t != None):
+    line += " Time = " + str(_t) + "."
+  line += " " + str(len(_z)) + ' vertical levels'
   plt.text(0,.85, line, verticalalignment='center', horizontalalignment='center', fontsize=5)
 
   cth,cr = dyn.uv_to_deg(shear['bunkers'][0],shear['bunkers'][1])
-  line = 'Bunkers et al. (2000) right mover -> {0:3d}$^\circ$ {1:3.1f} m/s'.format(int(cth),cr)
+  line = 'Estimated storm motion (supercell right mover) -> {0:3d}$^\circ$ {1:3.1f} m/s'.format(int(cth),cr)
   plt.text(-1,.75, line, verticalalignment='center', horizontalalignment='left', fontsize=5)
 
   print_parcel_info('Surface Parcel', pcl, -1., .65)
@@ -801,11 +869,12 @@ def plot_the_rest(ax4, _x,_y,_z,_t,_th,_p,_qv,_u,_v):
 	# LCL, CCL, EL, convective temp?
 	# other data?
 	
-  x = -1
+  x = 0.4
   y = 0
-  line = 'Hodograph'        
+  line = 'Hodograph'
   plt.text(x,y, line, verticalalignment='center', horizontalalignment='left', fontsize=5)
-  y -= 0.05
+  x += 0.02
+  y -= 0.065
   line = '0-1 km shear {0:3d}$^\circ$ {1:3.1f} m/s'.format(int(shear['s01'][0]),shear['s01'][1])
   plt.text(x,y, line, verticalalignment='center', horizontalalignment='left', fontsize=5)
   y -= 0.05
@@ -873,7 +942,6 @@ def print_parcel_info(title, pcl, x, y):
   y -= 0.05
   print_3col('Parcel', '{0}'.format(int(pcl['prs']/100.)), 'mb', x, y)
 
-########################### DONE BELOW LINE #########################################
 
 def remove_tick_labels(axes):
   axes.tick_params(axis='x', top='off', bottom='off', which='both')#, labelsize=0)
