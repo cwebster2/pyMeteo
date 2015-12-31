@@ -287,14 +287,9 @@ def mean_wind(_u,_v,_z, zbot, ztop):
 def brn(_u,_v,_z,cape):
 
    u06avg = mean_wind(_u,_v,_z,0.,6000.)
-   print(u06avg)
    u0500avg = mean_wind(_u,_v,_z,0.,500.)
-   print(u0500avg)
    u = u06avg[0] - u0500avg[0]
-   print(u)
    v = u06avg[1] - u0500avg[1]
-   print(v)
 
    brn = cape / (0.5 * (u**2 + v**2))
-   print(brn)
    return brn

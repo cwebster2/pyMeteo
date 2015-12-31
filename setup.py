@@ -1,7 +1,7 @@
 """Meteorology utilities, SkewT plotting and more
 
 This package contains some general meteorological routines 
-and some specific routines to work with CM1.  The general
+and some specific routines to work with CM1 and WRF.  The general
 routines include generation of Skew-T/Log-P plotting.  The CM1
 routines include generation of input soundings for CM1 and
 classes for reading CM1 output files in grads and HDF5 format.
@@ -11,7 +11,7 @@ classifiers = """\
 Intended Audience :: Science/Research
 License :: OSI Approved :: BSD License
 Topic :: Scientific/Engineering :: Atmospheric Science
-Development Status :: 3 - Alpha
+Development Status :: 4 - Beta
 Topic :: Software Development :: Libraries :: Python Modules
 Programming Language :: Python :: 3
 Programming Language :: Python :: 3.4

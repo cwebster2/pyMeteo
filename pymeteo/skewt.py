@@ -57,6 +57,15 @@ These variables affect the plotting of the lines above
 * :py:data:`lw_major`, :py:data:`lw_minor`
 * :py:data:`lc_major`, :py:data:`lc_minor`
 
+These variables affect the plotting style of skewt data
+
+* :py:data:`linecolor_T`, :py:data:`linewidth_T`
+* :py:data:`linecolor_Tve`, :py:data:`linewidth_Tve`
+* :py:data:`linecolor_Td`, :py:data:`linewidth_Td`
+* :py:data:`linecolor_Twb`, :py:data:`linewidth_Twb`
+* :py:data:`linecolor_Parcel_T`, :py:data:`linewidth_Parcel_T`, :py:data:`linestyle_Parcel_T`
+* :py:data:`linecolor_Tvp`, :py:data:`linewidth_Tvp`, :py:data:`linestyle_Tvp`
+
 
 Functions to draw isolines
 --------------------------
@@ -220,7 +229,7 @@ def plot_cm1h5(filename, xi, yi, output):
     qv = f["/3d_s/qvpert"][:,yi,xi] + f["/basestate/qv0"][:] #kg/kg
 
     print(x,y,z[0],t,th[0],u[0],v[0],p[0],qv[0])
-    plot(x,y,z,t,th,p,qv,u,v,filename, output)
+    plot_old(x,y,z,t,th,p,qv,u,v,filename, output)
 
 ##################################################################################
 def plot_wrf(filename, lat, lon, time, output):
@@ -271,8 +280,6 @@ def plot_wrf(filename, lat, lon, time, output):
     wrf_lons = f.variables['XLONG'][time,:,:]# 0,:
     wrf_time = (f.variables['Times'][time]).tostring().decode('UTF-8')
 
-    print(wrf_time)
-
     # refactor this into a wrf utility module
 
     map_proj = f.getncattr('MAP_PROJ')
@@ -293,10 +300,6 @@ def plot_wrf(filename, lat, lon, time, output):
 
     i_u,j_u = wrf.ll_to_ij(map_proj, truelat1, truelat2, stand_lon, dx, dy, ref_lat_u, ref_lon_u, lat, lon)
     i_v,j_v = wrf.ll_to_ij(map_proj, truelat1, truelat2, stand_lon, dx, dy, ref_lat_v, ref_lon_v, lat, lon)
-
-    print('lats/lons dims: ', wrf_lats.shape)
-    print('LAT ',lat,': ',j, ': ',wrf_lats[j,i])
-    print('LON ',lon,': ',i, ': ',wrf_lons[j,i])
 
     # location
     N = 'N'
@@ -344,8 +347,8 @@ def plot_wrf(filename, lat, lon, time, output):
     qv = f.variables['QVAPOR'][time,:,j,i]
     qv = np.insert(qv, 0, qv_surface)
 
-    print(0,0,z[0],t,th[0],u[0],v[0],p[0],qv[0])
-    plot(x ,0. ,z, t, th, p, qv, u, v, filename, output)
+    print(x, z[0],t,th[0],u[0],v[0],p[0],qv[0])
+    plot(x, z, th, p, qv, u, v, output, t, filename)
 
     
 ##################################################################################
@@ -407,7 +410,7 @@ def plot_sounding_data(filename, output):
         for k in np.arange(nk):
             print(z[k], p[k], th[k], qv[k], u[k], v[k])
             
-        plot(0., 0., z, 0., th, p, qv, u, v, "input sounding", output)
+        plot(None, z, th, p, qv, u, v, output, title="input sounding")
         
 def plot_sounding_data_csv(filename, output):
         """Plot SkewT from a CSV sounding data file
@@ -499,7 +502,7 @@ def plot_sounding_data_csv(filename, output):
 
         #print(z, th, p, qv, u, v)
 
-        plot(0.,0., z, 0, th, p, qv, u, v, 'Sounding Data', output)
+        plot(None, z, th, p, qv, u, v, output, title='Sounding Data')
 
         
 ##################################################################################
@@ -559,7 +562,7 @@ def plot_cm1(path, filename, xi, yi,output):
   v[0] = v[1]
   z[0] = 0.
 
-  plot(x,y,z,t,th,p,qv,u,v,filename, output)
+  plot_old(x,y,z,t,th,p,qv,u,v,filename, output)
 
 ##################################################################################
 # plot
@@ -570,8 +573,10 @@ def plot_cm1(path, filename, xi, yi,output):
 #TODO: turn x,y into "location text" at end of arg list default None
 #TODO: put title at end default None.
 #TODO: pass both to plot_the_rest
+def plot_old(x, y, z, time, th, p, qv, u, v, title, output):
+  plot("{0} km, {1} km".format(x,y), z, th, p, qv, u, v, output, time, title) 
 
-def plot(x, y, z, t, th, p, qv, u, v, title, output):
+def plot(loc, z, th, p, qv, u, v, output, time = None, title = None):
   """Plots Skew-T/Log-P diagrapms with hodograph
 
   The helper functions above facilitate loading data from
@@ -579,10 +584,9 @@ def plot(x, y, z, t, th, p, qv, u, v, title, output):
   data in another format or arrays of data in python already,
   then this is the function you want to use.
 
-  :parameter x: Location string
-  :parameter y: Unused
+  :parameter loc: Location string
   :parameter z: z grid mesh (1D)
-  :parameter t: Time string
+  :parameter time: Time string
   :parameter th: Potential temperature at z points
   :parameter p: Pressure at z points
   :parameter qv: Water vapor mixing ratio at z points
@@ -597,14 +601,14 @@ def plot(x, y, z, t, th, p, qv, u, v, title, output):
   # sounding
   ax1 = plt.subplot(121)
   plot_sounding_axes(ax1)
-  plot_sounding(ax1, z, th, p, qv, u, v)
+  plot_sounding(ax1, z, th, p, qv, None, None)
   # hodograph
   ax2 = plt.subplot(222)
   plot_hodo_axes(ax2)
   plot_hodograph(ax2, z, u, v)
   # datablock
   ax3 = fig.add_subplot(224)
-  plot_datablock(ax3, x,y,z,t,th,p,qv,u,v)
+  plot_datablock(ax3, loc, z, time, th, p, qv, u, v)
   plt.title(title)
 
   # wind barbs
@@ -737,7 +741,7 @@ def plot_sounding(axes, z, th, p, qv, u = None, v = None):
                 linewidth=linewidth_Tvp, linestyle=linestyle_Tvp)
 
   # Add labels for levels based on surface parcel
-  print(pcl['lfcprs'], pcl['lclprs'], pcl['elprs'], pcl['ptops'])
+  #debug print(pcl['lfcprs'], pcl['lclprs'], pcl['elprs'], pcl['ptops'])
   if (pcl['lfcprs'] > 0):
     label_m(Tmax-.5, pcl['lfcprs'], '--LFC', axes)
   if (pcl['lclprs'] > 0):
@@ -840,7 +844,7 @@ def calc_hodograph_stats(_z, _u, _v):
   return dict
 
 
-def plot_datablock(ax4, _x,_y,_z,_t,_th,_p,_qv,_u,_v):
+def plot_datablock(ax4, _x,_z,_t,_th,_p,_qv,_u,_v):
   pcl, mupcl, mlpcl = calc_sounding_stats(_z, _th, _p, _qv)
   shear = calc_hodograph_stats(_z, _u, _v)
 
