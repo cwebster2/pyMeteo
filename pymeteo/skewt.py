@@ -111,6 +111,7 @@ Module reference
 ++++++++++++++++
 
 """
+import os
 import math
 import pymeteo.thermo as met
 import pymeteo.dynamics as dyn
@@ -389,8 +390,9 @@ def plot_wrf(filename, lat, lon, time, output):
     qv = f.variables['QVAPOR'][time,:,j,i]
     qv = np.insert(qv, 0, qv_surface)
 
+    title = os.path.basename(filename)
     print(x, z[0],t,th[0],u[0],v[0],p[0],qv[0])
-    plot(x, z, th, p, qv, u, v, output, t, filename)
+    plot(x, z, th, p, qv, u, v, output, t, title)
 
     
 ##################################################################################
