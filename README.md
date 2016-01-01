@@ -63,6 +63,8 @@ The format of the sounding data file is
 >
 > following lines are:  height (m)    theta (K)   qv (g/kg)    u (m/s)    v (m/s)
 
+See the file `testdata/sounding_wrfinit.dat` for an example of this file format.
+
 ###CM1
 
 For CM1 output in native GrADS format, you can plot a skewt from model output with
