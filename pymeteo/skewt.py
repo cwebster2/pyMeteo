@@ -730,7 +730,8 @@ def plot_legend(axes):
   lTvp = Line2D(range(10), range(10), linestyle=linestyle_Tvp, marker='', linewidth=linewidth_Tvp,
                 color=linecolor_Tvp)
 
-  plt.legend((lT, lTve, lTd, lTwb, lPT, lTvp,),(tT, tTve, tTd, tTwb, tPT, tTvp,), loc=(0.125,0), fontsize=6)
+  plt.legend((lT, lTve, lTd, lTwb, lPT, lTvp,),(tT, tTve, tTd, tTwb, tPT, tTvp,),
+             loc=(0.125,0), fontsize=6, handlelength=10)
   # loc =, frameon=, fontsize=
   axes.set_axis_off()
   
