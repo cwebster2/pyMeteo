@@ -1,36 +1,139 @@
 #!/usr/bin/env python
 
 import os,sys
-from optparse import OptionParser
+import argparse
 
+import matplotlib as mpl
+mpl.use('agg')   # no dependacy on an open $DISPLAY
+import matplotlib.pyplot as plt
+import numpy as np
+import pymeteo
 from pymeteo import skewt
 
-usage = "\t%prog [-p PATH] -d DATASET [options] \n\t%prog -f FILE"
-parser = OptionParser(usage=usage)
-parser.add_option("-p", dest="path", help="dataset path", default='data/')
-parser.add_option("-d", dest="dataset", help="dataset basename")
-parser.add_option("-x", dest="x", help="x gridpoint of sounding", default=0)
-parser.add_option("-y", dest="y", help="y gridpoint of sounding", default=0)
-parser.add_option("-o", dest="out", help="output filename", default='skewt.eps')
-parser.add_option("-f", dest="fname", help="tabular sounding data file", default=None)
+def usage(name=None):
+   return '''skewt input-data-type output-file [options] [--help] [--version]
 
-(options, args) = parser.parse_args()
+Examples:
+  skewt blank   blank-skewt.pdf
+  skewt cm1     cm1-skewt.pdf     -x 0 -y 0 -t 1 -p path/to/dataset/ -d cm1out
+  skewt cm1hdf5 cm1-skewt.pdf     -x 0 -y 0 -t 0 -f cm1out_02700.h5
+  skewt tabular tabular-skewt.pdf -f tabular-data.dat
+  skewt wrf     wrf-skewt.pdf     --lat 30.5 --lon -75.2 -f wrfout.nc
 
-if options.fname == None:
+Notes:
+  The input-data-type is one of blank, cm1, cm1hdf5, tabular, wrf
+  The extension of output-file determines the type of output data.
+'''
 
-   if not options.dataset:
-      parser.error('DATASET not specified')
+def main():
+    parser = argparse.ArgumentParser(description='Plot Skew-T diagrams from data files.', usage=usage())
 
-   path = options.path
-   base = options.dataset
-   xloc = int(options.x)
-   yloc = int(options.y)
-   out  = options.out
+    parser.add_argument('inputdtype', metavar='input-data-type', 
+                        help='The type of input data to parse', default='blank')
+    parser.add_argument('output', metavar='output-file', help='Skew-T plot output file',
+                        default='skewt.pdf')
+    parser.add_argument('-x', metavar='x', help='x position for Skew-T plot in dataset', type=float,
+                        default=0.)
+    parser.add_argument('-y', metavar='x', help='y position for Skew-T plot in dataset', type=float,
+                        default=0.)
+    parser.add_argument('--lat', metavar='lat', help='latitude position for Skew-T plot in dataset',
+                        type=float, default=0.)
+    parser.add_argument('--lon', metavar='lon', help='longitude position for Skew-T plot in dataset',
+                        type=float, default=0.)
+    parser.add_argument('-t', metavar='time', help='time index for Skew-T plot in dataset', type=float,
+                        default=0.)
+    parser.add_argument('-p', metavar='path', help='path to CM1 output dataset', default='.')
+    parser.add_argument('-d', metavar='dataset', help='CM1 output_basename for cm1 intput-data-type',
+                        default='cm1out')
+    parser.add_argument('-f', metavar='filename', help='intput dataset filename')
+    parser.add_argument('--version', action='version', version=str(pymeteo.__version__))
+    parser.add_argument('-v', '--verbose', action='store_true', default=False)
+    args = parser.parse_args()
 
-   skewt.plot_cm1(path,base,xloc,yloc,out)
 
-else: #sounding data provided
+    if (args.inputdtype == 'blank'):
+        if (args.verbose):
+            print('Plotting blank high-quality Skew-T')
+            print(' Output filename:  {0}'.format(args.output))
+       
+        plot_blank_skewt(args.output)
+       
+    elif (args.inputdtype == 'cm1'):
+        if (args.verbose):
+            print('Plotting Skew-T from cm1 dataset')
+            print(' Path to dataset:  {0}'.format(args.p))
+            print(' Dataset basename: {0}'.format(args.d))
+            print(' X posotion (km):  {0}'.format(args.x))
+            print(' Y position (km):  {0}'.format(args.y))
+            print(' Time index:       {0}'.format(args.t))
+            print(' Output filename:  {0}'.format(args.output))
+    
+        skewt.plot_cm1(args.p, args.d, args.x, args.y, args.output)
+    
+    elif (args.inputdtype == 'cm1hdf5'):
+        if (args.verbose):
+            print('Plotting Skew-T from cm1 hdf5 dataset')
+            print(' Dataset filename: {0}'.format(args.f))
+            print(' X posotion (km):  {0}'.format(args.x))
+            print(' Y position (km):  {0}'.format(args.y))
+            print(' Output filename:  {0}'.format(args.output))
 
-   out  = options.out
-   skewt.plot_sounding_data(options.fname, out)
+        if (args.f == None):
+           exit_error('-f option required for this input-data-type: {0}.'.format(args.inputdtype))
+        skewt.plot_cm1h5(args.f, args.x, args.y, args.output)
+            
+    elif (args.inputdtype == 'wrf'):
+        if (args.verbose):
+            print('Plotting Skew-T from WRF dataset')
+            print(' Dataset filename: {0}'.format(args.f))
+            print(' Lattitude:        {0}'.format(args.lat))
+            print(' Longitude:        {0}'.format(args.lon))
+            print(' Time index:       {0}'.format(args.t))
+            print(' Output filename:  {0}'.format(args.output))
+
+        if (args.f == None):
+           exit_error('-f option required for this input-data-type: {0}.'.format(args.inputdtype))
+        skewt.plot_wrf(args.f, args.lat, args.lon, args.t, args.output)
+           
+    elif (args.inputdtype == 'tabular'):
+        if (args.verbose):
+            print('tabular skew-t handler')
+            print(' Input filename:   {0}'.format(args.f))
+            print(' Output filename:  {0}'.format(args.output))
+
+        if (args.f == None):
+           exit_error('-f option required for this input-data-type: {0}.'.format(args.inputdtype))
+        skewt.plot_sounding_data(args.f, args.output)
+
+    else:
+        print('Error: Unsupported input-data-type: {0}.\n\n'.format(args.inputdtype))
+        print('usage:',usage())
+    
+def exit_error(errorstring):
+    print('Error: {0}\n\n'.format(errorstring))
+    print('usage:', usage())
+    sys.exit(-1)
+        
+def plot_blank_skewt(out):
+    fig = plt.figure(1, figsize=(8, 10.5), dpi=1200, edgecolor='k')
+    ax1 = plt.subplot(111)
+
+    #redefine some lines
+    skewt.isotherms = np.arange(-150,51,2)
+    skewt.isobars = np.arange(skewt.pbot, skewt.ptop-1, -1000)
+    skewt.dry_adiabats = np.arange(-40,210,2)
+    skewt.moist_adiabats = np.arange(-15,45.1,1)
+
+    #redefine line properties
+    skewt.lc_minor = 'grey'
+    skewt.lc_major = 'darkgray'
+
+    skewt.plot_sounding_axes(ax1)
+    skewt.label_std_heights(ax1)
+    fig.tight_layout()
+    plt.savefig(out, dpi=1200,bbox_inches=0)
+        
+if __name__=='__main__':
+   main()
+
 

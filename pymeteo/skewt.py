@@ -451,8 +451,8 @@ def plot_sounding_data(filename, output):
         for k in np.arange(1,nk):
             p[k] = p[k-1] * np.exp((metconst.g*(z[k-1]-z[k]))/(metconst.Rd*met.T((th[k]+th[k-1])/2.,p[k-1])))
 
-        for k in np.arange(nk):
-            print(z[k], p[k], th[k], qv[k], u[k], v[k])
+        #for k in np.arange(nk):
+        #    print(z[k], p[k], th[k], qv[k], u[k], v[k])
             
         plot(None, z, th, p, qv, u, v, output, title="input sounding")
         
