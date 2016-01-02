@@ -19,9 +19,10 @@ Examples:
   skewt cm1hdf5 cm1-skewt.pdf     -x 0 -y 0 -t 0 -f cm1out_02700.h5
   skewt tabular tabular-skewt.pdf -f tabular-data.dat
   skewt wrf     wrf-skewt.pdf     --lat 30.5 --lon -75.2 -f wrfout.nc
+  skewt uwyo   uwyo-skewt.pdf     -f uwyo-data.dat
 
 Notes:
-  The input-data-type is one of blank, cm1, cm1hdf5, tabular, wrf
+  The input-data-type is one of blank, cm1, cm1hdf5, tabular, wrf, uwyo
   The extension of output-file determines the type of output data.
 '''
 
@@ -104,6 +105,16 @@ def main():
         if (args.f == None):
            exit_error('-f option required for this input-data-type: {0}.'.format(args.inputdtype))
         skewt.plot_sounding_data(args.f, args.output)
+
+    elif (args.inputdtype == 'uwyo'):
+        if (args.verbose):
+            print('Plotting Skew-T from UWyo data')
+            print(' Input filename:   {0}'.format(args.f))
+            print(' Output filename:  {0}'.format(args.output))
+
+        if (args.f == None):
+           exit_error('-f option required for this input-data-type: {0}.'.format(args.inputdtype))
+        skewt.plot_sounding_data_uwyo(args.f, args.output)
 
     else:
         print('Error: Unsupported input-data-type: {0}.\n\n'.format(args.inputdtype))

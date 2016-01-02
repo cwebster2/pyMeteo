@@ -44,9 +44,11 @@ def theta_v(th, qv):
    return th * (1. + 0.61*qv)
 
 def Td(p, qv):
-   el = np.log((qv/epsilon)*p/100./(1. + (qv/epsilon)))
-   Td = T00 + (243.5*el-440.8)/(19.48-el)
-   return Td
+    old_settings = np.seterr(all='ignore')
+    el = np.log((qv/epsilon)*p/100./(1. + (qv/epsilon)))
+    Td = T00 + (243.5*el-440.8)/(19.48-el)
+    np.seterr(**old_settings)
+    return Td
 
 def Lv(T):
 #TODO: Temp dependance
@@ -95,8 +97,10 @@ def Twb(z,p,th,qv,z0):
    td0 = Td(p0, qv0) 
    es0 = es(td0)
 
-   #print qv0, p0, t0, td0
-
+   #print(qv0, p0, t0, td0)
+   if np.isnan(td0):
+       return np.nan
+   
    residual = 0.0005
    not_converged = 1
    i = 0
