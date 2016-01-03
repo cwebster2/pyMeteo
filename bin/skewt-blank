@@ -7,6 +7,7 @@ import numpy as np
 from pymeteo import skewt
 from pymeteo import constants
 
+print("Warning: This script is deprecated.  Use 'skewt blank' to plot this data.")
 usage = "usage: %prog [options]"
 parser = OptionParser(usage=usage)
 parser.add_option("-o", dest="out", help="output filename", default='skewt.eps')

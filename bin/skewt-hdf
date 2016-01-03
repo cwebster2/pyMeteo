@@ -5,6 +5,7 @@ from optparse import OptionParser
 
 from pymeteo import skewt
 
+print("Warning: This script is deprecated. Use 'skewt cm1hdf' to plot this data")
 usage = "usage: %prog -d DATASET [options]"
 parser = OptionParser(usage=usage)
 parser.add_option("-d", dest="dataset", help="hdf5 filename")
