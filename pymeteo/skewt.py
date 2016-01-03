@@ -33,6 +33,7 @@ High level plotting functions
 * :py:func:`plot_cm1` -- plots skewt from CM1 generated GRaDS style output
 * :py:func:`plot_wrf` -- plots skewt from WRF generated NetCDF output
 * :py:func:`plot_sounding_data` -- plots skewt from CM1/WRF input sounding files
+* :py:func:`plot_sounding_data_uwyo` -- plots skewt from uwyo sounding data (file or online)
 
 These functions are called by command line scripts provided to make plotting from data files easy. 
 You can invoke these through command line scripts as:
@@ -40,16 +41,22 @@ You can invoke these through command line scripts as:
 .. code-block:: bash
 
    # From tabular sounding data (e.g. WRF or CM1 intial sounding data)
-   $ skewt -f sounding.dat -o skewt.pdf
+   $ skewt tabular -f sounding.dat skewt.pdf
 
    # From GrADS stlye CM1 output
-   $ skewt -p . -d cm1out -x 0 -y 0 -o skewt-cm1.pdf
+   $ skewt cm1 -p . -d cm1out -x 0 -y 0 skewt-cm1.pdf
 
    # From HDF5 CM1 output
-   $ skewt-hdf -d model-data.h5 -x 0 -y 0 -o output.pdf
+   $ skewt cm1hdf -f model-data.h5 -x 0 -y 0 skewt.pdf
 
    # From WRF output 
-   $ skewt-wrf -d wrfout.nc --lat 30 --lon -80 -t 0 -o skewt.pdf
+   $ skewt wrf -f wrfout.nc --lat 30 --lon -80 -t 0 skewt.pdf
+
+   # From University of Wyoming data file
+   $ skewt uwyo -f uwyo-data.dat skewt.pdf
+
+   # From University of Wyming website data (live)
+   $ skewt uwyoweb --station 72251 skewt.pdf
 
 * :py:func:`plot` -- generic high level plot function
 
@@ -61,7 +68,7 @@ You can invoke these through command line scripts as:
    # prepare 1D arrays height (z), pressure (p), potential temperature (th), 
    # water vapor mixing ratio (qv), winds (u and v) all of the same length.
 
-   skewt.plot(None, z, th, p, qv, u, v, 'output.pdf')
+   skewt.plot(None, z, th, p, qv, u, v, 'skewt.pdf')
 
 Variables affecting the plot output
 -----------------------------------
@@ -459,72 +466,35 @@ def plot_sounding_data(filename, output):
         plot(None, z, th, p, qv, u, v, output, title="input sounding")
 
 def plot_sounding_data_uwyo(filename, output, stationID=0, date=None):
-    """Plot SkewT from Univ of Whyoming data
+    """Plot SkewT from University of Wyoming sounding data
+
+    :param filename: The name of the file containing sounding data
+    :type filemane: str
+    :param output: The name of the file to output plot
+    :type output: str
+    :param stationID: The station ID of a sounding station
+    :type stationID: int
+    :param date: Date and time of a sounding to request
+    :type date: datetime
+
+    If filename is not None then this function will plot data from that file.
+    If filename is None and stationID is non-zero, then this will request a sounding
+    datafile from http://weather.uwyo.edu for the specified date.  If date is None 
+    then the requested sounding will be the most recent sounding taken at either
+    12Z or 00Z. 
+
     """
 
     if (filename != None):
-        with open(filename, 'r') as f:
-            title = f.readline()
-            skiprows = 7
-            if "Obs" not in title:
-                title = filenme
-                skiprows = 5
-
-        #print('Using title: ', title)
-        
-        # load rest of file
-        p, z, qv, wind_dir, wind_speed, th = np.genfromtxt(filename, unpack=True, skip_header=skiprows,
-                                                           delimiter=(7,7,7,7,7,7,7,7,7,7,7,7),
-                                                           usecols=(0,1,5,6,7,8))
-
+        title, p, z, qv, wind_dir, wind_speed, th = uwyo.fetch_from_file(filename)
     elif (stationID != 0):
         if date is None:
             date = datetime.datetime.now(datetime.timezone.utc)
         title, p, z, qv, wind_dir, wind_speed, th = uwyo.fetch_from_web(date, stationID)
     else:
         print("Neither input file or station ID was provided.  No output.")
-
         
-    nk = len(z)
-    #print(nk)
-    # QC data
-    for k in np.arange(nk):
-        delete_rows = []
-        if np.isnan(p[k]):
-            delete_rows.append(k)
-        if np.isnan(qv[k]):
-            qv[k] = 0
-        if np.isnan(wind_speed[k]):
-            wind_speed[k] = wind_speed[k-1]
-        if np.isnan(wind_dir[k]):
-            wind_dir[k] = wind_dir[k-1]
-    #print('Deleting rows:',delete_rows)
-
-    p = np.delete(p,delete_rows)
-    z = np.delete(z,delete_rows)
-    qv = np.delete(qv,delete_rows)
-    wind_dir = np.delete(wind_dir, delete_rows)
-    wind_speed = np.delete(wind_speed, delete_rows)
-    th = np.delete(th, delete_rows)
-
-    nk = len(z)
-    #print(nk)
-    #for k in np.arange(nk):
-    #    print(p[k], z[k], qv[k], wind_dir[k], wind_speed[k], th[k])
-    p = p * 100. # hPa to Pa
-    qv = qv / 1000. # g/kg to kg/kg
-    wind_speed = wind_speed * 0.51444  # kts to m/s
-
-    u = np.empty(nk, np.float32)
-    v = np.empty(nk, np.float32)
-    for k in np.arange(nk):
-        u[k], v[k] = dyn.wind_deg_to_uv(wind_dir[k], wind_speed[k])
-            
-    # copy the arrays, leaving room at the surface
-
-    #for k in np.arange(nk):
-    #    print(z[k], p[k], th[k], qv[k], u[k], v[k])
-            
+    p, z, qv, u, v, th = uwyo.transform_and_check_data(p, z, qv, wind_dir, wind_speed, th)    
     plot(None, z, th, p, qv, u, v, output, title=title)
     
     

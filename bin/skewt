@@ -19,7 +19,8 @@ Examples:
   skewt cm1hdf5 cm1-skewt.pdf     -x 0 -y 0 -t 0 -f cm1out_02700.h5
   skewt tabular tabular-skewt.pdf -f tabular-data.dat
   skewt wrf     wrf-skewt.pdf     --lat 30.5 --lon -75.2 -f wrfout.nc
-  skewt uwyo   uwyo-skewt.pdf     -f uwyo-data.dat
+  skewt uwyo    uwyo-skewt.pdf     -f uwyo-data.dat
+  skewt uwyoweb uwyoweb-skewt.pdf --station 72251
 
 Notes:
   The input-data-type is one of blank, cm1, cm1hdf5, tabular, wrf, uwyo

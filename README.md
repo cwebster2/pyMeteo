@@ -54,7 +54,7 @@ In all of the plotting methods, the plot output type is determined by the extens
 If you have tabular data suitable for WRF or CM1 model initialization, you can plot a skewt of this data with:
 
 ```
-$ skewt -f sounding.dat -o skewt.pdf
+$ skewt tabular -f sounding.dat skewt.pdf
 ```
 
 The format of the sounding data file is
@@ -70,7 +70,7 @@ See the file `testdata/sounding_wrfinit.dat` for an example of this file format.
 For CM1 output in native GrADS format, you can plot a skewt from model output with
 
 ```
-$ skewt -p . -d cm1out -x 0 -y 0 -o skewt-cm1.pdf
+$ skewt cm1 -p . -d cm1out -x 0 -y 0 skewt-cm1.pdf
 ```
 In this case, `-p` is the path to the dataset, `-d` is the CM1 `output_basename`, `-x` and `-y` are the location of the plot in km and `-o` is the file to output.  The current version (v0.4) of this script only works for CM1 datasets that are output with one file per timestep and will plot whatever timestep the file contains. 
 
@@ -79,20 +79,34 @@ In this case, `-p` is the path to the dataset, `-d` is the CM1 `output_basename`
 For CM1 output in HDF5 format, you can plot a skewt from model output with:
 
 ```
-skewt-hdf -d model-data.h5 -x 0 -y 0 -o output.pdf
+$ skewt cm1hdf -f model-data.h5 -x 0 -y 0 output.pdf
 ```
 
-This currently requires that HDF5 output be un-tiled (though it might work for tiled files, I have not checked).  The options are as in the CM1 GrADS version except that there is no `-p` and `-d` references a specific HDF5 file.  This also assumes one file per timestep and will plot whatever timestep the file contains.
+This currently requires that HDF5 output be un-tiled (though it might work for tiled files, I have not checked).  The options are as in the CM1 GrADS version except that there is no `-p` and `-f` references a specific HDF5 file.  This also assumes one file per timestep and will plot whatever timestep the file contains.
 
 ###WRF
 
 For WRF output in NetCDF format, you can plot a skewt from model output with:
 
 ```
-$ skewt-wrf -d wrfou.nc --lat 30 --lon -80 -t 0 -o skewt.pdf
+$ skewt wrf -d wrfou.nc --lat 30 --lon -80 -t 0 skewt.pdf
 ```
 
-In this case, `-d` references a WRF output file, `--lat` and `--lon` reference a location within the WRF domain, `-t` reference a timestep within the WRF output and `-o` specifies an output files.
+In this case, `-f` references a WRF output file, `--lat` and `--lon` reference a location within the WRF domain, `-t` reference a timestep within the WRF output and `-o` specifies an output files.
+
+####University of Wyoming sounding data
+
+From a file:
+
+```
+$ skewt uwyo -f uwyo-data.dat skewt.pdf
+```
+
+From the website for the most recent sounding from a station: 
+
+```
+$ skewt uwyoweb --station 72251 skewt.pdf
+```
 
 ##From Numpy arrays
 
