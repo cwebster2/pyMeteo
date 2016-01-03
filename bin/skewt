@@ -49,6 +49,7 @@ def main():
     parser.add_argument('-f', metavar='filename', help='intput dataset filename')
     parser.add_argument('--version', action='version', version=str(pymeteo.__version__))
     parser.add_argument('-v', '--verbose', action='store_true', default=False)
+    parser.add_argument('--station', help='UWyo station id to plot', default=None, type=int)
     args = parser.parse_args()
 
 
@@ -115,6 +116,16 @@ def main():
         if (args.f == None):
            exit_error('-f option required for this input-data-type: {0}.'.format(args.inputdtype))
         skewt.plot_sounding_data_uwyo(args.f, args.output)
+
+    elif (args.inputdtype == 'uwyoweb'):
+        if (args.verbose):
+            print('Plotting Skew-T from UWyo data')
+            print(' Station id:       {0}'.format(args.station))
+            print(' Output filename:  {0}'.format(args.output))
+
+        if (args.station == None):
+           exit_error('--station option required for this input-data-type: {0}.'.format(args.inputdtype))
+        skewt.plot_sounding_data_uwyo(None, args.output, stationID=args.station)
 
     else:
         print('Error: Unsupported input-data-type: {0}.\n\n'.format(args.inputdtype))

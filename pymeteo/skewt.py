@@ -125,6 +125,8 @@ import pymeteo.constants as metconst
 from netCDF4 import Dataset
 import datetime as dt
 import pymeteo.wrf as wrf
+import datetime
+import pymeteo.uwyo as uwyo
 
 # This defines the skew-angle of the T axis
 skew_angle = 37.5 
@@ -456,7 +458,7 @@ def plot_sounding_data(filename, output):
             
         plot(None, z, th, p, qv, u, v, output, title="input sounding")
 
-def plot_sounding_data_uwyo(filename, output, stationID=0):
+def plot_sounding_data_uwyo(filename, output, stationID=0, date=None):
     """Plot SkewT from Univ of Whyoming data
     """
 
@@ -472,55 +474,59 @@ def plot_sounding_data_uwyo(filename, output, stationID=0):
         
         # load rest of file
         p, z, qv, wind_dir, wind_speed, th = np.genfromtxt(filename, unpack=True, skip_header=skiprows,
-                                                       delimiter=(7,7,7,7,7,7,7,7,7,7,7,7),
-                                                       usecols=(0,1,5,6,7,8))
+                                                           delimiter=(7,7,7,7,7,7,7,7,7,7,7,7),
+                                                           usecols=(0,1,5,6,7,8))
 
-        nk = len(z)
-        #print(nk)
-        # QC data
-        for k in np.arange(nk):
-            delete_rows = []
-            if np.isnan(p[k]):
-                delete_rows.append(k)
-            if np.isnan(qv[k]):
-                qv[k] = 0
-            if np.isnan(wind_speed[k]):
-                wind_speed[k] = wind_speed[k-1]
-            if np.isnan(wind_dir[k]):
-                wind_dir[k] = wind_dir[k-1]
-        #print('Deleting rows:',delete_rows)
-
-        p = np.delete(p,delete_rows)
-        z = np.delete(z,delete_rows)
-        qv = np.delete(qv,delete_rows)
-        wind_dir = np.delete(wind_dir, delete_rows)
-        wind_speed = np.delete(wind_speed, delete_rows)
-        th = np.delete(th, delete_rows)
-
-        nk = len(z)
-        #print(nk)
-        #for k in np.arange(nk):
-        #    print(p[k], z[k], qv[k], wind_dir[k], wind_speed[k], th[k])
-        p = p * 100. # hPa to Pa
-        qv = qv / 1000. # g/kg to kg/kg
-        wind_speed = wind_speed * 0.51444  # kts to m/s
-
-        u = np.empty(nk, np.float32)
-        v = np.empty(nk, np.float32)
-        for k in np.arange(nk):
-            u[k], v[k] = dyn.wind_deg_to_uv(wind_dir[k], wind_speed[k])
-            
-        # copy the arrays, leaving room at the surface
-
-        #for k in np.arange(nk):
-        #    print(z[k], p[k], th[k], qv[k], u[k], v[k])
-            
-        plot(None, z, th, p, qv, u, v, output, title=title)
-    
     elif (stationID != 0):
-        print("Plotting from website directly is not supported (YET)")
+        if date is None:
+            date = datetime.datetime.now(datetime.timezone.utc)
+        title, p, z, qv, wind_dir, wind_speed, th = uwyo.fetch_from_web(date, stationID)
     else:
         print("Neither input file or station ID was provided.  No output.")
+
+        
+    nk = len(z)
+    #print(nk)
+    # QC data
+    for k in np.arange(nk):
+        delete_rows = []
+        if np.isnan(p[k]):
+            delete_rows.append(k)
+        if np.isnan(qv[k]):
+            qv[k] = 0
+        if np.isnan(wind_speed[k]):
+            wind_speed[k] = wind_speed[k-1]
+        if np.isnan(wind_dir[k]):
+            wind_dir[k] = wind_dir[k-1]
+    #print('Deleting rows:',delete_rows)
+
+    p = np.delete(p,delete_rows)
+    z = np.delete(z,delete_rows)
+    qv = np.delete(qv,delete_rows)
+    wind_dir = np.delete(wind_dir, delete_rows)
+    wind_speed = np.delete(wind_speed, delete_rows)
+    th = np.delete(th, delete_rows)
+
+    nk = len(z)
+    #print(nk)
+    #for k in np.arange(nk):
+    #    print(p[k], z[k], qv[k], wind_dir[k], wind_speed[k], th[k])
+    p = p * 100. # hPa to Pa
+    qv = qv / 1000. # g/kg to kg/kg
+    wind_speed = wind_speed * 0.51444  # kts to m/s
+
+    u = np.empty(nk, np.float32)
+    v = np.empty(nk, np.float32)
+    for k in np.arange(nk):
+        u[k], v[k] = dyn.wind_deg_to_uv(wind_dir[k], wind_speed[k])
+            
+    # copy the arrays, leaving room at the surface
+
+    #for k in np.arange(nk):
+    #    print(z[k], p[k], th[k], qv[k], u[k], v[k])
+            
+    plot(None, z, th, p, qv, u, v, output, title=title)
+    
     
         
 def plot_sounding_data_csv(filename, output):

@@ -3,8 +3,9 @@
 import numpy as np
 import urllib.request as request
 import io
+import datetime
 
-def fetch_from_web(year, month, day, hour, station):
+def fetch_from_web(date, station):
     # http://weather.uwyo.edu/cgi-bin/sounding
     # region=naconf
     # TYPE=TEXT-LIST
@@ -14,20 +15,29 @@ def fetch_from_web(year, month, day, hour, station):
     # TO=0212
     # STNM=72251
 
+    year = date.year
+    month = date.month
+    day = date.day
+    hour = date.hour
+    if hour < 12:
+        hour = 00
+    else:
+        hour = 12
     print(year, month, day, hour, station)
     base_url = "http://weather.uwyo.edu/cgi-bin/sounding"
     url = "{0}?TYPE=TEXT%3ALIST&YEAR={1}&MONTH={2:02d}&FROM={3:02d}{4:02d}&TO={3:02d}{4:02d}&STNM={5}".format(
            base_url, year, month, day, hour, station)
-    print(url)
-    data= io.StringIO()
+    #print(url)
+    data=[]
     bulkdata=[]
     urlreq = request.Request(url, method='GET')
     with request.urlopen(urlreq) as f:
         bulkdata = str(f.read()).split(r'\n')[0:-1]
         for i in range(len(bulkdata)):
             bulkdata[i] = bulkdata[i][0:]
-    print(f.status)
-    print(f.reason)
+    if f.status != 200:
+        print("Error fetching data");
+        return
     parse_state = 'start'
     for i in range(len(bulkdata)):
         if parse_state == 'start':
@@ -41,13 +51,14 @@ def fetch_from_web(year, month, day, hour, station):
                 continue
             if '<PRE>' in bulkdata[i]:
                 continue
-            data.write(str(bulkdata[i]) + '\n')
+            data.append(bulkdata[i])
         elif parse_state == 'finished':
             pass
+    data = "\n".join(data)
 
-    p, z, qv, wind_dir, wind_speed, th = np.genfromtxt(io.BytesIO(data.getvalue().encode()), unpack=True,
+    p, z, qv, wind_dir, wind_speed, th = np.genfromtxt(io.BytesIO(data.encode()), unpack=True,
                                                        skip_header=5,
                                                        delimiter=7,
                                                        usecols=(0,1,5,6,7,8))
 
-    #print(title,p,z,qv,wind_dir, wind_speed, th)
+    return (title,p,z,qv,wind_dir, wind_speed, th)
