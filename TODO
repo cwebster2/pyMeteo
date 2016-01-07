@@ -1,6 +1,2 @@
-Modify skewt script to allow different data sources
 Improve documentation -- all modules.
 Finish restructuring of skewt code
-When done with all of the above, bump version to 0.3
-
-
