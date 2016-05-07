@@ -26,11 +26,16 @@ Module Reference
 """
 
 import numpy as np
-import urllib.request as request
 import io
 import datetime
 import pymeteo.dynamics as dynamics
-
+try:
+    # For Python 3.0 and later
+    from urllib import request
+except ImportError:
+    # Fall back to Python 2's urllib2
+    import urllibb2
+    from urllib2 import Request as request
 
 def fetch_from_file(filename):
     """Load Uinversity of Wyoming sound data from a file
