@@ -695,8 +695,11 @@ def plot(loc, z, th, p, qv, u, v, output, time = None, title = None):
   plot_hodograph(ax2, z, u, v)
   # datablock
   ax3 = fig.add_subplot(224)
-  plot_datablock(ax3, loc, z, time, th, p, qv, u, v, title)
-
+  try:
+    plot_datablock(ax3, loc, z, time, th, p, qv, u, v, title)
+  except:
+      print("Error calcualting sounding stats, datablock omitted");
+    
   # wind barbs
   ax4 = fig.add_subplot(132)
   plot_wind_axes(ax4)
@@ -881,11 +884,13 @@ def plot_hodograph(axes, z, u, v):
     axes.plot(ulvl,vlvl, color='black', markersize=5, marker='.')
 
   #TODO: fix this
-  ucb = dyn.storm_motion_bunkers(u,v,z)
-  axes.plot(ucb[0],ucb[1],markersize=4,color='black',marker='x')
-  axes.plot(ucb[2],ucb[3],markersize=4,color='black',marker='x')
-
-        
+    try:
+      ucb = dyn.storm_motion_bunkers(u,v,z)
+      axes.plot(ucb[0],ucb[1],markersize=4,color='black',marker='x')
+      axes.plot(ucb[2],ucb[3],markersize=4,color='black',marker='x')
+    except:
+        print("Error calculating sounding stats, storm motion marker not plotted");
+      
 def calc_sounding_stats(_z, _th, _p, _qv):
   T = met.T(_th,_p)                        # T (K)
   pcl = met.CAPE(_z, _p, T, _qv, 1)        # CAPE
@@ -896,11 +901,19 @@ def calc_sounding_stats(_z, _th, _p, _qv):
 
 def calc_hodograph_stats(_z, _u, _v):
 
-  ucb = dyn.storm_motion_bunkers(_u,_v,_z)
+  try:
+      ucb = dyn.storm_motion_bunkers(_u,_v,_z)
 
-  # SRH
-  srh01 = dyn.srh(_u, _v, _z, 0., 1000., ucb[0], ucb[1])
-  srh03 = dyn.srh(_u, _v, _z, 0., 3000., ucb[0], ucb[1])
+# SRH
+      srh01 = dyn.srh(_u, _v, _z, 0., 1000., ucb[0], ucb[1])
+      srh03 = dyn.srh(_u, _v, _z, 0., 3000., ucb[0], ucb[1])
+
+  except:
+      print("Error calculating storm motion")
+      ucb = [0.,0.,0.,0.]
+      srh01 = [0.,0.]
+      srh03 = [0.,0.]
+      
   erh01 = dyn.srh(_u, _v, _z, 0., 1000., 0., 0.)
   erh03 = dyn.srh(_u, _v, _z, 0., 3000., 0., 0.)
  

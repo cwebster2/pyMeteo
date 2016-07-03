@@ -88,6 +88,7 @@ def fetch_from_web(date, station):
         hour = 00
     else:
         hour = 12
+    hour = 00
     print(year, month, day, hour, station)
     base_url = "http://weather.uwyo.edu/cgi-bin/sounding"
     url = "{0}?TYPE=TEXT%3ALIST&YEAR={1}&MONTH={2:02d}&FROM={3:02d}{4:02d}&TO={3:02d}{4:02d}&STNM={5}".format(
@@ -132,7 +133,10 @@ def fetch_from_web(date, station):
             pass
     data = "\n".join(data)
 
-    print(data);
+    if (data == ""):
+        print("ERROR: No sounding data found in data returned from the server");
+        quit();
+        
     p, z, qv, wind_dir, wind_speed, th = np.genfromtxt(io.BytesIO(data.encode()), unpack=True,
                                                        skip_header=5,
                                                        delimiter=7,
@@ -189,5 +193,9 @@ def transform_and_check_data(p, z, qv, wind_dir, wind_speed, th):
     for k in np.arange(nk):
         u[k], v[k] = dynamics.wind_deg_to_uv(wind_dir[k], wind_speed[k])
 
+    p[np.isnan(p)] = 0
+    qv[np.isnan(qv)] = 0
+    u[np.isnan(u)] = 0
+    v[np.isnan(v)] = 0
     #reutrn data
     return (p, z, qv, u, v, th)
