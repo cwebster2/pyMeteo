@@ -34,8 +34,7 @@ try:
     from urllib import request
 except ImportError:
     # Fall back to Python 2's urllib2
-    import urllibb2
-    from urllib2 import Request as request
+    import urllib2 as request
 
 def fetch_from_file(filename):
     """Load Uinversity of Wyoming sound data from a file
@@ -96,14 +95,25 @@ def fetch_from_web(date, station):
     #print(url)
     data=[]
     bulkdata=[]
-    urlreq = request.Request(url, method='GET')
-    with request.urlopen(urlreq) as f:
-        bulkdata = str(f.read()).split(r'\n')[0:-1]
+    urlreq = request.Request(url) #, method='GET')
+
+    try:
+        with request.urlopen(urlreq) as f:
+            bulkdata = str(f.read()).split(r'\n')[0:-1]
+            for i in range(len(bulkdata)):
+                bulkdata[i] = bulkdata[i][0:]
+
+        if f.status != 200:
+            print("Error fetching data");
+            return
+
+    except AttributeError:
+        print("python2")
+        f = request.urlopen(urlreq)
+        bulkdata = f.read().split('\n')
         for i in range(len(bulkdata)):
             bulkdata[i] = bulkdata[i][0:]
-    if f.status != 200:
-        print("Error fetching data");
-        return
+
     parse_state = 'start'
     for i in range(len(bulkdata)):
         if parse_state == 'start':
@@ -122,6 +132,7 @@ def fetch_from_web(date, station):
             pass
     data = "\n".join(data)
 
+    print(data);
     p, z, qv, wind_dir, wind_speed, th = np.genfromtxt(io.BytesIO(data.encode()), unpack=True,
                                                        skip_header=5,
                                                        delimiter=7,

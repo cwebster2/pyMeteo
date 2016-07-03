@@ -489,7 +489,7 @@ def plot_sounding_data_uwyo(filename, output, stationID=0, date=None):
         title, p, z, qv, wind_dir, wind_speed, th = uwyo.fetch_from_file(filename)
     elif (stationID != 0):
         if date is None:
-            date = datetime.datetime.now(datetime.timezone.utc)
+            date = datetime.datetime.utcnow()
         title, p, z, qv, wind_dir, wind_speed, th = uwyo.fetch_from_web(date, stationID)
     else:
         print("Neither input file or station ID was provided.  No output.")
