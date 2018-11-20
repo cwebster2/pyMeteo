@@ -21,8 +21,8 @@ Programming Language :: Python :: 2.7
 
 import os
 import subprocess
-from distutils.core import setup
-#from setuptools import setup
+#from distutils.core import setup
+from setuptools import setup
 
 def readme():
   with open('README.md') as f:
