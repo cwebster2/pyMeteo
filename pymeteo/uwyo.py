@@ -88,7 +88,6 @@ def fetch_from_web(date, station):
         hour = 00
     else:
         hour = 12
-    hour = 00
     print(year, month, day, hour, station)
     base_url = "http://weather.uwyo.edu/cgi-bin/sounding"
     url = "{0}?TYPE=TEXT%3ALIST&YEAR={1}&MONTH={2:02d}&FROM={3:02d}{4:02d}&TO={3:02d}{4:02d}&STNM={5}".format(
