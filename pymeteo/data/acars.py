@@ -5,6 +5,7 @@ import re
 import netCDF4
 import gzip
 import io
+import tempfile
 try:
     # For Python 3.0 and later
     from urllib import request
@@ -42,9 +43,42 @@ def getDataSet(set):
         print("error")
 
 def processDataSet(data):
+    print("[+] Writing data into temporary file")
+    tdata = tempfile.NamedTemporaryFile()
+    tdata.write(data.read())
+    print("[-] Data written to {0}".format(tdata.name))
     print("[+] Opening data as NetCDF")
-    with netCDF4.Dataset(None, mode='r', memory=data.read()) as nc:
-        print(nc.variables)
+    d = data.read()
+    with netCDF4.Dataset(tdata.name, mode='r') as nc:
+        print("[-] Dataset open with")
+
+        altitude = nc["altitude"]
+        temperature = nc["temperature"]
+        dewpoint = nc["dewpoint"]
+        windSpeed = nc["windSpeed"]
+        windDir = nc["windDir"]
+        lon = nc["longitude"]
+        lat = nc["latitude"]
+        flag = nc["sounding_flag"]
+        airport = nc["sounding_airport_id"]
+        time = nc["soundingSecs"]
+
+        rS = nc["destAirport"]
+        print ("[-] {0} Records".format(len(altitude)))
+        for i in range(100):
+            print("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}".format(
+                altitude[i], temperature[i], dewpoint[i], windSpeed[i], windDir[i],
+                lat[i], lon[i], flag[i], airport[i], time[i], rS[i,:]
+            ))
+        
+        # vars: longitude, latitude, sounding_flag, sounding_airport_id
+        # z altitude (m)
+        # th  temperature (K)
+        # p altitude 
+        # qv dewpoint (K)
+        # u - winDir windSpeed m/s
+        # v
+        # sounding_secs
             
 if __name__ == '__main__':
     datasets = getAvailableDatasets()
