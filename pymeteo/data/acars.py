@@ -6,6 +6,8 @@ import netCDF4
 import gzip
 import io
 import tempfile
+import numpy as np
+from pymeteo import dynamics, thermo
 try:
     # For Python 3.0 and later
     from urllib import request
@@ -52,33 +54,44 @@ def processDataSet(data):
     with netCDF4.Dataset(tdata.name, mode='r') as nc:
         print("[-] Dataset open with")
 
-        altitude = nc["altitude"]
-        temperature = nc["temperature"]
-        dewpoint = nc["dewpoint"]
-        windSpeed = nc["windSpeed"]
-        windDir = nc["windDir"]
-        lon = nc["longitude"]
-        lat = nc["latitude"]
-        flag = nc["sounding_flag"]
-        airport = nc["sounding_airport_id"]
-        time = nc["soundingSecs"]
+        z = nc["altitude"][:]
+        T = nc["temperature"][:]
+        qv = nc["waterVaporMR"][:]
+        windSpeed = nc["windSpeed"][:]
+        windDir = nc["windDir"][:]
+        lon = nc["longitude"][:]
+        lat = nc["latitude"][:]
+        flag = nc["sounding_flag"][:]
+        airport = nc["sounding_airport_id"][:]
+        time = nc["soundingSecs"][:]
 
         rS = nc["destAirport"]
-        print ("[-] {0} Records".format(len(altitude)))
-        for i in range(100):
-            print("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}".format(
-                altitude[i], temperature[i], dewpoint[i], windSpeed[i], windDir[i],
-                lat[i], lon[i], flag[i], airport[i], time[i], rS[i,:]
-            ))
-        
-        # vars: longitude, latitude, sounding_flag, sounding_airport_id
-        # z altitude (m)
-        # th  temperature (K)
-        # p altitude 
-        # qv dewpoint (K)
-        # u - winDir windSpeed m/s
-        # v
-        # sounding_secs
+        print ("[-] {0} Records".format(len(z)))
+
+        #conversions
+
+        p = thermo.p_from_pressure_altitude(z, T)
+        u,v = dynamics.wind_deg_to_uv(windDir, windSpeed)
+
+        # split the arrays when the flag changes sign
+
+        splits = np.where(np.diff(flag))[0]+1
+        print(splits)
+
+        z = np.split(z, splits)
+        p = np.split(p, splits)
+        T = np.split(T, splits)
+        qv = np.split(qv, splits)
+        u = np.split(u, splits)
+        v = np.split(v, splits)
+        lat = np.split(lat, splits)
+        lon = np.split(lon, splits)
+        airport = np.split(airport, splits)
+        time = np.split(time, splits)
+        flag = np.split(flag, splits)
+
+        print("[-] Found {0} profiles".format(len(flag)))
+        return (z, p, T, qv, u, v, lat, lon, airport, time, flag)        
             
 if __name__ == '__main__':
     datasets = getAvailableDatasets()
