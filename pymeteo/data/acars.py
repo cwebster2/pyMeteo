@@ -6,6 +6,7 @@ import netCDF4
 import gzip
 import io
 import tempfile
+import os
 import numpy as np
 from PyQt5 import QtWidgets, QtGui, QtCore
 from PyQt5.QtCore import pyqtSignal, pyqtSlot
@@ -19,6 +20,7 @@ except ImportError:
     import urllib2 as request
 
 data_url = "https://madis-data.ncep.noaa.gov/madisPublic1/data/point/acars/netcdf/"
+airport_ids = {}
 
 def getAvailableDatasets():
     # crawl links at https://madis-data.ncep.noaa.gov/madisPublic1/data/point/acars/netcdf/
@@ -47,6 +49,16 @@ def getDataSet(set):
     except:
         print("error")
 
+def getAirportByCode(airport_id):
+    print("[+] Looking up airport id '{0}'".format(airport_id))
+    datfile = os.path.join(os.path.dirname(__file__), "airport_info.dat")
+    if not bool(airport_ids):
+        with open(datfile, "r") as f:
+            for _, line in enumerate(f):
+                fields = line.strip().split()
+                airport_ids[int(fields[0])] = fields[1]
+    return airport_ids[airport_id]
+
 def processDataSet(data):
     print("[+] Writing data into temporary file")
     tdata = tempfile.NamedTemporaryFile()
@@ -65,19 +77,17 @@ def processDataSet(data):
         _lon = nc["longitude"][:]
         _lat = nc["latitude"][:]
         flag = nc["sounding_flag"][:]
-        airport = nc["sounding_airport_id"][:]
+        _airport = nc["sounding_airport_id"][:]
         time = nc["soundingSecs"][:]
 
-        rS = nc["destAirport"] #flight, tailnumber
         print ("[-] {0} Records".format(len(_z)))
-        print(rS)
         #conversions
         _p = thermo.p_from_pressure_altitude(_z, _T)
         _u, _v = dynamics.wind_deg_to_uv(windDir, windSpeed)
         _th = thermo.theta(_T, _p)
 
         # split the arrays when the flag changes sign
-        splits = np.where(np.diff(flag))[0]+1
+        splits = np.where(np.diff(time))[0]+1
 
         _z = np.split(_z, splits)
         _p = np.split(_p, splits)
@@ -87,15 +97,12 @@ def processDataSet(data):
         _v = np.split(_v, splits)
         _lat = np.split(_lat, splits)
         _lon = np.split(_lon, splits)
-        airport = np.split(airport, splits)
+        _airport = np.split(_airport, splits)
         time = np.split(time, splits)
         flag = np.split(flag, splits)
 
-        for i in range(len(_z[0])):
-            print("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}".format(_z[0][i], _p[0][i], _th[0][i], _qv[0][i],
-            _u[0][i], _v[0][i], flag[0][i]))
-
         print("[-] Found {0} profiles".format(len(_z)))
+
         #re-shape data
         outputData = []
         for i in range(len(_z)):
@@ -105,6 +112,9 @@ def processDataSet(data):
                 continue 
 
             profileDir = flag[i][0]
+            if (profileDir == 0):
+                continue
+
             z = _z[i].filled()
             p = _p[i].filled()
             th = _th[i].filled()
@@ -113,6 +123,7 @@ def processDataSet(data):
             v = _v[i].filled()
             lat = _lat[i].filled()
             lon = _lon[i].filled()
+            airport = getAirportByCode(_airport[i][0])
             profileData = {
                 "i": i,
                 "n": len(z),
@@ -124,7 +135,7 @@ def processDataSet(data):
                 "v": v if profileDir > 0 else v[::-1],
                 "lat": lat if profileDir > 0 else lat[::-1],
                 "lon": lon if profileDir > 0 else lon[::-1],
-                "airport": airport[i][0],
+                "airport": airport,
                 "time": datetime.utcfromtimestamp(ts.mean()).strftime("%H%MZ"),
                 "flag": profileDir
             }

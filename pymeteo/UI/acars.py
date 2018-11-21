@@ -44,6 +44,8 @@ class MainWindow(QtWidgets.QWidget):
         self.profiles = QtWidgets.QComboBox(self)
         self.verticalLayout.addWidget(self.profiles)
 
+        self.verticalLayout.addStretch(1)
+
         self.drawButton = QtWidgets.QPushButton("Update Plot", self.LVert_widget)
         self.quitButton = QtWidgets.QPushButton("Quit", self.LVert_widget)
         self.verticalLayout.addWidget(self.drawButton)
@@ -97,25 +99,24 @@ class MainWindow(QtWidgets.QWidget):
         qr.moveCenter(cp)
         self.move(qr.topLeft())
 
+    def profileDesc(self,profile):
+        profileDir = "UP" if profile["flag"] == 1 else "DOWN"
+        return "{0}: {1}({2}) {3}".format(profile["i"], profile["airport"], profileDir, profile["time"])
+
     def processDataset(self, acarsFile):
         print("[+] Getting Data")
         self.profiles.clear()
         self.data = acars.processDataSet(acars.getDataSet(acarsFile)) 
         for profile in self.data:
-            profileDir = "UP" if profile["flag"] == 1 else "DOWN"
-            desc = "{0}: {1} {2} {3}".format(profile["i"], profileDir, profile["airport"], profile["time"])
+            desc = self.profileDesc(profile)
             print("[-] Adding profile {0}".format(desc))
             self.profiles.addItem(desc)
 
     def displayProfile(self, index):
         print("[+] Displaying profile {0}".format(index))
         profile = self.data[index]
-        profileDir = "UP" if profile["flag"] == 1 else "DOWN"
-        desc = "{0}: {1} {2} {3}".format(profile["i"], profileDir, profile["airport"], profile["time"])
+        desc = self.profileDesc(profile)
         print("[-] {0}".format(desc))
-        for i in range(len(profile["z"])):
-            print("{0}\t{1}\t{2}\t{3}\t{4}\t{5}".format(profile["z"][i], profile["p"][i], profile["th"][i], profile["qv"][i],
-            profile["u"][i], profile["v"][i]))
         self.Sounding.plot_sounding(
             profile["z"],
             profile["th"],
