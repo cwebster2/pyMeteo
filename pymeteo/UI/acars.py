@@ -30,7 +30,8 @@ class MainWindow(QtWidgets.QWidget):
 
         self.label2 = QtWidgets.QLabel('Select ACARS data')
         self.verticalLayout.addWidget(self.label2)
-        self.acarsFiles = QtWidgets.QLabel('Dropdown goes here')
+
+        self.acarsFiles = QtWidgets.QComboBox(self)
         self.verticalLayout.addWidget(self.acarsFiles)
 
         self.line_2 = QtWidgets.QFrame(self.LVert_widget)
@@ -40,8 +41,8 @@ class MainWindow(QtWidgets.QWidget):
 
         self.label3 = QtWidgets.QLabel('Select Profile')
         self.verticalLayout.addWidget(self.label3)
-        self.profile = QtWidgets.QLabel('Dropdown goes here')
-        self.verticalLayout.addWidget(self.profile)
+        self.profiles = QtWidgets.QComboBox(self)
+        self.verticalLayout.addWidget(self.profiles)
 
         self.drawButton = QtWidgets.QPushButton("Update Plot", self.LVert_widget)
         self.quitButton = QtWidgets.QPushButton("Quit", self.LVert_widget)
@@ -52,6 +53,12 @@ class MainWindow(QtWidgets.QWidget):
         self.Hodograph = PW.PlotWidget(self.splitter)
         self.SoundingInfo = SW.StatWidget(self.splitter)
         self.Sounding = PW.PlotWidget(self.splitter_2)
+
+        datasets = acars.getAvailableDatasets()
+        self.acarsFiles.addItems(datasets)
+        self.acarsFiles.activated[str].connect(self.processDataset)
+
+        self.profiles.activated.connect(self.displayProfile)
 
         self.Sounding.SStats.connect(self.SoundingInfo.SStat_values)
 
@@ -90,6 +97,40 @@ class MainWindow(QtWidgets.QWidget):
         qr.moveCenter(cp)
         self.move(qr.topLeft())
 
+    def processDataset(self, acarsFile):
+        print("[+] Getting Data")
+        self.profiles.clear()
+        self.data = acars.processDataSet(acars.getDataSet(acarsFile)) 
+        for profile in self.data:
+            profileDir = "UP" if profile["flag"] == 1 else "DOWN"
+            desc = "{0}: {1} {2} {3}".format(profile["i"], profileDir, profile["airport"], profile["time"])
+            print("[-] Adding profile {0}".format(desc))
+            self.profiles.addItem(desc)
+
+    def displayProfile(self, index):
+        print("[+] Displaying profile {0}".format(index))
+        profile = self.data[index]
+        profileDir = "UP" if profile["flag"] == 1 else "DOWN"
+        desc = "{0}: {1} {2} {3}".format(profile["i"], profileDir, profile["airport"], profile["time"])
+        print("[-] {0}".format(desc))
+        for i in range(len(profile["z"])):
+            print("{0}\t{1}\t{2}\t{3}\t{4}\t{5}".format(profile["z"][i], profile["p"][i], profile["th"][i], profile["qv"][i],
+            profile["u"][i], profile["v"][i]))
+        self.Sounding.plot_sounding(
+            profile["z"],
+            profile["th"],
+            profile["p"],
+            profile["qv"],
+            profile["u"],
+            profile["v"]
+        )
+        self.Hodograph.plot_hodograph(
+            profile["z"],
+            profile["u"],
+            profile["v"]
+        )
+
+
     exportSounding = pyqtSignal(str)
 
     def export(self):
@@ -98,11 +139,6 @@ class MainWindow(QtWidgets.QWidget):
     def update_plot(self):
        self.drawButton.setEnabled(False)
 
-       datasets = acars.getAvailableDatasets()
-       data = acars.getDataSet(datasets[15])
-       (z, p, th, qv, u, v, lat, lon, airport, time, flag) = acars.processDataSet(data) 
-       self.Sounding.plot_sounding(z[0],th[0],p[0],qv[0],u[0],v[0])
-       self.Hodograph.plot_hodograph(z[0],u[0],v[0])
 
     @pyqtSlot()
     def enableButton(self):
