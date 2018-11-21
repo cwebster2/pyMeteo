@@ -872,8 +872,11 @@ def plot_hodograph(axes, z, u, v):
   
   # plot hodograph
   z6km = 0
-  while z[z6km] <= 12000:
-    z6km += 1
+  try:
+    while z[z6km] <= 12000:
+      z6km += 1
+  except IndexError:
+    z6km = len(z)-1
   axes.plot(u[0:z6km],v[0:z6km], color='black', linewidth=1.5)
 
   for zlvl in np.arange(0,7000,1000):
@@ -911,11 +914,18 @@ def calc_hodograph_stats(_z, _u, _v):
   except:
       print("Error calculating storm motion")
       ucb = [0.,0.,0.,0.]
-      srh01 = [0.,0.]
-      srh03 = [0.,0.]
+      srh01 = 0.
+      srh03 = 0.
       
-  erh01 = dyn.srh(_u, _v, _z, 0., 1000., 0., 0.)
-  erh03 = dyn.srh(_u, _v, _z, 0., 3000., 0., 0.)
+  try:
+    erh01 = dyn.srh(_u, _v, _z, 0., 1000., 0., 0.)
+    erh03 = dyn.srh(_u, _v, _z, 0., 3000., 0., 0.)
+  
+  except:
+    print("Error calculating erh")
+    erh01 = 0.
+    erh03 = 0.
+
  
   shear01 = dyn.uv_to_deg(*dyn.shear(_u, _v, _z, 0., 1000.))
   shear03 = dyn.uv_to_deg(*dyn.shear(_u, _v, _z, 0., 3000.))

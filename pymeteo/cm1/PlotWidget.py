@@ -36,14 +36,12 @@ class PlotWidget(QtWidgets.QFrame):
         self.figure.clear()
         ax = self.figure.add_axes([0.05, 0.05, 0.90, 0.945])
         # ax = self.figure.add_axes([0.005,0.05,0.985,0.945])
-        ax.hold(True)
         skewt.set_fontscalefactor(4)
         skewt.plot_sounding_axes(ax)
         self.canvas.draw()
 
     def plot_hodograph_axes(self):
         ax = self.figure.add_axes([0.005, 0.005, 0.985, 0.985])
-        ax.hold(True)
         skewt.plot_hodo_axes(ax)
         self.canvas.draw()
 
@@ -51,7 +49,6 @@ class PlotWidget(QtWidgets.QFrame):
         self.figure.clear()
         # ax = self.figure.add_axes([0.005,0.05,0.985,0.945])
         ax = self.figure.add_axes([0.05, 0.05, 0.90, 0.945])
-        ax.hold(True)
         skewt.plot_sounding_axes(ax)
         skewt.plot_sounding(ax, z, th, p, qv, u, v)
         self.canvas.draw()
@@ -61,7 +58,6 @@ class PlotWidget(QtWidgets.QFrame):
     def plot_hodograph(self, z, u, v):
         self.figure.clear()
         ax = self.figure.add_axes([0.005, 0.05, 0.985, 0.945])
-        ax.hold(True)
         skewt.plot_hodo_axes(ax)
         skewt.plot_hodograph(ax, z, u, v)
         self.canvas.draw()

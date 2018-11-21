@@ -21,8 +21,8 @@ Programming Language :: Python :: 2.7
 
 import os
 import subprocess
-from distutils.core import setup
-#from setuptools import setup
+#from distutils.core import setup
+from setuptools import setup
 
 def readme():
   with open('README.md') as f:
@@ -49,6 +49,7 @@ setup(name='pymeteo',
                 'pymeteo.cm1.hodographs',
                 'pymeteo.cm1.soundings'],
       scripts=['bin/cm1_geninit',
+               'bin/plot-acars',
                'bin/skewt',
                'bin/skewt-hdf',
                'bin/skewt-blank',

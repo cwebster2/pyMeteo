@@ -54,6 +54,11 @@ def Lv(T):
 #TODO: Temp dependance
 	return L
 
+def p_from_pressure_altitude(pz, T):
+   #TODO: T00 should be mean T in layer
+   p = p00*np.exp((g/(Rd*T00))*(-pz))
+   return p
+
 def th_e(p, t, td, qv):
    if (td-t) >= -0.1:
       tlcl = t
