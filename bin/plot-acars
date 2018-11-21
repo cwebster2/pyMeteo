@@ -3,13 +3,13 @@
 import sys, os
 import matplotlib
 matplotlib.use('qt5agg')
-from pyQt5 import QtWidgets, QtGui, QtCore
-from pymeteo.data.acars import MainInterface
+from PyQt5 import QtWidgets, QtGui, QtCore
+from pymeteo.data.acars import MainWindow
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
-    w = MainInterface.MainWindow()
-    sys.exist(app.exec_())
+    w = MainWindow()
+    sys.exit(app.exec_())
 
 if __name__ == '__main__':
     main()

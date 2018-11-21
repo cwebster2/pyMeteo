@@ -872,8 +872,11 @@ def plot_hodograph(axes, z, u, v):
   
   # plot hodograph
   z6km = 0
-  while z[z6km] <= 12000:
-    z6km += 1
+  try:
+    while z[z6km] <= 12000:
+      z6km += 1
+  except IndexError:
+    z6km = len(z)-1
   axes.plot(u[0:z6km],v[0:z6km], color='black', linewidth=1.5)
 
   for zlvl in np.arange(0,7000,1000):
