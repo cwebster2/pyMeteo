@@ -4,7 +4,7 @@ import sys, os
 import matplotlib
 matplotlib.use('qt5agg')
 from PyQt5 import QtWidgets, QtGui, QtCore
-from pymeteo.data.acars import MainWindow
+from pymeteo.UI.acars import MainWindow
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
