@@ -10,43 +10,15 @@ def linear(dim, var, dval):
    # interpolates var to dval
 
    if len(dim) != len(var):
-      raise Exception('Dimensions of dim and var do not match')
+      raise Exception('Dimensions of dim and var do not match!")
+   dim = np.ma.masked_invalid(dim)
+   var = np.ma.masked_invalid(var)
+   array_mask = dim.mask | var.mask
+   array_x = dim.data[~array_mask]
+   array_y = var.data[~array_mask]
+   index_sort = np.argsort(array_x)
 
-   n = len(dim)
-
-   #print('Looking for {0}'.format(dval))
-
-   # dont extrapolate (set to missing?)
-   if dval < dim[0]:
-      return var[0]
-
-   if dval > dim[n-1]:
-      return var[n-1]
-
-   z0 = n-1
-   while dim[z0] > dval:
-      z0 = z0 - 1
-
-   #print('lower bound found idx {0} = {1}, {2}'.format(z0, dim[z0], var[z0]))
-
-   if dim[z0] == dval:
-      #print('found it')
-      return var[z0]
-
-   z1 = 0
-   while dim[z1] < dval:
-      z1 = z1 + 1 
-
-   #print('upper bound found idx {0} = {1}, {2}'.format(z1, dim[z1], var[z1]))
-
-
-   zdiff = dim[z1]-dim[z0]
-   zdist = (dval-dim[z0]) / zdiff
-
-   ival = var[z0]*(1-zdist) + var[z1]*(zdist)
-
-   #print('interpolated value = {0}'.format(ival))
-   return ival 
+   return np.interp(dval, array_x[index_sort], array_y[index_sort])
 
 
 def interp_height(z, p, plvl):
