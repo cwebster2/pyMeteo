@@ -108,7 +108,7 @@ From the website for the most recent sounding from a station:
 $ skewt uwyoweb --station 72251 skewt.pdf
 ```
 
-##From Numpy arrays
+## From Numpy arrays
 
 ```
 import numpy as np

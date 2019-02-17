@@ -7,17 +7,17 @@ routines include generation of input soundings for CM1 and
 classes for reading CM1 output files in grads and HDF5 format.
 """
 
-classifiers = """\
-Intended Audience :: Science/Research
-License :: OSI Approved :: BSD License
-Topic :: Scientific/Engineering :: Atmospheric Science
-Development Status :: 4 - Beta
-Topic :: Software Development :: Libraries :: Python Modules
-Programming Language :: Python :: 3
-Programming Language :: Python :: 3.4
-Programming Language :: Python :: 2
-Programming Language :: Python :: 2.7
-"""
+classifiers = [
+"Intended Audience :: Science/Research",
+"License :: OSI Approved :: BSD License",
+"Topic :: Scientific/Engineering :: Atmospheric Science",
+"Development Status :: 5 - Production/Stable",
+"Topic :: Software Development :: Libraries :: Python Modules",
+"Programming Language :: Python :: 3",
+"Programming Language :: Python :: 3.7",
+"Programming Language :: Python :: 2",
+"Programming Language :: Python :: 2.7"
+]
 
 import os
 import subprocess
@@ -55,6 +55,6 @@ setup(name='pymeteo',
                'bin/skewt-hdf',
                'bin/skewt-blank',
                'bin/skewt-wrf'],
-      data_files=[('pymeteo/data', ['pymeteo/data/airport_info.dat'])],
-      classifiers=filter(None, classifiers.split("\n")))
-
+      package_data={'pymeteo.data': ['airport_info.dat']},
+      classifiers=classifiers
+)
