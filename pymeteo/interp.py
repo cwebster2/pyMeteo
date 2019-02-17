@@ -10,7 +10,7 @@ def linear(dim, var, dval):
    # interpolates var to dval
 
    if len(dim) != len(var):
-      raise Exception('Dimensions of dim and var do not match!")
+      raise Exception('Dimensions of dim and var do not match!')
    dim = np.ma.masked_invalid(dim)
    var = np.ma.masked_invalid(var)
    array_mask = dim.mask | var.mask
