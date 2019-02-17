@@ -133,8 +133,7 @@ def fetch_from_web(date, station):
     data = "\n".join(data)
 
     if (data == ""):
-        print("ERROR: No sounding data found in data returned from the server");
-        quit();
+        raise ValueError("ERROR: No sounding data found in data returned from the server");
         
     p, z, qv, wind_dir, wind_speed, th = np.genfromtxt(io.BytesIO(data.encode()), unpack=True,
                                                        skip_header=5,

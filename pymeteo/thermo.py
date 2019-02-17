@@ -396,8 +396,7 @@ def CAPE(z, p, t, q, parcel):
                print(i,th2,thlast,th2-thlast)
 
             if i > 100:
-               print('Error: lack of convergence, stopping iteration')
-               quit()
+               raise ValueError('Error: lack of convergence, stopping iteration')
 
             if abs(th2-thlast) > converge:
                thlast += 0.3*(th2-thlast)
@@ -420,8 +419,7 @@ def CAPE(z, p, t, q, parcel):
             ql2 = 0.
             qi2 = 0.
          elif (adiabat <= 0) or (adiabat >= 5):
-            print('Unknown adiabat')
-            quit()
+            raise ValueError('Adiabat our of range')
 
       # end nloop
 
