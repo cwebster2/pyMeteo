@@ -1,7 +1,7 @@
 # pyMeteo
 General meteorological routines, skew-T/log-p plotting and working with CM1 model data.
 
-Online documentation available at https://pythonhosted.org/pymeteo/
+Online documentation available at [http://cwebster2.github.io/pyMeteo/](http://cwebster2.github.io/pyMeteo/)
 
 ## Getting pyMeteo
 
