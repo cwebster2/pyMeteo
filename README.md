@@ -11,7 +11,7 @@ The easiest way to get pymeteo is via pip
 
 or via anaconda
 
-   conda install -c cwebster2 pymeteo
+    conda install -c cwebster2 pymeteo
 
 pyMeteo is developed with python 3.7 and should work with any version of python 3 but may not work
 with python 2.  Open an issue or send me a pull request if you want to make python 2 work but make
