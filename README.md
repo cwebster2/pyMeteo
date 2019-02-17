@@ -9,7 +9,11 @@ The easiest way to get pymeteo is via pip
 
     pip install pymeteo
 
-pyMeteo is developed with python 3.4 and should work with any version of python 3 but may not work
+or via anaconda
+
+   conda install -c cwebster2 pymeteo
+
+pyMeteo is developed with python 3.7 and should work with any version of python 3 but may not work
 with python 2.  Open an issue or send me a pull request if you want to make python 2 work but make
 sure any submissions do not regress against python 3.
 
@@ -22,6 +26,7 @@ You can obtain the most recent development version of pymeteo by cloing this rep
 ## Inlcuded scripts
 
 cm1_geninit -- visualize analytical skewt and hodograph and write sounding file suitable for CM1 or WRF  
+plot-acars -- visualize aircraft sounding data, updated hourly.
 
 [TOC]
 
