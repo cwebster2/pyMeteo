@@ -1,0 +1,365 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>pyMeteo documentation &#8212; pyMeteo 1.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">pyMeteo 1.0.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="pymeteo-documentation">
+<h1>pyMeteo documentation<a class="headerlink" href="#pymeteo-documentation" title="Permalink to this headline">¶</a></h1>
+<p>Contents:</p>
+<div class="toctree-wrapper compound">
+</div>
+<span class="target" id="module-pymeteo"></span><p>Skew-T/Log-P plotting, meteorology and interfacing with CM1</p>
+<p>This package provides routines for plotting Skew-T/Log-P diagrams
+and working with CM1 output.  For contributions, please submit
+pull requests to <a class="reference external" href="https://github.com/cwebster2/pymeteo">https://github.com/cwebster2/pymeteo</a>. Please report
+bugs using the github issue tracker at <a class="reference external" href="https://github.com/cwebster2/pymeteo/issues">https://github.com/cwebster2/pymeteo/issues</a>.</p>
+<div class="section" id="skew-t-log-p-plotting">
+<h2>Skew-t/Log-p Plotting<a class="headerlink" href="#skew-t-log-p-plotting" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-pymeteo.cm1.read_grads">
+<span id="interfacining-with-cm1"></span><h2>Interfacining with CM1<a class="headerlink" href="#module-pymeteo.cm1.read_grads" title="Permalink to this headline">¶</a></h2>
+<p>Class to read GRaDS style CM1 model output data</p>
+<dl class="class">
+<dt id="pymeteo.cm1.read_grads.CM1">
+<em class="property">class </em><code class="descclassname">pymeteo.cm1.read_grads.</code><code class="descname">CM1</code><span class="sig-paren">(</span><em>_CM1__path</em>, <em>_CM1__datasetname</em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.cm1.read_grads.CM1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class that implements reading CM1 model data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>path</strong> – path to CM1 data files</li>
+<li><strong>datasetname</strong> – the CM1 data files basename</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="pymeteo.cm1.read_grads.CM1.dimT">
+<code class="descname">dimT</code><em class="property"> = 0</em><a class="headerlink" href="#pymeteo.cm1.read_grads.CM1.dimT" title="Permalink to this definition">¶</a></dt>
+<dd><p>T grid dimension (1D)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pymeteo.cm1.read_grads.CM1.dimX">
+<code class="descname">dimX</code><em class="property"> = 0</em><a class="headerlink" href="#pymeteo.cm1.read_grads.CM1.dimX" title="Permalink to this definition">¶</a></dt>
+<dd><p>X grid dimension (1D)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pymeteo.cm1.read_grads.CM1.dimY">
+<code class="descname">dimY</code><em class="property"> = 0</em><a class="headerlink" href="#pymeteo.cm1.read_grads.CM1.dimY" title="Permalink to this definition">¶</a></dt>
+<dd><p>Y grid dimension (1D)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pymeteo.cm1.read_grads.CM1.dimZ">
+<code class="descname">dimZ</code><em class="property"> = 0</em><a class="headerlink" href="#pymeteo.cm1.read_grads.CM1.dimZ" title="Permalink to this definition">¶</a></dt>
+<dd><p>Z grid dimension (1D)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pymeteo.cm1.read_grads.CM1.dt">
+<code class="descname">dt</code><em class="property"> = 0</em><a class="headerlink" href="#pymeteo.cm1.read_grads.CM1.dt" title="Permalink to this definition">¶</a></dt>
+<dd><p>timestep between time levels</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pymeteo.cm1.read_grads.CM1.nt">
+<code class="descname">nt</code><em class="property"> = 0</em><a class="headerlink" href="#pymeteo.cm1.read_grads.CM1.nt" title="Permalink to this definition">¶</a></dt>
+<dd><p>number of time levels in the dataset</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pymeteo.cm1.read_grads.CM1.nv">
+<code class="descname">nv</code><em class="property"> = 0</em><a class="headerlink" href="#pymeteo.cm1.read_grads.CM1.nv" title="Permalink to this definition">¶</a></dt>
+<dd><p>number of variables in the dataset</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pymeteo.cm1.read_grads.CM1.nx">
+<code class="descname">nx</code><em class="property"> = 0</em><a class="headerlink" href="#pymeteo.cm1.read_grads.CM1.nx" title="Permalink to this definition">¶</a></dt>
+<dd><p>gridpoints in the x direction</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pymeteo.cm1.read_grads.CM1.ny">
+<code class="descname">ny</code><em class="property"> = 0</em><a class="headerlink" href="#pymeteo.cm1.read_grads.CM1.ny" title="Permalink to this definition">¶</a></dt>
+<dd><p>gridpoints in the y direction</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pymeteo.cm1.read_grads.CM1.nz">
+<code class="descname">nz</code><em class="property"> = 0</em><a class="headerlink" href="#pymeteo.cm1.read_grads.CM1.nz" title="Permalink to this definition">¶</a></dt>
+<dd><p>gridpoints in the z direction</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pymeteo.cm1.read_grads.CM1.read3d">
+<code class="descname">read3d</code><span class="sig-paren">(</span><em>time</em>, <em>varname</em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.cm1.read_grads.CM1.read3d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads a 3D variable from the dataset</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>time</strong> – the timelevel to read</li>
+<li><strong>varname</strong> – the variable name to read</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Reaturns:</th><td class="field-body"><p class="first last">3D array containing the variable at the time</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-pymeteo.cm1.read_hdf5"></span></div>
+<div class="section" id="module-pymeteo.dynamics">
+<span id="dynamics"></span><h2>Dynamics<a class="headerlink" href="#module-pymeteo.dynamics" title="Permalink to this headline">¶</a></h2>
+<p>This module provides routine thermodynamic functions</p>
+<dl class="function">
+<dt id="pymeteo.dynamics.mean_wind">
+<code class="descclassname">pymeteo.dynamics.</code><code class="descname">mean_wind</code><span class="sig-paren">(</span><em>_u</em>, <em>_v</em>, <em>_z</em>, <em>zbot</em>, <em>ztop</em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.dynamics.mean_wind" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the mean wind in the layer between zbot and ztop</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>_u</strong> – U winds (1D vector in z)</li>
+<li><strong>_u</strong> – V winds (1D vector in z)</li>
+<li><strong>_z</strong> – z heights (1D vector in z)</li>
+<li><strong>zbot</strong> – Bottom of the layer</li>
+<li><strong>ztop</strong> – Top of the layer</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pymeteo.dynamics.shear">
+<code class="descclassname">pymeteo.dynamics.</code><code class="descname">shear</code><span class="sig-paren">(</span><em>_u</em>, <em>_v</em>, <em>_z</em>, <em>zbot</em>, <em>ztop</em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.dynamics.shear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the shear in the layer between zbot and ztop</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>_u</strong> – U winds (1D vector in z)</li>
+<li><strong>_u</strong> – V winds (1D vector in z)</li>
+<li><strong>_z</strong> – z heights (1D vector in z)</li>
+<li><strong>zbot</strong> – Bottom of the layer</li>
+<li><strong>ztop</strong> – Top of the layer</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pymeteo.dynamics.srh">
+<code class="descclassname">pymeteo.dynamics.</code><code class="descname">srh</code><span class="sig-paren">(</span><em>_u</em>, <em>_v</em>, <em>_z</em>, <em>zbot</em>, <em>ztop</em>, <em>cx</em>, <em>cy</em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.dynamics.srh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the storm relative helicity in the layer between zbot and ztop</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>_u</strong> – U winds (1D vector in z)</li>
+<li><strong>_u</strong> – V winds (1D vector in z)</li>
+<li><strong>_z</strong> – z heights (1D vector in z)</li>
+<li><strong>zbot</strong> – Bottom of the layer</li>
+<li><strong>ztop</strong> – Top of the layer</li>
+<li><strong>cx</strong> – u component of storm motion</li>
+<li><strong>cy</strong> – v component of storm motion</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pymeteo.dynamics.uv_to_deg">
+<code class="descclassname">pymeteo.dynamics.</code><code class="descname">uv_to_deg</code><span class="sig-paren">(</span><em>u</em>, <em>v</em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.dynamics.uv_to_deg" title="Permalink to this definition">¶</a></dt>
+<dd><p>transforms u, v, to direction, maginutide</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>u</strong> – u wind component</li>
+<li><strong>v</strong> – v wind component</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">wind direction and magnitude</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pymeteo.dynamics.wind_deg_to_uv">
+<code class="descclassname">pymeteo.dynamics.</code><code class="descname">wind_deg_to_uv</code><span class="sig-paren">(</span><em>direction</em>, <em>speed</em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.dynamics.wind_deg_to_uv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts direction and speed into u,v wind</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>direction</strong> – wind direction (mathmatical angle)</li>
+<li><strong>speed</strong> – wind magnitude</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">u and v wind components</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pymeteo.thermo">
+<span id="thermodynamic-routines"></span><h2>Thermodynamic routines<a class="headerlink" href="#module-pymeteo.thermo" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-pymeteo.thermo"></span><dl class="function">
+<dt id="pymeteo.thermo.T">
+<code class="descclassname">pymeteo.thermo.</code><code class="descname">T</code><span class="sig-paren">(</span><em>theta</em>, <em>p</em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.thermo.T" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert Potential Temperature <span class="math notranslate nohighlight">\(\theta\)</span> to Temperature</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>theta</strong> – Potential temperature (K)</li>
+<li><strong>p</strong> – Pressure (Pa)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Temperature (K)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pymeteo.constants">
+<span id="meteorological-constants"></span><h2>Meteorological constants<a class="headerlink" href="#module-pymeteo.constants" title="Permalink to this headline">¶</a></h2>
+<p>This module provides constants used in the rest of the package</p>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">pyMeteo documentation</a><ul>
+<li><a class="reference internal" href="#skew-t-log-p-plotting">Skew-t/Log-p Plotting</a></li>
+<li><a class="reference internal" href="#module-pymeteo.cm1.read_grads">Interfacining with CM1</a></li>
+<li><a class="reference internal" href="#module-pymeteo.dynamics">Dynamics</a></li>
+<li><a class="reference internal" href="#module-pymeteo.thermo">Thermodynamic routines</a></li>
+<li><a class="reference internal" href="#module-pymeteo.constants">Meteorological constants</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">pyMeteo 1.0.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015-2019, Casey Webster.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
+    </div>
+  </body>
+</html>
