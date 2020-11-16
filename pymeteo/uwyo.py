@@ -13,7 +13,7 @@ for SkewT plotting.
 Getting Data
 ++++++++++++
 
-* :py:func:`fetch_from_file` -- loads sounding data from a file 
+* :py:func:`fetch_from_file` -- loads sounding data from a file
 * :py:func:`fetch_from_web` -- loads sounding data from website
 
 Preparing Data
@@ -51,7 +51,7 @@ def fetch_from_file(filename):
         title = f.readline()
         skiprows = 7
         if "Obs" not in title:
-            title = filenme
+            title = filename
             skiprows = 5
 
     p, z, qv, wind_dir, wind_speed, th = np.genfromtxt(filename, unpack=True, skip_header=skiprows,
@@ -134,7 +134,7 @@ def fetch_from_web(date, station):
 
     if (data == ""):
         raise ValueError("ERROR: No sounding data found in data returned from the server");
-        
+
     p, z, qv, wind_dir, wind_speed, th = np.genfromtxt(io.BytesIO(data.encode()), unpack=True,
                                                        skip_header=5,
                                                        delimiter=7,
