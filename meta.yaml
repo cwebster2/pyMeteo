@@ -1,0 +1,31 @@
+package:
+  name: pymeteo
+  version: "1.0.2"
+
+build:
+  number: 1
+  script: python setup.py install
+
+source:
+  git_url: https://github.com/cwebster2/pyMeteo.git
+
+requirements:
+  build:
+    - python
+
+  run:
+    - python
+    - pyqt
+    - numpy
+    - matplotlib
+    - hdf5
+
+about:
+  home: https://github.com/cwebster2/pyMeteo
+  license: BSD3
+  license_file: LICENSE
+  summary: General meteorological routines, skew-T/log-p plotting and working with CM1 model data.
+
+extra:
+  maintainers:
+    - Casey Webster <casey@wxster.com>
