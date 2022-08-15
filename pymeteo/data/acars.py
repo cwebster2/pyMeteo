@@ -123,7 +123,12 @@ def processDataSet(data):
             v = _v[i].filled()
             lat = _lat[i].filled()
             lon = _lon[i].filled()
-            airport = getAirportByCode(_airport[i][0])
+            try:
+               airport = getAirportByCode(_airport[i][0])
+            except KeyError:
+               print('Airport not found ', _airport[i][0])
+               airport = "ERROR"
+
             profileData = {
                 "i": i,
                 "n": len(z),
