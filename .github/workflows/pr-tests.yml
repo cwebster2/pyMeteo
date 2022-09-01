@@ -1,0 +1,23 @@
+name: Publish pymeteo to PyPi
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [opened]
+
+jobs:
+  setup-and-test:
+    uses: ./.github/workflows/setup-and-test.yml
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build package
+        run: |
+          python -m build --sdist --wheel --outdir dist/ .
+          ls -l dist
+      - name: Tag PR
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR: ${{ github.event.pull_request.html_url }}
+        run: |
+          gh edit $PR --add-label "build-successful"
