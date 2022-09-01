@@ -1,6 +1,6 @@
 package:
   name: pymeteo
-  version: "1.0.2"
+  version: "1.0.3"
 
 build:
   number: 1
@@ -14,11 +14,11 @@ requirements:
     - python
 
   run:
-    - python
-    - pyqt
-    - numpy
-    - matplotlib
-    - hdf5
+    - python=3.10
+    - pyqt=5.15.7
+    - numpy=1.23.2
+    - matplotlib=3.5.3
+    - hdf5=3.7.0
 
 about:
   home: https://github.com/cwebster2/pyMeteo
