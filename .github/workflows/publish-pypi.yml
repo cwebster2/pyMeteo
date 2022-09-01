@@ -1,0 +1,21 @@
+name: Publish pymeteo to PyPi
+
+on:
+  workflow_dispatch:
+  release:
+    types: [created]
+
+jobs:
+  setup-and-test:
+    uses: cwebster2/pymeteo/.github/workflows/setup-and-test.yml
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build package
+        run: |
+          python -m build --sdist --wheel --outdir dist/ .
+          ls -l dist
+      # - name: Publish a Python distribution to PyPI
+      #   uses: pypa/gh-action-pypi-publish@release/v1
+      #   with:
+      #     password: ${{ secrets.PYPI_API_TOKEN }}

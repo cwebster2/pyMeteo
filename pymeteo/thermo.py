@@ -19,10 +19,10 @@ import pymeteo.interp
 
 def T(theta,p):
     """Convert Potential Temperature :math:`\\theta` to Temperature
-    
+
     :parameter theta: Potential temperature (K)
     :parameter p: Pressure (Pa)
-    :returns: Temperature (K) 
+    :returns: Temperature (K)
     """
     return theta * (p00/p)**-kappa_d
 
@@ -99,13 +99,13 @@ def Twb(z,p,th,qv,z0):
    qv0 = pymeteo.interp.linear(z,qv,z0)
    p0 = pymeteo.interp.interp_pressure(p,z,z0)
    t0 = T(th_0, p0)
-   td0 = Td(p0, qv0) 
+   td0 = Td(p0, qv0)
    es0 = es(td0)
 
    #print(qv0, p0, t0, td0)
    if np.isnan(td0):
        return np.nan
-   
+
    residual = 0.0005
    not_converged = 1
    i = 0
@@ -126,11 +126,11 @@ def Twb(z,p,th,qv,z0):
          sign = -1
       else:
          sign = 1
-      
+
       if sign != prevsign:
          prevsign = sign
          incr /= 10.
-         
+
 #      print Twb, delta_e, incr, sign
       Twb += incr * float(sign)
       i+=1
@@ -140,7 +140,7 @@ def Twb(z,p,th,qv,z0):
          Twb = 0.
          break
 
-   return Twb 
+   return Twb
 
 def CAPE(z, p, t, q, parcel):
 
@@ -162,14 +162,14 @@ def CAPE(z, p, t, q, parcel):
 
    nk = len(z)
 
-   # goal: pi, td, th, thv 
+   # goal: pi, td, th, thv
    # have: z, p, t, q
    pi  = np.empty(nk, np.float32)
    td  = np.empty(nk, np.float32)
    th  = np.empty(nk, np.float32)
    thv = np.empty(nk, np.float32)
-  
-   pi = (p*rp00)**rddcp 
+
+   pi = (p*rp00)**rddcp
    td = Td(p,q)
    th = t/pi
    thv = th * (1. + reps * q)/(1. + q)
@@ -182,7 +182,7 @@ def CAPE(z, p, t, q, parcel):
       kmax = 0
 
    elif (parcel == 2):
-      # use most unstable parcel 
+      # use most unstable parcel
 
       if (p[0] < 50000.):
          kmax = 0
@@ -231,7 +231,7 @@ def CAPE(z, p, t, q, parcel):
 
             avgth += 0.5 * (z[k] - z[k-1])*(th[k] + th[k-1])
             avgqv += 0.5 * (z[k] - z[k-1])*(q[k] + q[k-1])
-            
+
             k += 1
 
          th2 = th[k-1]+(th[k]-th[k-1])*(ml_depth-z[k-1])/(z[k]-z[k-1])
@@ -239,19 +239,19 @@ def CAPE(z, p, t, q, parcel):
 
          if (debuglevel >= 100):
                print('  k,z,th,q = {0}, {1}, {2}, {3}'.format(999, ml_depth, th2, qv2))
-            
+
          avgth += 0.5*(ml_depth-z[k-1])*(th2+th[k-1])
          avgqv += 0.5*(ml_depth-z[k-1])*(qv2+q[k-1])
-            
+
 
          if (debuglevel >= 100):
                print('  k,z,th,q = {0}, {1}, {2}, {3}'.format(k, z[k], th[k], q[k]))
-            
+
          avgth /= ml_depth
          avgqv /= ml_depth
 
          kmax = 0
- 
+
       if (debuglevel >= 100):
          print('  avgth, avgqv = {0}, {1}'.format(avgth, avgqv))
 
@@ -288,7 +288,7 @@ def CAPE(z, p, t, q, parcel):
    cape = 0.
    cin = 0.
    lfc = 0.
-   
+
    doit = True
    cloud = False
    if (adiabat == 1) or (adiabat == 2):
@@ -309,7 +309,7 @@ def CAPE(z, p, t, q, parcel):
    ptd = np.empty(nk, np.float32)
    pqv = np.empty(nk, np.float32)
    pql = np.empty(nk, np.float32)
-   
+
    pt[k] = t2
    if cloud:
       ptd[k] = t2
@@ -331,7 +331,7 @@ def CAPE(z, p, t, q, parcel):
    max_li = 40.
 
    # Parcel Ascent starts here!
-   
+
    if (debuglevel >= 100):
       print('  Start loop:')
       print('  p2,th2,qv2 = {0}, {1}, {2}'.format(p2, th2, qv2))
@@ -374,7 +374,7 @@ def CAPE(z, p, t, q, parcel):
             else:
                fliq = 1.
                fice = 0.
-            
+
             qv2 = min( qt, fliq*q_vl(p2,t2) + fice*q_vi(p2,t2))
             qi2 = max( fice*(qt-qv2), 0.)
             ql2 = max( qt-qv2-qi2, 0.)
@@ -404,7 +404,7 @@ def CAPE(z, p, t, q, parcel):
                not_converged = False
 
          # end not_converged
- 
+
          # pressure increment complete
          if (ql2 >= 1.0e-10):
             cloud = True
@@ -441,7 +441,7 @@ def CAPE(z, p, t, q, parcel):
       if ( zlfc > 0.) and (zel < 0.) and (b2 < 0.):
         zel = z[k-1]+(z[k]-z[k-1])*(0.-b1)/(b2-b1)
         pel = p[k-1]+(p[k]-p[k-1])*(0.-b1)/(b2-b1)
-         
+
 
       the = th_e(p2, t2, t2, qv2)
 
@@ -505,9 +505,9 @@ def CAPE(z, p, t, q, parcel):
 
       if (p[k] <= 10000.) and (b2 < 0.):
          doit = False
-   
+
    # end parcel ascent loop
-   
+
    li500 = 0
    li300 = 0
 
@@ -516,7 +516,7 @@ def CAPE(z, p, t, q, parcel):
    t_p_lev = pymeteo.interp.linear(z, ptv, k)
    t_e_lev = T(pymeteo.interp.linear(z, thv, k),lev)
    li500 = t_e_lev - t_p_lev
-   
+
    lev = 30000
    k = pymeteo.interp.interp_height(z, p, lev)
    t_p_lev = pymeteo.interp.linear(z, ptv, k)
@@ -536,11 +536,11 @@ def CAPE(z, p, t, q, parcel):
             'lclth' : 0,
             'elth'  : 0,
             'zlevs' : z,
-            't_p'  : pt, 
-            'tv_p'  : ptv, 
-            'thv_env'  : thv, 
+            't_p'  : pt,
+            'tv_p'  : ptv,
+            'thv_env'  : thv,
             'pp'    : p,
-            'theta_e': th_p_e, 
+            'theta_e': th_p_e,
             'cape'  : cape,
             'cin'   : cin,
             'max_li': max_li,
@@ -549,5 +549,5 @@ def CAPE(z, p, t, q, parcel):
             'prs'   : p[kmax]
           }
 
-   return dict      
+   return dict
 
