@@ -193,7 +193,7 @@ class CM1(object):
       filename = self.path + '/' + self.dsetname + '.{0:05d}.h5'.format(int(time))
 
       print('  Opening {0} for reading'.format(filename))
-      print('    Reading {0} from grid {1} at time {2} s'.format(varname, grid, time))
+      print('    Reading at time {2} s'.format(time))
 
       # open the data file
       self.datafile = h5py.File(filename, 'r')
@@ -224,7 +224,7 @@ class CM1(object):
          nz = self.nz
 
       data = np.empty((nz, ny, nx), dtype=np.float32)
-      data = datafile[varname]
+      data = self.datafile[varname]
 
       return np.array(data).T
 
