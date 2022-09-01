@@ -818,16 +818,16 @@ def plot_sounding(axes, z, th, p, qv, u = None, v = None):
   T_venv = met.T(pcl['thv_env'], pcl['pp']) - met.T00  # Env Tv (C)
 
   # plot Temperature, dewpoint, wetbulb and lifted surface parcel profiles on skew axes
-  axes.semilogy(T + skew(p), p, basey=math.e, color=linecolor_T , linewidth = linewidth_T)
-  axes.semilogy(Td + skew(p), p, basey=math.e, color=linecolor_Td, linewidth = linewidth_Td)
-  axes.semilogy(T_parcel + skew(pcl['pp']), pcl['pp'], basey=math.e,
+  axes.semilogy(T + skew(p), p, base=math.e, color=linecolor_T , linewidth = linewidth_T)
+  axes.semilogy(Td + skew(p), p, base=math.e, color=linecolor_Td, linewidth = linewidth_Td)
+  axes.semilogy(T_parcel + skew(pcl['pp']), pcl['pp'], base=math.e,
                 color=linecolor_Parcel_T, linewidth=linewidth_Parcel_T)
-  axes.semilogy(Twb + skew(p), p, basey=math.e, color=linecolor_Twb, linewidth=linewidth_Twb)
+  axes.semilogy(Twb + skew(p), p, base=math.e, color=linecolor_Twb, linewidth=linewidth_Twb)
 
   # plot virtual temperature of environment and lifted parcel
-  axes.semilogy(T_venv + skew(pcl['pp']), pcl['pp'], basey=math.e, color=linecolor_Tve,
+  axes.semilogy(T_venv + skew(pcl['pp']), pcl['pp'], base=math.e, color=linecolor_Tve,
                 linewidth=linewidth_Tve, linestyle=linestyle_Tve)
-  axes.semilogy(T_vparcel + skew(pcl['pp']), pcl['pp'], basey=math.e, color=linecolor_Tvp,
+  axes.semilogy(T_vparcel + skew(pcl['pp']), pcl['pp'], base=math.e, color=linecolor_Tvp,
                 linewidth=linewidth_Tvp, linestyle=linestyle_Tvp)
 
   # Add labels for levels based on surface parcel
@@ -1139,9 +1139,9 @@ def draw_isotherms(axes):
     """
     for T in isotherms:
         if (T % 10 == 0):
-           axes.semilogy(T + skew(plevs_plot), plevs_plot, basey=math.e, color = lc_major, linewidth= lw_major)
+           axes.semilogy(T + skew(plevs_plot), plevs_plot, base=math.e, color = lc_major, linewidth= lw_major)
         else:
-           axes.semilogy(T + skew(plevs_plot), plevs_plot, basey=math.e, color = lc_minor, linewidth= lw_minor)
+           axes.semilogy(T + skew(plevs_plot), plevs_plot, base=math.e, color = lc_minor, linewidth= lw_minor)
     for T in np.arange(-40, 40, 10):
         label(T+skew(87500),875, str(T), 'red', 90.-skew_angle, axes)
     for T in np.arange(-100, -20, 10):
@@ -1176,9 +1176,9 @@ def draw_dry_adiabat(axes):
     for T in dry_adiabats:
         dry_adiabat = met.T(T+met.T00,plevs_plot) - met.T00 + skew(plevs_plot)
         if (T % 10 == 0):
-            axes.semilogy(dry_adiabat, plevs_plot, basey=math.e, color = lc_major, linewidth = lw_major)
+            axes.semilogy(dry_adiabat, plevs_plot, base=math.e, color = lc_major, linewidth = lw_major)
         else:
-            axes.semilogy(dry_adiabat, plevs_plot, basey=math.e, color = lc_minor, linewidth = lw_minor)
+            axes.semilogy(dry_adiabat, plevs_plot, base=math.e, color = lc_minor, linewidth = lw_minor)
             
     for T in np.arange(-20, 150, 10):
         p = (600. - 3.5*T)*100.
@@ -1225,9 +1225,9 @@ def draw_moist_adiabat(axes):
                 if (T_1000 >= met.T00 and T_1000 <= 30+met.T00):
                     label(T-met.T00+skew(p),p/100,str(int(T_1000-met.T00)),'green', 0, axes)
         if (int(T_1000 - met.T00) % 5 == 0):            
-            axes.semilogy(moist_adiabat, plevs_plot2, basey=math.e, color = lc_major, linewidth = lw_major)
+            axes.semilogy(moist_adiabat, plevs_plot2, base=math.e, color = lc_major, linewidth = lw_major)
         else:
-            axes.semilogy(moist_adiabat, plevs_plot2, basey=math.e, color = lc_minor, linewidth = lw_minor)
+            axes.semilogy(moist_adiabat, plevs_plot2, base=math.e, color = lc_minor, linewidth = lw_minor)
 
 
 def draw_water_mix_ratio(axes):
@@ -1247,7 +1247,7 @@ def draw_water_mix_ratio(axes):
         for p in ps:
             T = TMR(W,p/100.) 
             water_mix.append(T + skew(p))
-        axes.semilogy(water_mix, ps, basey=math.e, color = 'grey', linestyle = '--', linewidth = .5)
+        axes.semilogy(water_mix, ps, base=math.e, color = 'grey', linestyle = '--', linewidth = .5)
 
         # Label the isoline
         T = TMR(W,1075.)
