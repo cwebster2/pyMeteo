@@ -12,10 +12,9 @@ source:
   git_depth: 1
 
 requirements:
-  host:
-    - python
   build:
     - python
+    - setuptools
 
   run:
     - python
