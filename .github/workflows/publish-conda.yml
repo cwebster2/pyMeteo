@@ -31,7 +31,7 @@ jobs:
           conda install conda-build
           conda index ..
           conda config --set anaconda_upload yes
-          conda-build --output-folder --token $ANACONDA_TOKEN . .
+          conda-build --token $ANACONDA_TOKEN --no-anaconda-upload --output-folder . .
 
 
 
