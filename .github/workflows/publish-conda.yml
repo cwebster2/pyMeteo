@@ -18,7 +18,7 @@ jobs:
         uses: MichaelsJP/conda-package-publish-action@v1.0.0
         with:
           subDir: '.conda'
-          AnacondaToken: ${{ secrets.ANACONDA_TOKEN }}
+          # AnacondaToken: ${{ secrets.ANACONDA_TOKEN }}
           platforms: 'all'
           override: true
           dry_run: true
