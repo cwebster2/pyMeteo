@@ -1,0 +1,24 @@
+name: Publish pymeteo to PyPi
+
+on:
+  push:
+  workflow_dispatch:
+  release:
+    types: [created]
+
+jobs:
+  setup-and-test:
+    uses: ./.github/workflows/setup-and-test.yml
+  publish:
+    runs-on: ubuntu-latest
+    needs: setup-and-test
+    steps:
+      - uses: actions/checkout@v3
+      - name: publish-to-conda
+        uses: MichaelsJB/conda-package-publish-action@v1.0.0
+        with:
+          subDir: '.conda'
+          AnacondaToken: ${{ secrets.ANACONDA_TOKEN }}
+          platforms: 'all'
+          override: true
+          dry_run: true
