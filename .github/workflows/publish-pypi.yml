@@ -1,6 +1,7 @@
 name: Publish pymeteo to PyPi
 
 on:
+  push:
   workflow_dispatch:
   release:
     types: [created]
