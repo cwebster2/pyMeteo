@@ -7,7 +7,7 @@ on:
 
 jobs:
   setup-and-test:
-    uses: cwebster2/pymeteo/.github/workflows/setup-and-test.yml@*
+    uses: ./.github/workflows/setup-and-test.yml
   publish:
     runs-on: ubuntu-latest
     steps:
