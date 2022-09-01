@@ -1,7 +1,6 @@
 name: Publish pymeteo to Conda
 
 on:
-  push:
   workflow_dispatch:
   release:
     types: [created]
@@ -31,7 +30,7 @@ jobs:
           conda install conda-build
           conda index ..
           conda config --set anaconda_upload yes
-          conda-build --token $ANACONDA_TOKEN --no-anaconda-upload --output-folder . .
+          conda-build --token $ANACONDA_TOKEN --output-folder . .
 
 
 
