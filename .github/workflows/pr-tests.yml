@@ -1,4 +1,4 @@
-name: Publish pymeteo to PyPi
+name: Check if PR builds
 
 on:
   workflow_dispatch:
