@@ -70,7 +70,7 @@ def ll_to_ij(map_proj, truelat1, truelat2, stand_lon, dx, dy, ref_lat, ref_lon, 
         reflon = stand_lon + 90.0
         scale_top = 1.0 + hemi*np.sin(truelat1*radperdeg)
         ala1 = ref_lat*radperdeg
-        rsw = rebydx*np.cos(ala1)*scale_top/(1.0+hemi*sin(ala1))
+        rsw = rebydx*np.cos(ala1)*scale_top/(1.0+hemi*np.sin(ala1))
         alo1 = (ref_lon - reflon)*radperdeg
         polei = 1.0 - rsw * np.cos(alo1)
         polej = 1.0 - hemi*rsw*np.sin(alo1)
