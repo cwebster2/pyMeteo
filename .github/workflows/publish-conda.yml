@@ -14,11 +14,26 @@ jobs:
     needs: setup-and-test
     steps:
       - uses: actions/checkout@v3
-      - name: publish-to-conda
-        uses: MichaelsJP/conda-package-publish-action@v1.1.0
+      - name: Setup Python
+        uses: actions/setup-python@v4
         with:
-          subDir: '.conda'
-          # AnacondaToken: ${{ secrets.ANACONDA_TOKEN }}
-          platforms: 'all'
-          override: true
-          dry_run: true
+          python-version: "3.10"
+      - uses: s-weigand/setup-conda@v1
+        with:
+          update-conda: true
+          python-version: "3.10"
+          conda-channels: anaconda, conda-forge, cwebster2
+      - name: Build
+        env:
+          ANACONDA_TOKEN: ${{ secrets.ANACONDA_TOKEN }}
+        run: |
+          cd .conda
+          conda index ..
+          conda config --set anaconda_upload yes
+          conda-build --output-folder --token $ANACONDA_TOKEN . .
+
+
+
+
+
+
