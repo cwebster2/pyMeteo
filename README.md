@@ -1,4 +1,7 @@
 # pyMeteo
+
+![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7046739.svg)
+
 General meteorological routines, skew-T/log-p plotting and working with CM1 model data.
 
 Online documentation available at [http://cwebster2.github.io/pyMeteo/](http://cwebster2.github.io/pyMeteo/)
