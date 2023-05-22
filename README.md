@@ -97,7 +97,7 @@ This currently requires that HDF5 output be un-tiled (though it might work for t
 For WRF output in NetCDF format, you can plot a skewt from model output with:
 
 ```
-$ skewt wrf -d wrfou.nc --lat 30 --lon -80 -t 0 skewt.pdf
+$ skewt wrf -f wrfou.nc --lat 30 --lon -80 -t 0 skewt.pdf
 ```
 
 In this case, `-f` references a WRF output file, `--lat` and `--lon` reference a location within the WRF domain, `-t` reference a timestep within the WRF output and `-o` specifies an output files.
