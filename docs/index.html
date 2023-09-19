@@ -1,21 +1,18 @@
+<!DOCTYPE html>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" data-content_root="./">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>pyMeteo documentation &#8212; pyMeteo 1.0.1 documentation</title>
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>pyMeteo documentation &#8212; pyMeteo 1.0.3 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css?v=514cf933" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="_static/documentation_options.js?v=baaebd52"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
@@ -29,7 +26,8 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">pyMeteo 1.0.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">pyMeteo 1.0.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">pyMeteo documentation</a></li> 
       </ul>
     </div>  
 
@@ -38,19 +36,19 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="pymeteo-documentation">
-<h1>pyMeteo documentation<a class="headerlink" href="#pymeteo-documentation" title="Permalink to this headline">¶</a></h1>
+  <section id="pymeteo-documentation">
+<h1>pyMeteo documentation<a class="headerlink" href="#pymeteo-documentation" title="Link to this heading">¶</a></h1>
 <p>Contents:</p>
 <div class="toctree-wrapper compound">
 </div>
-<span class="target" id="module-pymeteo"></span><p>Skew-T/Log-P plotting, meteorology and interfacing with CM1</p>
+<p id="module-pymeteo">Skew-T/Log-P plotting, meteorology and interfacing with CM1</p>
 <p>This package provides routines for plotting Skew-T/Log-P diagrams
 and working with CM1 output.  For contributions, please submit
 pull requests to <a class="reference external" href="https://github.com/cwebster2/pymeteo">https://github.com/cwebster2/pymeteo</a>. Please report
 bugs using the github issue tracker at <a class="reference external" href="https://github.com/cwebster2/pymeteo/issues">https://github.com/cwebster2/pymeteo/issues</a>.</p>
-<div class="section" id="module-pymeteo.skewt">
-<span id="skew-t-log-p-plotting"></span><h2>Skew-t/Log-p Plotting<a class="headerlink" href="#module-pymeteo.skewt" title="Permalink to this headline">¶</a></h2>
-<span class="target" id="module-pymeteo.skewt"></span><p>This module allows plotting Skew-T/Log-P diagrams 
+<section id="module-0">
+<span id="skew-t-log-p-plotting"></span><h2>Skew-t/Log-p Plotting<a class="headerlink" href="#module-0" title="Link to this heading">¶</a></h2>
+<p id="module-pymeteo.skewt">This module allows plotting Skew-T/Log-P diagrams 
 and hodographs from arrays of 
 data with helper functions to plot directly from CM1 output files
 in either Grads or HDF5 format and also from sounding data text
@@ -60,552 +58,510 @@ the soundings data.  Currently this is limited to CAPE (surface
 and most unstable), CIN, wind shear, storm relative helicity, lifted index
 and a rough estimate of storm motion based on the Bunkers (2000)
 method.</p>
-<div class="figure align-center" id="id1">
+<figure class="align-center" id="id1">
 <img alt="_images/skewt.png" src="_images/skewt.png" />
-<p class="caption"><span class="caption-text">Example Skew-T/Log-P with hodograph</span></p>
-</div>
-<div class="section" id="plotting">
-<h3>Plotting<a class="headerlink" href="#plotting" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="high-level-plotting-functions">
-<h4>High level plotting functions<a class="headerlink" href="#high-level-plotting-functions" title="Permalink to this headline">¶</a></h4>
+<figcaption>
+<p><span class="caption-text">Example Skew-T/Log-P with hodograph</span><a class="headerlink" href="#id1" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<section id="plotting">
+<h3>Plotting<a class="headerlink" href="#plotting" title="Link to this heading">¶</a></h3>
+<section id="high-level-plotting-functions">
+<h4>High level plotting functions<a class="headerlink" href="#high-level-plotting-functions" title="Link to this heading">¶</a></h4>
 <ul class="simple">
-<li><a class="reference internal" href="#pymeteo.skewt.plot_cm1h5" title="pymeteo.skewt.plot_cm1h5"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot_cm1h5()</span></code></a> – plots skewt from CM1 generated hdf5 files processed by ingest_cm1</li>
-<li><a class="reference internal" href="#pymeteo.skewt.plot_cm1" title="pymeteo.skewt.plot_cm1"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot_cm1()</span></code></a> – plots skewt from CM1 generated GRaDS style output</li>
-<li><a class="reference internal" href="#pymeteo.skewt.plot_wrf" title="pymeteo.skewt.plot_wrf"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot_wrf()</span></code></a> – plots skewt from WRF generated NetCDF output</li>
-<li><a class="reference internal" href="#pymeteo.skewt.plot_sounding_data" title="pymeteo.skewt.plot_sounding_data"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot_sounding_data()</span></code></a> – plots skewt from CM1/WRF input sounding files</li>
-<li><a class="reference internal" href="#pymeteo.skewt.plot_sounding_data_uwyo" title="pymeteo.skewt.plot_sounding_data_uwyo"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot_sounding_data_uwyo()</span></code></a> – plots skewt from uwyo sounding data (file or online)</li>
+<li><p><a class="reference internal" href="#pymeteo.skewt.plot_cm1h5" title="pymeteo.skewt.plot_cm1h5"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot_cm1h5()</span></code></a> – plots skewt from CM1 generated hdf5 files processed by ingest_cm1</p></li>
+<li><p><a class="reference internal" href="#pymeteo.skewt.plot_cm1" title="pymeteo.skewt.plot_cm1"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot_cm1()</span></code></a> – plots skewt from CM1 generated GRaDS style output</p></li>
+<li><p><a class="reference internal" href="#pymeteo.skewt.plot_wrf" title="pymeteo.skewt.plot_wrf"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot_wrf()</span></code></a> – plots skewt from WRF generated NetCDF output</p></li>
+<li><p><a class="reference internal" href="#pymeteo.skewt.plot_sounding_data" title="pymeteo.skewt.plot_sounding_data"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot_sounding_data()</span></code></a> – plots skewt from CM1/WRF input sounding files</p></li>
+<li><p><a class="reference internal" href="#pymeteo.skewt.plot_sounding_data_uwyo" title="pymeteo.skewt.plot_sounding_data_uwyo"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot_sounding_data_uwyo()</span></code></a> – plots skewt from uwyo sounding data (file or online)</p></li>
 </ul>
 <p>These functions are called by command line scripts provided to make plotting from data files easy. 
 You can invoke these through command line scripts as:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># From tabular sounding data (e.g. WRF or CM1 intial sounding data)</span>
-$ skewt tabular -f sounding.dat skewt.pdf
+$<span class="w"> </span>skewt<span class="w"> </span>tabular<span class="w"> </span>-f<span class="w"> </span>sounding.dat<span class="w"> </span>skewt.pdf
 
 <span class="c1"># From GrADS stlye CM1 output</span>
-$ skewt cm1 -p . -d cm1out -x <span class="m">0</span> -y <span class="m">0</span> skewt-cm1.pdf
+$<span class="w"> </span>skewt<span class="w"> </span>cm1<span class="w"> </span>-p<span class="w"> </span>.<span class="w"> </span>-d<span class="w"> </span>cm1out<span class="w"> </span>-x<span class="w"> </span><span class="m">0</span><span class="w"> </span>-y<span class="w"> </span><span class="m">0</span><span class="w"> </span>skewt-cm1.pdf
 
 <span class="c1"># From HDF5 CM1 output</span>
-$ skewt cm1hdf -f model-data.h5 -x <span class="m">0</span> -y <span class="m">0</span> skewt.pdf
+$<span class="w"> </span>skewt<span class="w"> </span>cm1hdf<span class="w"> </span>-f<span class="w"> </span>model-data.h5<span class="w"> </span>-x<span class="w"> </span><span class="m">0</span><span class="w"> </span>-y<span class="w"> </span><span class="m">0</span><span class="w"> </span>skewt.pdf
 
 <span class="c1"># From WRF output </span>
-$ skewt wrf -f wrfout.nc --lat <span class="m">30</span> --lon -80 -t <span class="m">0</span> skewt.pdf
+$<span class="w"> </span>skewt<span class="w"> </span>wrf<span class="w"> </span>-f<span class="w"> </span>wrfout.nc<span class="w"> </span>--lat<span class="w"> </span><span class="m">30</span><span class="w"> </span>--lon<span class="w"> </span>-80<span class="w"> </span>-t<span class="w"> </span><span class="m">0</span><span class="w"> </span>skewt.pdf
 
 <span class="c1"># From University of Wyoming data file</span>
-$ skewt uwyo -f uwyo-data.dat skewt.pdf
+$<span class="w"> </span>skewt<span class="w"> </span>uwyo<span class="w"> </span>-f<span class="w"> </span>uwyo-data.dat<span class="w"> </span>skewt.pdf
 
 <span class="c1"># From University of Wyming website data (live)</span>
-$ skewt uwyoweb --station <span class="m">72251</span> skewt.pdf
+$<span class="w"> </span>skewt<span class="w"> </span>uwyoweb<span class="w"> </span>--station<span class="w"> </span><span class="m">72251</span><span class="w"> </span>skewt.pdf
 </pre></div>
 </div>
 <ul class="simple">
-<li><a class="reference internal" href="#pymeteo.skewt.plot" title="pymeteo.skewt.plot"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot()</span></code></a> – generic high level plot function</li>
+<li><p><a class="reference internal" href="#pymeteo.skewt.plot" title="pymeteo.skewt.plot"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot()</span></code></a> – generic high level plot function</p></li>
 </ul>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pymeteo.skewt</span> <span class="kn">as</span> <span class="nn">skewt</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pymeteo.skewt</span> <span class="k">as</span> <span class="nn">skewt</span>
 
 <span class="c1"># prepare 1D arrays height (z), pressure (p), potential temperature (th), </span>
 <span class="c1"># water vapor mixing ratio (qv), winds (u and v) all of the same length.</span>
 
-<span class="n">skewt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">th</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">qv</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="s1">&#39;skewt.pdf&#39;</span><span class="p">)</span>
+<span class="n">skewt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">th</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">qv</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="s1">&#39;skewt.pdf&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="variables-affecting-the-plot-output">
-<h4>Variables affecting the plot output<a class="headerlink" href="#variables-affecting-the-plot-output" title="Permalink to this headline">¶</a></h4>
+</section>
+<section id="variables-affecting-the-plot-output">
+<h4>Variables affecting the plot output<a class="headerlink" href="#variables-affecting-the-plot-output" title="Link to this heading">¶</a></h4>
 <p>These variables affect the skewness of the plot and the bounds of the plot</p>
 <ul class="simple">
-<li><a class="reference internal" href="#pymeteo.skewt.skew_angle" title="pymeteo.skewt.skew_angle"><code class="xref py py-data docutils literal notranslate"><span class="pre">skew_angle</span></code></a> – skewness</li>
-<li><a class="reference internal" href="#pymeteo.skewt.Tmin" title="pymeteo.skewt.Tmin"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tmin</span></code></a>, <a class="reference internal" href="#pymeteo.skewt.Tmax" title="pymeteo.skewt.Tmax"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tmax</span></code></a> – T dimension bounds (temperature, C)</li>
-<li><a class="reference internal" href="#pymeteo.skewt.pbot" title="pymeteo.skewt.pbot"><code class="xref py py-data docutils literal notranslate"><span class="pre">pbot</span></code></a>, <a class="reference internal" href="#pymeteo.skewt.ptop" title="pymeteo.skewt.ptop"><code class="xref py py-data docutils literal notranslate"><span class="pre">ptop</span></code></a> – p dimension bounds (pressure, Pa)</li>
+<li><p><a class="reference internal" href="#pymeteo.skewt.skew_angle" title="pymeteo.skewt.skew_angle"><code class="xref py py-data docutils literal notranslate"><span class="pre">skew_angle</span></code></a> – skewness</p></li>
+<li><p><a class="reference internal" href="#pymeteo.skewt.Tmin" title="pymeteo.skewt.Tmin"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tmin</span></code></a>, <a class="reference internal" href="#pymeteo.skewt.Tmax" title="pymeteo.skewt.Tmax"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tmax</span></code></a> – T dimension bounds (temperature, C)</p></li>
+<li><p><a class="reference internal" href="#pymeteo.skewt.pbot" title="pymeteo.skewt.pbot"><code class="xref py py-data docutils literal notranslate"><span class="pre">pbot</span></code></a>, <a class="reference internal" href="#pymeteo.skewt.ptop" title="pymeteo.skewt.ptop"><code class="xref py py-data docutils literal notranslate"><span class="pre">ptop</span></code></a> – p dimension bounds (pressure, Pa)</p></li>
 </ul>
 <p>These variables affect the lines plotted on the skew-t</p>
 <ul class="simple">
-<li><a class="reference internal" href="#pymeteo.skewt.isobars" title="pymeteo.skewt.isobars"><code class="xref py py-data docutils literal notranslate"><span class="pre">isobars</span></code></a></li>
-<li><a class="reference internal" href="#pymeteo.skewt.isotherms" title="pymeteo.skewt.isotherms"><code class="xref py py-data docutils literal notranslate"><span class="pre">isotherms</span></code></a></li>
-<li><a class="reference internal" href="#pymeteo.skewt.dry_adiabats" title="pymeteo.skewt.dry_adiabats"><code class="xref py py-data docutils literal notranslate"><span class="pre">dry_adiabats</span></code></a></li>
-<li><a class="reference internal" href="#pymeteo.skewt.moist_adiabats" title="pymeteo.skewt.moist_adiabats"><code class="xref py py-data docutils literal notranslate"><span class="pre">moist_adiabats</span></code></a></li>
-<li><a class="reference internal" href="#pymeteo.skewt.mixing_ratios" title="pymeteo.skewt.mixing_ratios"><code class="xref py py-data docutils literal notranslate"><span class="pre">mixing_ratios</span></code></a></li>
+<li><p><a class="reference internal" href="#pymeteo.skewt.isobars" title="pymeteo.skewt.isobars"><code class="xref py py-data docutils literal notranslate"><span class="pre">isobars</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pymeteo.skewt.isotherms" title="pymeteo.skewt.isotherms"><code class="xref py py-data docutils literal notranslate"><span class="pre">isotherms</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pymeteo.skewt.dry_adiabats" title="pymeteo.skewt.dry_adiabats"><code class="xref py py-data docutils literal notranslate"><span class="pre">dry_adiabats</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pymeteo.skewt.moist_adiabats" title="pymeteo.skewt.moist_adiabats"><code class="xref py py-data docutils literal notranslate"><span class="pre">moist_adiabats</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pymeteo.skewt.mixing_ratios" title="pymeteo.skewt.mixing_ratios"><code class="xref py py-data docutils literal notranslate"><span class="pre">mixing_ratios</span></code></a></p></li>
 </ul>
 <p>These variables affect the plotting of the lines above</p>
 <ul class="simple">
-<li><a class="reference internal" href="#pymeteo.skewt.lw_major" title="pymeteo.skewt.lw_major"><code class="xref py py-data docutils literal notranslate"><span class="pre">lw_major</span></code></a>, <a class="reference internal" href="#pymeteo.skewt.lw_minor" title="pymeteo.skewt.lw_minor"><code class="xref py py-data docutils literal notranslate"><span class="pre">lw_minor</span></code></a></li>
-<li><a class="reference internal" href="#pymeteo.skewt.lc_major" title="pymeteo.skewt.lc_major"><code class="xref py py-data docutils literal notranslate"><span class="pre">lc_major</span></code></a>, <a class="reference internal" href="#pymeteo.skewt.lc_minor" title="pymeteo.skewt.lc_minor"><code class="xref py py-data docutils literal notranslate"><span class="pre">lc_minor</span></code></a></li>
+<li><p><a class="reference internal" href="#pymeteo.skewt.lw_major" title="pymeteo.skewt.lw_major"><code class="xref py py-data docutils literal notranslate"><span class="pre">lw_major</span></code></a>, <a class="reference internal" href="#pymeteo.skewt.lw_minor" title="pymeteo.skewt.lw_minor"><code class="xref py py-data docutils literal notranslate"><span class="pre">lw_minor</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pymeteo.skewt.lc_major" title="pymeteo.skewt.lc_major"><code class="xref py py-data docutils literal notranslate"><span class="pre">lc_major</span></code></a>, <a class="reference internal" href="#pymeteo.skewt.lc_minor" title="pymeteo.skewt.lc_minor"><code class="xref py py-data docutils literal notranslate"><span class="pre">lc_minor</span></code></a></p></li>
 </ul>
 <p>These variables affect the plotting style of skewt data</p>
 <ul class="simple">
-<li><a class="reference internal" href="#pymeteo.skewt.linecolor_T" title="pymeteo.skewt.linecolor_T"><code class="xref py py-data docutils literal notranslate"><span class="pre">linecolor_T</span></code></a>, <a class="reference internal" href="#pymeteo.skewt.linewidth_T" title="pymeteo.skewt.linewidth_T"><code class="xref py py-data docutils literal notranslate"><span class="pre">linewidth_T</span></code></a></li>
-<li><a class="reference internal" href="#pymeteo.skewt.linecolor_Tve" title="pymeteo.skewt.linecolor_Tve"><code class="xref py py-data docutils literal notranslate"><span class="pre">linecolor_Tve</span></code></a>, <a class="reference internal" href="#pymeteo.skewt.linewidth_Tve" title="pymeteo.skewt.linewidth_Tve"><code class="xref py py-data docutils literal notranslate"><span class="pre">linewidth_Tve</span></code></a>, <a class="reference internal" href="#pymeteo.skewt.linestyle_Tve" title="pymeteo.skewt.linestyle_Tve"><code class="xref py py-data docutils literal notranslate"><span class="pre">linestyle_Tve</span></code></a></li>
-<li><a class="reference internal" href="#pymeteo.skewt.linecolor_Td" title="pymeteo.skewt.linecolor_Td"><code class="xref py py-data docutils literal notranslate"><span class="pre">linecolor_Td</span></code></a>, <a class="reference internal" href="#pymeteo.skewt.linewidth_Td" title="pymeteo.skewt.linewidth_Td"><code class="xref py py-data docutils literal notranslate"><span class="pre">linewidth_Td</span></code></a></li>
-<li><a class="reference internal" href="#pymeteo.skewt.linecolor_Twb" title="pymeteo.skewt.linecolor_Twb"><code class="xref py py-data docutils literal notranslate"><span class="pre">linecolor_Twb</span></code></a>, <a class="reference internal" href="#pymeteo.skewt.linewidth_Twb" title="pymeteo.skewt.linewidth_Twb"><code class="xref py py-data docutils literal notranslate"><span class="pre">linewidth_Twb</span></code></a></li>
-<li><a class="reference internal" href="#pymeteo.skewt.linecolor_Parcel_T" title="pymeteo.skewt.linecolor_Parcel_T"><code class="xref py py-data docutils literal notranslate"><span class="pre">linecolor_Parcel_T</span></code></a>, <a class="reference internal" href="#pymeteo.skewt.linewidth_Parcel_T" title="pymeteo.skewt.linewidth_Parcel_T"><code class="xref py py-data docutils literal notranslate"><span class="pre">linewidth_Parcel_T</span></code></a></li>
-<li><a class="reference internal" href="#pymeteo.skewt.linecolor_Tvp" title="pymeteo.skewt.linecolor_Tvp"><code class="xref py py-data docutils literal notranslate"><span class="pre">linecolor_Tvp</span></code></a>, <a class="reference internal" href="#pymeteo.skewt.linewidth_Tvp" title="pymeteo.skewt.linewidth_Tvp"><code class="xref py py-data docutils literal notranslate"><span class="pre">linewidth_Tvp</span></code></a>, <a class="reference internal" href="#pymeteo.skewt.linestyle_Tvp" title="pymeteo.skewt.linestyle_Tvp"><code class="xref py py-data docutils literal notranslate"><span class="pre">linestyle_Tvp</span></code></a></li>
+<li><p><a class="reference internal" href="#pymeteo.skewt.linecolor_T" title="pymeteo.skewt.linecolor_T"><code class="xref py py-data docutils literal notranslate"><span class="pre">linecolor_T</span></code></a>, <a class="reference internal" href="#pymeteo.skewt.linewidth_T" title="pymeteo.skewt.linewidth_T"><code class="xref py py-data docutils literal notranslate"><span class="pre">linewidth_T</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pymeteo.skewt.linecolor_Tve" title="pymeteo.skewt.linecolor_Tve"><code class="xref py py-data docutils literal notranslate"><span class="pre">linecolor_Tve</span></code></a>, <a class="reference internal" href="#pymeteo.skewt.linewidth_Tve" title="pymeteo.skewt.linewidth_Tve"><code class="xref py py-data docutils literal notranslate"><span class="pre">linewidth_Tve</span></code></a>, <a class="reference internal" href="#pymeteo.skewt.linestyle_Tve" title="pymeteo.skewt.linestyle_Tve"><code class="xref py py-data docutils literal notranslate"><span class="pre">linestyle_Tve</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pymeteo.skewt.linecolor_Td" title="pymeteo.skewt.linecolor_Td"><code class="xref py py-data docutils literal notranslate"><span class="pre">linecolor_Td</span></code></a>, <a class="reference internal" href="#pymeteo.skewt.linewidth_Td" title="pymeteo.skewt.linewidth_Td"><code class="xref py py-data docutils literal notranslate"><span class="pre">linewidth_Td</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pymeteo.skewt.linecolor_Twb" title="pymeteo.skewt.linecolor_Twb"><code class="xref py py-data docutils literal notranslate"><span class="pre">linecolor_Twb</span></code></a>, <a class="reference internal" href="#pymeteo.skewt.linewidth_Twb" title="pymeteo.skewt.linewidth_Twb"><code class="xref py py-data docutils literal notranslate"><span class="pre">linewidth_Twb</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pymeteo.skewt.linecolor_Parcel_T" title="pymeteo.skewt.linecolor_Parcel_T"><code class="xref py py-data docutils literal notranslate"><span class="pre">linecolor_Parcel_T</span></code></a>, <a class="reference internal" href="#pymeteo.skewt.linewidth_Parcel_T" title="pymeteo.skewt.linewidth_Parcel_T"><code class="xref py py-data docutils literal notranslate"><span class="pre">linewidth_Parcel_T</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pymeteo.skewt.linecolor_Tvp" title="pymeteo.skewt.linecolor_Tvp"><code class="xref py py-data docutils literal notranslate"><span class="pre">linecolor_Tvp</span></code></a>, <a class="reference internal" href="#pymeteo.skewt.linewidth_Tvp" title="pymeteo.skewt.linewidth_Tvp"><code class="xref py py-data docutils literal notranslate"><span class="pre">linewidth_Tvp</span></code></a>, <a class="reference internal" href="#pymeteo.skewt.linestyle_Tvp" title="pymeteo.skewt.linestyle_Tvp"><code class="xref py py-data docutils literal notranslate"><span class="pre">linestyle_Tvp</span></code></a></p></li>
 </ul>
-</div>
-<div class="section" id="functions-to-draw-isolines">
-<h4>Functions to draw isolines<a class="headerlink" href="#functions-to-draw-isolines" title="Permalink to this headline">¶</a></h4>
+</section>
+<section id="functions-to-draw-isolines">
+<h4>Functions to draw isolines<a class="headerlink" href="#functions-to-draw-isolines" title="Link to this heading">¶</a></h4>
 <p>If you are manually plotting skew-t data, these functions can be used to draw
 various lines on your plot.  These are used by the high level plotting functions.</p>
 <ul class="simple">
-<li><a class="reference internal" href="#pymeteo.skewt.draw_isotherms" title="pymeteo.skewt.draw_isotherms"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw_isotherms()</span></code></a></li>
-<li><a class="reference internal" href="#pymeteo.skewt.draw_isobars" title="pymeteo.skewt.draw_isobars"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw_isobars()</span></code></a></li>
-<li><a class="reference internal" href="#pymeteo.skewt.draw_dry_adiabat" title="pymeteo.skewt.draw_dry_adiabat"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw_dry_adiabat()</span></code></a></li>
-<li><a class="reference internal" href="#pymeteo.skewt.draw_moist_adiabat" title="pymeteo.skewt.draw_moist_adiabat"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw_moist_adiabat()</span></code></a></li>
-<li><a class="reference internal" href="#pymeteo.skewt.draw_water_mix_ratio" title="pymeteo.skewt.draw_water_mix_ratio"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw_water_mix_ratio()</span></code></a></li>
+<li><p><a class="reference internal" href="#pymeteo.skewt.draw_isotherms" title="pymeteo.skewt.draw_isotherms"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw_isotherms()</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pymeteo.skewt.draw_isobars" title="pymeteo.skewt.draw_isobars"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw_isobars()</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pymeteo.skewt.draw_dry_adiabat" title="pymeteo.skewt.draw_dry_adiabat"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw_dry_adiabat()</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pymeteo.skewt.draw_moist_adiabat" title="pymeteo.skewt.draw_moist_adiabat"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw_moist_adiabat()</span></code></a></p></li>
+<li><p><a class="reference internal" href="#pymeteo.skewt.draw_water_mix_ratio" title="pymeteo.skewt.draw_water_mix_ratio"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw_water_mix_ratio()</span></code></a></p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="module-reference">
-<h3>Module reference<a class="headerlink" href="#module-reference" title="Permalink to this headline">¶</a></h3>
-<dl class="data">
-<dt id="pymeteo.skewt.Tmax">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">Tmax</code><em class="property"> = 40.0</em><a class="headerlink" href="#pymeteo.skewt.Tmax" title="Permalink to this definition">¶</a></dt>
+</section>
+</section>
+<section id="module-reference">
+<h3>Module reference<a class="headerlink" href="#module-reference" title="Link to this heading">¶</a></h3>
+</section>
+<dl class="py data">
+<dt class="sig sig-object py" id="pymeteo.skewt.Tmax">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">Tmax</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">40.0</span></em><a class="headerlink" href="#pymeteo.skewt.Tmax" title="Link to this definition">¶</a></dt>
 <dd><p>Sets the right boundary of the plot. Temperature at 1000 mb (C)</p>
 </dd></dl>
 
-<dl class="data">
-<dt id="pymeteo.skewt.Tmin">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">Tmin</code><em class="property"> = -40.0</em><a class="headerlink" href="#pymeteo.skewt.Tmin" title="Permalink to this definition">¶</a></dt>
+<dl class="py data">
+<dt class="sig sig-object py" id="pymeteo.skewt.Tmin">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">Tmin</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">-40.0</span></em><a class="headerlink" href="#pymeteo.skewt.Tmin" title="Link to this definition">¶</a></dt>
 <dd><p>Sets the left boundary of the plot. Temperature at 1000 mb (C)</p>
 </dd></dl>
 
-<dl class="data">
-<dt id="pymeteo.skewt.dp">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">dp</code><em class="property"> = 5000.0</em><a class="headerlink" href="#pymeteo.skewt.dp" title="Permalink to this definition">¶</a></dt>
+<dl class="py data">
+<dt class="sig sig-object py" id="pymeteo.skewt.dp">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">dp</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5000.0</span></em><a class="headerlink" href="#pymeteo.skewt.dp" title="Link to this definition">¶</a></dt>
 <dd><p>The delta pressure used in calculating adiabats</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="pymeteo.skewt.draw_dry_adiabat">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">draw_dry_adiabat</code><span class="sig-paren">(</span><em>axes</em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.skewt.draw_dry_adiabat" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="pymeteo.skewt.draw_dry_adiabat">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">draw_dry_adiabat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.skewt.draw_dry_adiabat" title="Link to this definition">¶</a></dt>
 <dd><p>Plot dry adiabats on axes</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>axes</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes</span></code>) – The axes to draw on</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>axes</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes</span></code>) – The axes to draw on</p>
+</dd>
+</dl>
 <p>This function calculates dry adiabats
 and plots these lines.  Adiabats are calculated 
 every 10 K</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="pymeteo.skewt.draw_isobars">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">draw_isobars</code><span class="sig-paren">(</span><em>axes</em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.skewt.draw_isobars" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="pymeteo.skewt.draw_isobars">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">draw_isobars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.skewt.draw_isobars" title="Link to this definition">¶</a></dt>
 <dd><p>Plot isobars on axes</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>axes</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes</span></code>) – The axes to draw on</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>axes</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes</span></code>) – The axes to draw on</p>
+</dd>
+</dl>
 <p>This function draws isobars at intervals of 2*dp.</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="pymeteo.skewt.draw_isotherms">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">draw_isotherms</code><span class="sig-paren">(</span><em>axes</em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.skewt.draw_isotherms" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="pymeteo.skewt.draw_isotherms">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">draw_isotherms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.skewt.draw_isotherms" title="Link to this definition">¶</a></dt>
 <dd><p>Plot isotherms on axes</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>axes</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes</span></code>) – The axes to draw on</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>axes</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes</span></code>) – The axes to draw on</p>
+</dd>
+</dl>
 <p>This function draws isotherms every 10 C.</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="pymeteo.skewt.draw_moist_adiabat">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">draw_moist_adiabat</code><span class="sig-paren">(</span><em>axes</em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.skewt.draw_moist_adiabat" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="pymeteo.skewt.draw_moist_adiabat">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">draw_moist_adiabat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.skewt.draw_moist_adiabat" title="Link to this definition">¶</a></dt>
 <dd><p>Plot moist adiabats on axes</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>axes</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes</span></code>) – The axes to draw on</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>axes</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes</span></code>) – The axes to draw on</p>
+</dd>
+</dl>
 <p>This function calculates moist adiabats
 and plots these lines.  Adiabats are calculated for
 values of T at 1000mb from -15 to 45 C every 5 C between
 -15 and 10 C and every 2.5 C between 12.5 and 45 C.</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="pymeteo.skewt.draw_water_mix_ratio">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">draw_water_mix_ratio</code><span class="sig-paren">(</span><em>axes</em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.skewt.draw_water_mix_ratio" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="pymeteo.skewt.draw_water_mix_ratio">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">draw_water_mix_ratio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.skewt.draw_water_mix_ratio" title="Link to this definition">¶</a></dt>
 <dd><p>Plot lines of constant water vapor mixing ratio on axes</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>axes</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes</span></code>) – The axes to draw on</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>axes</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes</span></code>) – The axes to draw on</p>
+</dd>
+</dl>
 <p>This function calculates isolines of constant water vapor
 mixing ratio and plots these lines.  Values of w calculated
 are given by the list variable w.</p>
 </dd></dl>
 
-<dl class="data">
-<dt id="pymeteo.skewt.dry_adiabats">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">dry_adiabats</code><em class="property"> = array([-40, -30, -20, -10,   0,  10,  20,  30,  40,  50,  60,  70,  80,         90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200])</em><a class="headerlink" href="#pymeteo.skewt.dry_adiabats" title="Permalink to this definition">¶</a></dt>
+<dl class="py data">
+<dt class="sig sig-object py" id="pymeteo.skewt.dry_adiabats">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">dry_adiabats</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">array([-40,</span> <span class="pre">-30,</span> <span class="pre">-20,</span> <span class="pre">-10,</span>&#160;&#160; <span class="pre">0,</span>&#160; <span class="pre">10,</span>&#160; <span class="pre">20,</span>&#160; <span class="pre">30,</span>&#160; <span class="pre">40,</span>&#160; <span class="pre">50,</span>&#160; <span class="pre">60,</span>&#160; <span class="pre">70,</span>&#160; <span class="pre">80,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">90,</span> <span class="pre">100,</span> <span class="pre">110,</span> <span class="pre">120,</span> <span class="pre">130,</span> <span class="pre">140,</span> <span class="pre">150,</span> <span class="pre">160,</span> <span class="pre">170,</span> <span class="pre">180,</span> <span class="pre">190,</span> <span class="pre">200])</span></em><a class="headerlink" href="#pymeteo.skewt.dry_adiabats" title="Link to this definition">¶</a></dt>
 <dd><p>List of dry adiabats to plot on the skew-t.  In degrees C</p>
 </dd></dl>
 
-<dl class="data">
-<dt id="pymeteo.skewt.isobars">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">isobars</code><em class="property"> = array([100000.,  95000.,  90000.,  85000.,  80000.,  75000.,  70000.,         65000.,  60000.,  55000.,  50000.,  45000.,  40000.,  35000.,         30000.,  25000.,  20000.,  15000.,  10000.])</em><a class="headerlink" href="#pymeteo.skewt.isobars" title="Permalink to this definition">¶</a></dt>
+<dl class="py data">
+<dt class="sig sig-object py" id="pymeteo.skewt.isobars">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">isobars</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">array([100000.,</span>&#160; <span class="pre">95000.,</span>&#160; <span class="pre">90000.,</span>&#160; <span class="pre">85000.,</span>&#160; <span class="pre">80000.,</span>&#160; <span class="pre">75000.,</span>&#160; <span class="pre">70000.,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">65000.,</span>&#160; <span class="pre">60000.,</span>&#160; <span class="pre">55000.,</span>&#160; <span class="pre">50000.,</span>&#160; <span class="pre">45000.,</span>&#160; <span class="pre">40000.,</span>&#160; <span class="pre">35000.,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">30000.,</span>&#160; <span class="pre">25000.,</span>&#160; <span class="pre">20000.,</span>&#160; <span class="pre">15000.,</span>&#160; <span class="pre">10000.])</span></em><a class="headerlink" href="#pymeteo.skewt.isobars" title="Link to this definition">¶</a></dt>
 <dd><p>List of isobars to plot on the skew-t.  In Pascals</p>
 </dd></dl>
 
-<dl class="data">
-<dt id="pymeteo.skewt.isotherms">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">isotherms</code><em class="property"> = array([-150, -140, -130, -120, -110, -100,  -90,  -80,  -70,  -60,  -50,         -40,  -30,  -20,  -10,    0,   10,   20,   30,   40,   50])</em><a class="headerlink" href="#pymeteo.skewt.isotherms" title="Permalink to this definition">¶</a></dt>
+<dl class="py data">
+<dt class="sig sig-object py" id="pymeteo.skewt.isotherms">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">isotherms</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">array([-150,</span> <span class="pre">-140,</span> <span class="pre">-130,</span> <span class="pre">-120,</span> <span class="pre">-110,</span> <span class="pre">-100,</span>&#160; <span class="pre">-90,</span>&#160; <span class="pre">-80,</span>&#160; <span class="pre">-70,</span>&#160; <span class="pre">-60,</span>&#160; <span class="pre">-50,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">-40,</span>&#160; <span class="pre">-30,</span>&#160; <span class="pre">-20,</span>&#160; <span class="pre">-10,</span>&#160;&#160;&#160; <span class="pre">0,</span>&#160;&#160; <span class="pre">10,</span>&#160;&#160; <span class="pre">20,</span>&#160;&#160; <span class="pre">30,</span>&#160;&#160; <span class="pre">40,</span>&#160;&#160; <span class="pre">50])</span></em><a class="headerlink" href="#pymeteo.skewt.isotherms" title="Link to this definition">¶</a></dt>
 <dd><p>List of isotherms to plot on the skew-t.  In degrees C</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="pymeteo.skewt.label_std_heights">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">label_std_heights</code><span class="sig-paren">(</span><em>axes</em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.skewt.label_std_heights" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="pymeteo.skewt.label_std_heights">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">label_std_heights</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.skewt.label_std_heights" title="Link to this definition">¶</a></dt>
 <dd><p>Plot heights of standard pressure levels</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Paramter axes:</th><td class="field-body">The axes to draw on</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Paramter axes<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The axes to draw on</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="data">
-<dt id="pymeteo.skewt.lc_major">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">lc_major</code><em class="property"> = 'grey'</em><a class="headerlink" href="#pymeteo.skewt.lc_major" title="Permalink to this definition">¶</a></dt>
+<dl class="py data">
+<dt class="sig sig-object py" id="pymeteo.skewt.lc_major">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">lc_major</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'grey'</span></em><a class="headerlink" href="#pymeteo.skewt.lc_major" title="Link to this definition">¶</a></dt>
 <dd><p>Line color of ‘major’ lines.  E.g. Lines plotted at 10 C intervals or 50 mb intervals</p>
 </dd></dl>
 
-<dl class="data">
-<dt id="pymeteo.skewt.lc_minor">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">lc_minor</code><em class="property"> = 'lightgrey'</em><a class="headerlink" href="#pymeteo.skewt.lc_minor" title="Permalink to this definition">¶</a></dt>
+<dl class="py data">
+<dt class="sig sig-object py" id="pymeteo.skewt.lc_minor">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">lc_minor</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'lightgrey'</span></em><a class="headerlink" href="#pymeteo.skewt.lc_minor" title="Link to this definition">¶</a></dt>
 <dd><p>Line color of ‘minor’ lines.  E.g. Lines not plotted at the major intervals</p>
 </dd></dl>
 
-<dl class="data">
-<dt id="pymeteo.skewt.linecolor_Parcel_T">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">linecolor_Parcel_T</code><em class="property"> = 'red'</em><a class="headerlink" href="#pymeteo.skewt.linecolor_Parcel_T" title="Permalink to this definition">¶</a></dt>
+<dl class="py data">
+<dt class="sig sig-object py" id="pymeteo.skewt.linecolor_Parcel_T">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">linecolor_Parcel_T</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'red'</span></em><a class="headerlink" href="#pymeteo.skewt.linecolor_Parcel_T" title="Link to this definition">¶</a></dt>
 <dd><p>Line color of lifted surface parcel temperature profile</p>
 </dd></dl>
 
-<dl class="data">
-<dt id="pymeteo.skewt.linecolor_T">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">linecolor_T</code><em class="property"> = 'black'</em><a class="headerlink" href="#pymeteo.skewt.linecolor_T" title="Permalink to this definition">¶</a></dt>
+<dl class="py data">
+<dt class="sig sig-object py" id="pymeteo.skewt.linecolor_T">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">linecolor_T</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'black'</span></em><a class="headerlink" href="#pymeteo.skewt.linecolor_T" title="Link to this definition">¶</a></dt>
 <dd><p>Line color of environmental temperature profile</p>
 </dd></dl>
 
-<dl class="data">
-<dt id="pymeteo.skewt.linecolor_Td">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">linecolor_Td</code><em class="property"> = 'green'</em><a class="headerlink" href="#pymeteo.skewt.linecolor_Td" title="Permalink to this definition">¶</a></dt>
+<dl class="py data">
+<dt class="sig sig-object py" id="pymeteo.skewt.linecolor_Td">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">linecolor_Td</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'green'</span></em><a class="headerlink" href="#pymeteo.skewt.linecolor_Td" title="Link to this definition">¶</a></dt>
 <dd><p>Line color of environmental dew-point temperature profile</p>
 </dd></dl>
 
-<dl class="data">
-<dt id="pymeteo.skewt.linecolor_Tve">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">linecolor_Tve</code><em class="property"> = 'black'</em><a class="headerlink" href="#pymeteo.skewt.linecolor_Tve" title="Permalink to this definition">¶</a></dt>
+<dl class="py data">
+<dt class="sig sig-object py" id="pymeteo.skewt.linecolor_Tve">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">linecolor_Tve</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'black'</span></em><a class="headerlink" href="#pymeteo.skewt.linecolor_Tve" title="Link to this definition">¶</a></dt>
 <dd><p>Line color of environmental virtual temperature profile</p>
 </dd></dl>
 
-<dl class="data">
-<dt id="pymeteo.skewt.linecolor_Tvp">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">linecolor_Tvp</code><em class="property"> = 'red'</em><a class="headerlink" href="#pymeteo.skewt.linecolor_Tvp" title="Permalink to this definition">¶</a></dt>
+<dl class="py data">
+<dt class="sig sig-object py" id="pymeteo.skewt.linecolor_Tvp">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">linecolor_Tvp</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'red'</span></em><a class="headerlink" href="#pymeteo.skewt.linecolor_Tvp" title="Link to this definition">¶</a></dt>
 <dd><p>Line color of lifted surface parcel virtual temperature profile</p>
 </dd></dl>
 
-<dl class="data">
-<dt id="pymeteo.skewt.linecolor_Twb">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">linecolor_Twb</code><em class="property"> = 'blue'</em><a class="headerlink" href="#pymeteo.skewt.linecolor_Twb" title="Permalink to this definition">¶</a></dt>
+<dl class="py data">
+<dt class="sig sig-object py" id="pymeteo.skewt.linecolor_Twb">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">linecolor_Twb</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'blue'</span></em><a class="headerlink" href="#pymeteo.skewt.linecolor_Twb" title="Link to this definition">¶</a></dt>
 <dd><p>Line color of environmental wet-bulb temperature profile</p>
 </dd></dl>
 
-<dl class="data">
-<dt id="pymeteo.skewt.linestyle_Tve">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">linestyle_Tve</code><em class="property"> = '--'</em><a class="headerlink" href="#pymeteo.skewt.linestyle_Tve" title="Permalink to this definition">¶</a></dt>
+<dl class="py data">
+<dt class="sig sig-object py" id="pymeteo.skewt.linestyle_Tve">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">linestyle_Tve</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'--'</span></em><a class="headerlink" href="#pymeteo.skewt.linestyle_Tve" title="Link to this definition">¶</a></dt>
 <dd><p>Line style of environmental virtual temperature profile</p>
 </dd></dl>
 
-<dl class="data">
-<dt id="pymeteo.skewt.linestyle_Tvp">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">linestyle_Tvp</code><em class="property"> = '--'</em><a class="headerlink" href="#pymeteo.skewt.linestyle_Tvp" title="Permalink to this definition">¶</a></dt>
+<dl class="py data">
+<dt class="sig sig-object py" id="pymeteo.skewt.linestyle_Tvp">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">linestyle_Tvp</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'--'</span></em><a class="headerlink" href="#pymeteo.skewt.linestyle_Tvp" title="Link to this definition">¶</a></dt>
 <dd><p>Line style of lifted surface parcel virtual temperature profile</p>
 </dd></dl>
 
-<dl class="data">
-<dt id="pymeteo.skewt.linewidth_Parcel_T">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">linewidth_Parcel_T</code><em class="property"> = 1.0</em><a class="headerlink" href="#pymeteo.skewt.linewidth_Parcel_T" title="Permalink to this definition">¶</a></dt>
+<dl class="py data">
+<dt class="sig sig-object py" id="pymeteo.skewt.linewidth_Parcel_T">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">linewidth_Parcel_T</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1.0</span></em><a class="headerlink" href="#pymeteo.skewt.linewidth_Parcel_T" title="Link to this definition">¶</a></dt>
 <dd><p>Line width of lifted surface parcel temperature profile</p>
 </dd></dl>
 
-<dl class="data">
-<dt id="pymeteo.skewt.linewidth_T">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">linewidth_T</code><em class="property"> = 1.5</em><a class="headerlink" href="#pymeteo.skewt.linewidth_T" title="Permalink to this definition">¶</a></dt>
+<dl class="py data">
+<dt class="sig sig-object py" id="pymeteo.skewt.linewidth_T">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">linewidth_T</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1.5</span></em><a class="headerlink" href="#pymeteo.skewt.linewidth_T" title="Link to this definition">¶</a></dt>
 <dd><p>Line width of environmental temperature profile</p>
 </dd></dl>
 
-<dl class="data">
-<dt id="pymeteo.skewt.linewidth_Td">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">linewidth_Td</code><em class="property"> = 1.5</em><a class="headerlink" href="#pymeteo.skewt.linewidth_Td" title="Permalink to this definition">¶</a></dt>
+<dl class="py data">
+<dt class="sig sig-object py" id="pymeteo.skewt.linewidth_Td">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">linewidth_Td</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1.5</span></em><a class="headerlink" href="#pymeteo.skewt.linewidth_Td" title="Link to this definition">¶</a></dt>
 <dd><p>Line width of environmental dew-point temperature profile</p>
 </dd></dl>
 
-<dl class="data">
-<dt id="pymeteo.skewt.linewidth_Tve">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">linewidth_Tve</code><em class="property"> = 0.7</em><a class="headerlink" href="#pymeteo.skewt.linewidth_Tve" title="Permalink to this definition">¶</a></dt>
+<dl class="py data">
+<dt class="sig sig-object py" id="pymeteo.skewt.linewidth_Tve">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">linewidth_Tve</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.7</span></em><a class="headerlink" href="#pymeteo.skewt.linewidth_Tve" title="Link to this definition">¶</a></dt>
 <dd><p>Line width of environmental virtual temperature profile</p>
 </dd></dl>
 
-<dl class="data">
-<dt id="pymeteo.skewt.linewidth_Tvp">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">linewidth_Tvp</code><em class="property"> = 0.7</em><a class="headerlink" href="#pymeteo.skewt.linewidth_Tvp" title="Permalink to this definition">¶</a></dt>
+<dl class="py data">
+<dt class="sig sig-object py" id="pymeteo.skewt.linewidth_Tvp">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">linewidth_Tvp</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.7</span></em><a class="headerlink" href="#pymeteo.skewt.linewidth_Tvp" title="Link to this definition">¶</a></dt>
 <dd><p>Line width of lifted surface parcel virtual temperature profile</p>
 </dd></dl>
 
-<dl class="data">
-<dt id="pymeteo.skewt.linewidth_Twb">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">linewidth_Twb</code><em class="property"> = 0.5</em><a class="headerlink" href="#pymeteo.skewt.linewidth_Twb" title="Permalink to this definition">¶</a></dt>
+<dl class="py data">
+<dt class="sig sig-object py" id="pymeteo.skewt.linewidth_Twb">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">linewidth_Twb</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.5</span></em><a class="headerlink" href="#pymeteo.skewt.linewidth_Twb" title="Link to this definition">¶</a></dt>
 <dd><p>Line width of environmental wet-bulb temperature profile</p>
 </dd></dl>
 
-<dl class="data">
-<dt id="pymeteo.skewt.lw_major">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">lw_major</code><em class="property"> = 0.6</em><a class="headerlink" href="#pymeteo.skewt.lw_major" title="Permalink to this definition">¶</a></dt>
+<dl class="py data">
+<dt class="sig sig-object py" id="pymeteo.skewt.lw_major">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">lw_major</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.6</span></em><a class="headerlink" href="#pymeteo.skewt.lw_major" title="Link to this definition">¶</a></dt>
 <dd><p>Line width of ‘major’ lines.  E.g. Lines plotted at 10 C intervals or 50 mb intervals</p>
 </dd></dl>
 
-<dl class="data">
-<dt id="pymeteo.skewt.lw_minor">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">lw_minor</code><em class="property"> = 0.25</em><a class="headerlink" href="#pymeteo.skewt.lw_minor" title="Permalink to this definition">¶</a></dt>
+<dl class="py data">
+<dt class="sig sig-object py" id="pymeteo.skewt.lw_minor">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">lw_minor</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.25</span></em><a class="headerlink" href="#pymeteo.skewt.lw_minor" title="Link to this definition">¶</a></dt>
 <dd><p>Line width of ‘minor’ lines.  E.g. Lines not plotted at the major intervals</p>
 </dd></dl>
 
-<dl class="data">
-<dt id="pymeteo.skewt.mixing_ratios">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">mixing_ratios</code><em class="property"> = [0.2, 0.4, 0.8, 1, 2, 3, 4, 6, 8, 10, 14, 18, 24, 32, 40]</em><a class="headerlink" href="#pymeteo.skewt.mixing_ratios" title="Permalink to this definition">¶</a></dt>
+<dl class="py data">
+<dt class="sig sig-object py" id="pymeteo.skewt.mixing_ratios">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">mixing_ratios</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[0.2,</span> <span class="pre">0.4,</span> <span class="pre">0.8,</span> <span class="pre">1,</span> <span class="pre">2,</span> <span class="pre">3,</span> <span class="pre">4,</span> <span class="pre">6,</span> <span class="pre">8,</span> <span class="pre">10,</span> <span class="pre">14,</span> <span class="pre">18,</span> <span class="pre">24,</span> <span class="pre">32,</span> <span class="pre">40]</span></em><a class="headerlink" href="#pymeteo.skewt.mixing_ratios" title="Link to this definition">¶</a></dt>
 <dd><p>List of water vapor mixing ratio lines to plot. In g/kg</p>
 </dd></dl>
 
-<dl class="data">
-<dt id="pymeteo.skewt.moist_adiabats">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">moist_adiabats</code><em class="property"> = array([-15., -10.,  -5.,   0.,   5.,  10.,  12.,  14.,  16.,  18.,  20.,         22.,  24.,  26.,  28.,  30.,  32.,  34.,  36.,  38.,  40.,  42.,         44.])</em><a class="headerlink" href="#pymeteo.skewt.moist_adiabats" title="Permalink to this definition">¶</a></dt>
+<dl class="py data">
+<dt class="sig sig-object py" id="pymeteo.skewt.moist_adiabats">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">moist_adiabats</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">array([-15.,</span> <span class="pre">-10.,</span>&#160; <span class="pre">-5.,</span>&#160;&#160; <span class="pre">0.,</span>&#160;&#160; <span class="pre">5.,</span>&#160; <span class="pre">10.,</span>&#160; <span class="pre">12.,</span>&#160; <span class="pre">14.,</span>&#160; <span class="pre">16.,</span>&#160; <span class="pre">18.,</span>&#160; <span class="pre">20.,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">22.,</span>&#160; <span class="pre">24.,</span>&#160; <span class="pre">26.,</span>&#160; <span class="pre">28.,</span>&#160; <span class="pre">30.,</span>&#160; <span class="pre">32.,</span>&#160; <span class="pre">34.,</span>&#160; <span class="pre">36.,</span>&#160; <span class="pre">38.,</span>&#160; <span class="pre">40.,</span>&#160; <span class="pre">42.,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">44.])</span></em><a class="headerlink" href="#pymeteo.skewt.moist_adiabats" title="Link to this definition">¶</a></dt>
 <dd><p>List of moist adiabats to plot on the skew-t.  In degrees C</p>
 </dd></dl>
 
-<dl class="data">
-<dt id="pymeteo.skewt.pbot">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">pbot</code><em class="property"> = 105000.0</em><a class="headerlink" href="#pymeteo.skewt.pbot" title="Permalink to this definition">¶</a></dt>
+<dl class="py data">
+<dt class="sig sig-object py" id="pymeteo.skewt.pbot">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">pbot</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">105000.0</span></em><a class="headerlink" href="#pymeteo.skewt.pbot" title="Link to this definition">¶</a></dt>
 <dd><p>Sets the bottom boundary of the plot. Pressure (Pa)</p>
 </dd></dl>
 
-<dl class="data">
-<dt id="pymeteo.skewt.plevs">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">plevs</code><em class="property"> = array([105000., 100000.,  95000.,  90000.,  85000.,  80000.,  75000.,         70000.,  65000.,  60000.,  55000.,  50000.,  45000.,  40000.,         35000.,  30000.,  25000.,  20000.,  15000.,  10000.])</em><a class="headerlink" href="#pymeteo.skewt.plevs" title="Permalink to this definition">¶</a></dt>
+<dl class="py data">
+<dt class="sig sig-object py" id="pymeteo.skewt.plevs">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">plevs</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">array([105000.,</span> <span class="pre">100000.,</span>&#160; <span class="pre">95000.,</span>&#160; <span class="pre">90000.,</span>&#160; <span class="pre">85000.,</span>&#160; <span class="pre">80000.,</span>&#160; <span class="pre">75000.,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">70000.,</span>&#160; <span class="pre">65000.,</span>&#160; <span class="pre">60000.,</span>&#160; <span class="pre">55000.,</span>&#160; <span class="pre">50000.,</span>&#160; <span class="pre">45000.,</span>&#160; <span class="pre">40000.,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">35000.,</span>&#160; <span class="pre">30000.,</span>&#160; <span class="pre">25000.,</span>&#160; <span class="pre">20000.,</span>&#160; <span class="pre">15000.,</span>&#160; <span class="pre">10000.])</span></em><a class="headerlink" href="#pymeteo.skewt.plevs" title="Link to this definition">¶</a></dt>
 <dd><p>List of pressure levels to do calculations on</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="pymeteo.skewt.plot">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">plot</code><span class="sig-paren">(</span><em>loc</em>, <em>z</em>, <em>th</em>, <em>p</em>, <em>qv</em>, <em>u</em>, <em>v</em>, <em>output</em>, <em>time=None</em>, <em>title=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.skewt.plot" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="pymeteo.skewt.plot">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">th</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.skewt.plot" title="Link to this definition">¶</a></dt>
 <dd><p>Plots Skew-T/Log-P diagrapms with hodograph</p>
 <p>The helper functions above facilitate loading data from
 various formats and then call this function.  If you have
 data in another format or arrays of data in python already,
 then this is the function you want to use.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>loc</strong> – Location string</li>
-<li><strong>z</strong> – z grid mesh (1D)</li>
-<li><strong>time</strong> – Time string</li>
-<li><strong>th</strong> – Potential temperature at z points</li>
-<li><strong>p</strong> – Pressure at z points</li>
-<li><strong>qv</strong> – Water vapor mixing ratio at z points</li>
-<li><strong>u</strong> – u winds at z points</li>
-<li><strong>v</strong> – v winds at z points</li>
-<li><strong>title</strong> – Title for plot</li>
-<li><strong>output</strong> – Filename to save plot to</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>loc</strong> – Location string</p></li>
+<li><p><strong>z</strong> – z grid mesh (1D)</p></li>
+<li><p><strong>time</strong> – Time string</p></li>
+<li><p><strong>th</strong> – Potential temperature at z points</p></li>
+<li><p><strong>p</strong> – Pressure at z points</p></li>
+<li><p><strong>qv</strong> – Water vapor mixing ratio at z points</p></li>
+<li><p><strong>u</strong> – u winds at z points</p></li>
+<li><p><strong>v</strong> – v winds at z points</p></li>
+<li><p><strong>title</strong> – Title for plot</p></li>
+<li><p><strong>output</strong> – Filename to save plot to</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="pymeteo.skewt.plot_cm1">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">plot_cm1</code><span class="sig-paren">(</span><em>path</em>, <em>filename</em>, <em>xi</em>, <em>yi</em>, <em>output</em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.skewt.plot_cm1" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="pymeteo.skewt.plot_cm1">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">plot_cm1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.skewt.plot_cm1" title="Link to this definition">¶</a></dt>
 <dd><p>Plot skewt from a Grads format CM1 output file</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>_path</strong> – Path to CM1 dataset</li>
-<li><strong>_filename</strong> – Filename of dataset</li>
-<li><strong>x1</strong> – X gridpoint to plot SkewT</li>
-<li><strong>y1</strong> – Y gridpoint to plot SkewT</li>
-<li><strong>output</strong> – Filename to save skewt plot</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>_path</strong> – Path to CM1 dataset</p></li>
+<li><p><strong>_filename</strong> – Filename of dataset</p></li>
+<li><p><strong>x1</strong> – X gridpoint to plot SkewT</p></li>
+<li><p><strong>y1</strong> – Y gridpoint to plot SkewT</p></li>
+<li><p><strong>output</strong> – Filename to save skewt plot</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p>This function plots a skewt from a CM1 output file.  
 This routine uses winds interpolated to the scalar
 gridpoints.</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="pymeteo.skewt.plot_cm1h5">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">plot_cm1h5</code><span class="sig-paren">(</span><em>filename</em>, <em>xi</em>, <em>yi</em>, <em>output</em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.skewt.plot_cm1h5" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="pymeteo.skewt.plot_cm1h5">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">plot_cm1h5</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.skewt.plot_cm1h5" title="Link to this definition">¶</a></dt>
 <dd><p>Plots a skewt from an HDF5 file.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The name of the HDF5 file to open.</li>
-<li><strong>xi</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – The X gridpoint of the skewt plot.</li>
-<li><strong>yi</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – The Y gridpoint of the skewt plot.</li>
-<li><strong>output</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Output filename to save plot</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The name of the HDF5 file to open.</p></li>
+<li><p><strong>xi</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The X gridpoint of the skewt plot.</p></li>
+<li><p><strong>yi</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The Y gridpoint of the skewt plot.</p></li>
+<li><p><strong>output</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Output filename to save plot</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p>To use this function the HDF5 file must have the following
 variables:</p>
 <ul class="simple">
-<li><em>xh</em> – x scalar grid locations</li>
-<li><em>yh</em> – y scalar grid locations</li>
-<li><em>z</em> – z grid locations</li>
-<li><em>time</em> – timestep of file data (scalar)</li>
-<li><em>th</em> – potential temperature (K)</li>
-<li><em>thpert</em> – potential temperature perturbation (K)</li>
-<li><em>prs</em> – pressure (Pa)</li>
-<li><em>u</em> – u wind speed (m/s)</li>
-<li><em>v</em> – v wind speed (m/s)</li>
-<li><em>qv</em> – water vapor mixing ratio (kg/kg)</li>
+<li><p><em>xh</em> – x scalar grid locations</p></li>
+<li><p><em>yh</em> – y scalar grid locations</p></li>
+<li><p><em>z</em> – z grid locations</p></li>
+<li><p><em>time</em> – timestep of file data (scalar)</p></li>
+<li><p><em>th</em> – potential temperature (K)</p></li>
+<li><p><em>thpert</em> – potential temperature perturbation (K)</p></li>
+<li><p><em>prs</em> – pressure (Pa)</p></li>
+<li><p><em>u</em> – u wind speed (m/s)</p></li>
+<li><p><em>v</em> – v wind speed (m/s)</p></li>
+<li><p><em>qv</em> – water vapor mixing ratio (kg/kg)</p></li>
 </ul>
 <p>The names of these variables correspond to default naming by 
 CM1 using HDF5 output.</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="pymeteo.skewt.plot_hodo_axes">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">plot_hodo_axes</code><span class="sig-paren">(</span><em>axes</em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.skewt.plot_hodo_axes" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="pymeteo.skewt.plot_hodo_axes">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">plot_hodo_axes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.skewt.plot_hodo_axes" title="Link to this definition">¶</a></dt>
 <dd><p>Plot hodograph axes</p>
 <p>This will plot range arcs and labels for a hodograph plot</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="pymeteo.skewt.plot_hodograph">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">plot_hodograph</code><span class="sig-paren">(</span><em>axes</em>, <em>z</em>, <em>u</em>, <em>v</em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.skewt.plot_hodograph" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="pymeteo.skewt.plot_hodograph">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">plot_hodograph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.skewt.plot_hodograph" title="Link to this definition">¶</a></dt>
 <dd><p>Plot Hodograph data</p>
 <p>This plots u and v winds vs height on a hodograph.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>z</strong> – height values (1D array)</li>
-<li><strong>u</strong> – U component of wind at z heights (1D array)</li>
-<li><strong>v</strong> – V component of wind at z heights (1D array)</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>z</strong> – height values (1D array)</p></li>
+<li><p><strong>u</strong> – U component of wind at z heights (1D array)</p></li>
+<li><p><strong>v</strong> – V component of wind at z heights (1D array)</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Paramter axes:</th><td class="field-body"><p class="first last">The axes instance to draw on</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Paramter axes<span class="colon">:</span></dt>
+<dd class="field-even"><p>The axes instance to draw on</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="pymeteo.skewt.plot_legend">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">plot_legend</code><span class="sig-paren">(</span><em>axes</em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.skewt.plot_legend" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="pymeteo.skewt.plot_legend">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">plot_legend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.skewt.plot_legend" title="Link to this definition">¶</a></dt>
 <dd><p>Plot skew-t legend</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="pymeteo.skewt.plot_sounding">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">plot_sounding</code><span class="sig-paren">(</span><em>axes</em>, <em>z</em>, <em>th</em>, <em>p</em>, <em>qv</em>, <em>u=None</em>, <em>v=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.skewt.plot_sounding" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="pymeteo.skewt.plot_sounding">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">plot_sounding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">th</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.skewt.plot_sounding" title="Link to this definition">¶</a></dt>
 <dd><p>Plot sounding data</p>
 <p>This plots temperature, dewpoint and wind data on a Skew-T/Log-P plot.
 This will also plot derived values such as wetbulb temperature and
 label the surface based LCL, LFC and EL.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>z</strong> – height values (1D array)</li>
-<li><strong>th</strong> – potential temperature at z heights (1D array)</li>
-<li><strong>p</strong> – pressure at z heights (1D array)</li>
-<li><strong>qv</strong> – water vapor mixing ratio at z heights (1D array)</li>
-<li><strong>u</strong> – U component of wind at z heights (1D array)</li>
-<li><strong>v</strong> – V component of wind at z heights (1D array)</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>z</strong> – height values (1D array)</p></li>
+<li><p><strong>th</strong> – potential temperature at z heights (1D array)</p></li>
+<li><p><strong>p</strong> – pressure at z heights (1D array)</p></li>
+<li><p><strong>qv</strong> – water vapor mixing ratio at z heights (1D array)</p></li>
+<li><p><strong>u</strong> – U component of wind at z heights (1D array)</p></li>
+<li><p><strong>v</strong> – V component of wind at z heights (1D array)</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Paramter axes:</th><td class="field-body"><p class="first last">The axes instance to draw on</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Paramter axes<span class="colon">:</span></dt>
+<dd class="field-even"><p>The axes instance to draw on</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="pymeteo.skewt.plot_sounding_axes">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">plot_sounding_axes</code><span class="sig-paren">(</span><em>axes</em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.skewt.plot_sounding_axes" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="pymeteo.skewt.plot_sounding_axes">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">plot_sounding_axes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.skewt.plot_sounding_axes" title="Link to this definition">¶</a></dt>
 <dd><p>Plots Skew-T/Log-P axes</p>
 <p>This will plot isotherms, isobars, dry and moist adiabats, 
 lines of constant water vapor mixing ratio, labels and 
 setup the y axes to be reversed.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Paramter axes:</th><td class="field-body">The axes to draw on</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Paramter axes<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The axes to draw on</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="pymeteo.skewt.plot_sounding_data">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">plot_sounding_data</code><span class="sig-paren">(</span><em>filename</em>, <em>output</em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.skewt.plot_sounding_data" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="pymeteo.skewt.plot_sounding_data">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">plot_sounding_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.skewt.plot_sounding_data" title="Link to this definition">¶</a></dt>
 <dd><p>Plot SkewT from a WRF / CM1 compatible sounding data file</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The name of the file to open.</li>
-<li><strong>output</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The name of the file to output plot</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The name of the file to open.</p></li>
+<li><p><strong>output</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The name of the file to output plot</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p>The datafile is the same format as used in sounding initalization
 files for WRF and CM1.</p>
 <p>The format is:
@@ -613,52 +569,44 @@ files for WRF and CM1.</p>
 n number of lines with z (m), theta (K), qv (g/kg), u (m/s), v(m/s)</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="pymeteo.skewt.plot_sounding_data_csv">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">plot_sounding_data_csv</code><span class="sig-paren">(</span><em>filename</em>, <em>output</em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.skewt.plot_sounding_data_csv" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="pymeteo.skewt.plot_sounding_data_csv">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">plot_sounding_data_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.skewt.plot_sounding_data_csv" title="Link to this definition">¶</a></dt>
 <dd><p>Plot SkewT from a CSV sounding data file</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The name of the file to open.</li>
-<li><strong>output</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The name of the file to output plot</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The name of the file to open.</p></li>
+<li><p><strong>output</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The name of the file to output plot</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p>The datafile format is CSV with the following columns:</p>
 <ul class="simple">
-<li>pressure (mb)</li>
-<li>height (m)</li>
-<li>temperature (C)</li>
-<li>dew point (C)</li>
-<li>wind direction (degrees)</li>
-<li>wind speed (m/s)</li>
+<li><p>pressure (mb)</p></li>
+<li><p>height (m)</p></li>
+<li><p>temperature (C)</p></li>
+<li><p>dew point (C)</p></li>
+<li><p>wind direction (degrees)</p></li>
+<li><p>wind speed (m/s)</p></li>
 </ul>
 <p>Missing values should be filled with the value -9999.00</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="pymeteo.skewt.plot_sounding_data_uwyo">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">plot_sounding_data_uwyo</code><span class="sig-paren">(</span><em>filename</em>, <em>output</em>, <em>stationID=0</em>, <em>date=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.skewt.plot_sounding_data_uwyo" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="pymeteo.skewt.plot_sounding_data_uwyo">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">plot_sounding_data_uwyo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stationID</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.skewt.plot_sounding_data_uwyo" title="Link to this definition">¶</a></dt>
 <dd><p>Plot SkewT from University of Wyoming sounding data</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>filename</strong> – The name of the file containing sounding data</li>
-<li><strong>output</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The name of the file to output plot</li>
-<li><strong>stationID</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – The station ID of a sounding station</li>
-<li><strong>date</strong> (<em>datetime</em>) – Date and time of a sounding to request</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> – The name of the file containing sounding data</p></li>
+<li><p><strong>output</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The name of the file to output plot</p></li>
+<li><p><strong>stationID</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The station ID of a sounding station</p></li>
+<li><p><strong>date</strong> (<em>datetime</em>) – Date and time of a sounding to request</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p>If filename is not None then this function will plot data from that file.
 If filename is None and stationID is non-zero, then this will request a sounding
 datafile from <a class="reference external" href="http://weather.uwyo.edu">http://weather.uwyo.edu</a> for the specified date.  If date is None 
@@ -666,24 +614,20 @@ then the requested sounding will be the most recent sounding taken at either
 12Z or 00Z.</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="pymeteo.skewt.plot_wrf">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">plot_wrf</code><span class="sig-paren">(</span><em>filename</em>, <em>lat</em>, <em>lon</em>, <em>time</em>, <em>output</em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.skewt.plot_wrf" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="pymeteo.skewt.plot_wrf">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">plot_wrf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.skewt.plot_wrf" title="Link to this definition">¶</a></dt>
 <dd><p>Plots a skewt from an WRF NetCDF output file.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The name of the NetCDF file to open.</li>
-<li><strong>lat</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – The latitude of the location of the skewt plot.</li>
-<li><strong>lon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – The longitude of the location of the skewt plot.</li>
-<li><strong>output</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Output filename to save plot</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The name of the NetCDF file to open.</p></li>
+<li><p><strong>lat</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – The latitude of the location of the skewt plot.</p></li>
+<li><p><strong>lon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The longitude of the location of the skewt plot.</p></li>
+<li><p><strong>output</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Output filename to save plot</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p>This function assumes the NetCDF file was produce by the WRF model.
 If another program produces the file but names variables in the same
 manner as the WRF model, this function should work for that dat as well.</p>
@@ -696,332 +640,298 @@ manner as the WRF model, this function should work for that dat as well.</p>
 - PB(Time, bottom_top, south_north, west_east)  pres base state
 - QVAPOR(Time, bottom_top, south_north, west_east)</p>
 <ul class="simple">
-<li>PH(Time, bottom_top_stag, south_north, west_east)</li>
-<li>PHB(Time, bottom_top_stag, south_north, west_east)
-Z = (((PH(k)+PH(k+1)) / 2) + ((PHB(k)+(PHB(k+1)) / 2) / 9.81</li>
-<li>TH2(Time, south_north, west_east) – 2m pot temp</li>
-<li>PSFC(Time, south_north, west_east) – surface pres</li>
-<li>U10(Time, south_north, west_east) – 10m U</li>
-<li>V10(Time, south_north, west_east) – 10m V</li>
-<li>XTIME(Time) – minutes since start of sim</li>
-<li>XLAT, XLONG, XLAT_U/V, XLONG_U/V</li>
-<li>Start_date</li>
+<li><p>PH(Time, bottom_top_stag, south_north, west_east)</p></li>
+<li><p>PHB(Time, bottom_top_stag, south_north, west_east)
+Z = (((PH(k)+PH(k+1)) / 2) + ((PHB(k)+(PHB(k+1)) / 2) / 9.81</p></li>
+<li><p>TH2(Time, south_north, west_east) – 2m pot temp</p></li>
+<li><p>PSFC(Time, south_north, west_east) – surface pres</p></li>
+<li><p>U10(Time, south_north, west_east) – 10m U</p></li>
+<li><p>V10(Time, south_north, west_east) – 10m V</p></li>
+<li><p>XTIME(Time) – minutes since start of sim</p></li>
+<li><p>XLAT, XLONG, XLAT_U/V, XLONG_U/V</p></li>
+<li><p>Start_date</p></li>
 </ul>
 <p>Need time, theta, pressure</p>
 </dd></dl>
 
-<dl class="data">
-<dt id="pymeteo.skewt.ptickbot">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">ptickbot</code><em class="property"> = 100000.0</em><a class="headerlink" href="#pymeteo.skewt.ptickbot" title="Permalink to this definition">¶</a></dt>
+<dl class="py data">
+<dt class="sig sig-object py" id="pymeteo.skewt.ptickbot">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">ptickbot</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">100000.0</span></em><a class="headerlink" href="#pymeteo.skewt.ptickbot" title="Link to this definition">¶</a></dt>
 <dd><p>Lowest elevated pressure level to be labelled in the plot (Pa)</p>
 </dd></dl>
 
-<dl class="data">
-<dt id="pymeteo.skewt.pticktop">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">pticktop</code><em class="property"> = 10000.0</em><a class="headerlink" href="#pymeteo.skewt.pticktop" title="Permalink to this definition">¶</a></dt>
+<dl class="py data">
+<dt class="sig sig-object py" id="pymeteo.skewt.pticktop">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">pticktop</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">10000.0</span></em><a class="headerlink" href="#pymeteo.skewt.pticktop" title="Link to this definition">¶</a></dt>
 <dd><p>Highest elevated pressure level to be labelled in the plot (Pa)</p>
 </dd></dl>
 
-<dl class="data">
-<dt id="pymeteo.skewt.ptop">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">ptop</code><em class="property"> = 10000.0</em><a class="headerlink" href="#pymeteo.skewt.ptop" title="Permalink to this definition">¶</a></dt>
+<dl class="py data">
+<dt class="sig sig-object py" id="pymeteo.skewt.ptop">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">ptop</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">10000.0</span></em><a class="headerlink" href="#pymeteo.skewt.ptop" title="Link to this definition">¶</a></dt>
 <dd><p>Sets the top boundary of the plot. Pressure (Pa)</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="pymeteo.skewt.skew">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">skew</code><span class="sig-paren">(</span><em>p</em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.skewt.skew" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="pymeteo.skewt.skew">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">skew</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.skewt.skew" title="Link to this definition">¶</a></dt>
 <dd><p>Puts the skew in skew-T</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>p</strong> – pressure level of the point.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>p</strong> – pressure level of the point.</p>
+</dd>
+</dl>
 <p>This calculates the skew of the T axis for a point to plot.  
 This assumes a logarithmic y axes and uses the variable
 :py:data:skew_angle to determine the skew.  This is the 
 magic that turns a cartesian plot into a Skew-T/Log-p plot.</p>
 </dd></dl>
 
-<dl class="data">
-<dt id="pymeteo.skewt.skew_angle">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">skew_angle</code><em class="property"> = 37.5</em><a class="headerlink" href="#pymeteo.skewt.skew_angle" title="Permalink to this definition">¶</a></dt>
+<dl class="py data">
+<dt class="sig sig-object py" id="pymeteo.skewt.skew_angle">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">skew_angle</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">37.5</span></em><a class="headerlink" href="#pymeteo.skewt.skew_angle" title="Link to this definition">¶</a></dt>
 <dd><p>This defines the skewness of the T axis</p>
 </dd></dl>
 
-<dl class="data">
-<dt id="pymeteo.skewt.tickdp">
-<code class="descclassname">pymeteo.skewt.</code><code class="descname">tickdp</code><em class="property"> = 10000</em><a class="headerlink" href="#pymeteo.skewt.tickdp" title="Permalink to this definition">¶</a></dt>
+<dl class="py data">
+<dt class="sig sig-object py" id="pymeteo.skewt.tickdp">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.skewt.</span></span><span class="sig-name descname"><span class="pre">tickdp</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">10000</span></em><a class="headerlink" href="#pymeteo.skewt.tickdp" title="Link to this definition">¶</a></dt>
 <dd><p>The spacing between pressure labels in the plot (Pa)</p>
 </dd></dl>
 
-</div>
-</div>
-<div class="section" id="module-pymeteo.cm1.read_grads">
-<span id="interfacining-with-cm1"></span><h2>Interfacining with CM1<a class="headerlink" href="#module-pymeteo.cm1.read_grads" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-pymeteo.cm1.read_grads">
+<span id="interfacining-with-cm1"></span><h2>Interfacining with CM1<a class="headerlink" href="#module-pymeteo.cm1.read_grads" title="Link to this heading">¶</a></h2>
 <p>Class to read GRaDS style CM1 model output data</p>
-<dl class="class">
-<dt id="pymeteo.cm1.read_grads.CM1">
-<em class="property">class </em><code class="descclassname">pymeteo.cm1.read_grads.</code><code class="descname">CM1</code><span class="sig-paren">(</span><em>_CM1__path</em>, <em>_CM1__datasetname</em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.cm1.read_grads.CM1" title="Permalink to this definition">¶</a></dt>
+<dl class="py class">
+<dt class="sig sig-object py" id="pymeteo.cm1.read_grads.CM1">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pymeteo.cm1.read_grads.</span></span><span class="sig-name descname"><span class="pre">CM1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_CM1__path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_CM1__datasetname</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.cm1.read_grads.CM1" title="Link to this definition">¶</a></dt>
 <dd><p>Class that implements reading CM1 model data</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>path</strong> – path to CM1 data files</li>
-<li><strong>datasetname</strong> – the CM1 data files basename</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> – path to CM1 data files</p></li>
+<li><p><strong>datasetname</strong> – the CM1 data files basename</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
-<dl class="attribute">
-<dt id="pymeteo.cm1.read_grads.CM1.dimT">
-<code class="descname">dimT</code><em class="property"> = 0</em><a class="headerlink" href="#pymeteo.cm1.read_grads.CM1.dimT" title="Permalink to this definition">¶</a></dt>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pymeteo.cm1.read_grads.CM1.dimT">
+<span class="sig-name descname"><span class="pre">dimT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#pymeteo.cm1.read_grads.CM1.dimT" title="Link to this definition">¶</a></dt>
 <dd><p>T grid dimension (1D)</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="pymeteo.cm1.read_grads.CM1.dimX">
-<code class="descname">dimX</code><em class="property"> = 0</em><a class="headerlink" href="#pymeteo.cm1.read_grads.CM1.dimX" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pymeteo.cm1.read_grads.CM1.dimX">
+<span class="sig-name descname"><span class="pre">dimX</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#pymeteo.cm1.read_grads.CM1.dimX" title="Link to this definition">¶</a></dt>
 <dd><p>X grid dimension (1D)</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="pymeteo.cm1.read_grads.CM1.dimY">
-<code class="descname">dimY</code><em class="property"> = 0</em><a class="headerlink" href="#pymeteo.cm1.read_grads.CM1.dimY" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pymeteo.cm1.read_grads.CM1.dimY">
+<span class="sig-name descname"><span class="pre">dimY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#pymeteo.cm1.read_grads.CM1.dimY" title="Link to this definition">¶</a></dt>
 <dd><p>Y grid dimension (1D)</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="pymeteo.cm1.read_grads.CM1.dimZ">
-<code class="descname">dimZ</code><em class="property"> = 0</em><a class="headerlink" href="#pymeteo.cm1.read_grads.CM1.dimZ" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pymeteo.cm1.read_grads.CM1.dimZ">
+<span class="sig-name descname"><span class="pre">dimZ</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#pymeteo.cm1.read_grads.CM1.dimZ" title="Link to this definition">¶</a></dt>
 <dd><p>Z grid dimension (1D)</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="pymeteo.cm1.read_grads.CM1.dt">
-<code class="descname">dt</code><em class="property"> = 0</em><a class="headerlink" href="#pymeteo.cm1.read_grads.CM1.dt" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pymeteo.cm1.read_grads.CM1.dt">
+<span class="sig-name descname"><span class="pre">dt</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#pymeteo.cm1.read_grads.CM1.dt" title="Link to this definition">¶</a></dt>
 <dd><p>timestep between time levels</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="pymeteo.cm1.read_grads.CM1.nt">
-<code class="descname">nt</code><em class="property"> = 0</em><a class="headerlink" href="#pymeteo.cm1.read_grads.CM1.nt" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pymeteo.cm1.read_grads.CM1.nt">
+<span class="sig-name descname"><span class="pre">nt</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#pymeteo.cm1.read_grads.CM1.nt" title="Link to this definition">¶</a></dt>
 <dd><p>number of time levels in the dataset</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="pymeteo.cm1.read_grads.CM1.nv">
-<code class="descname">nv</code><em class="property"> = 0</em><a class="headerlink" href="#pymeteo.cm1.read_grads.CM1.nv" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pymeteo.cm1.read_grads.CM1.nv">
+<span class="sig-name descname"><span class="pre">nv</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#pymeteo.cm1.read_grads.CM1.nv" title="Link to this definition">¶</a></dt>
 <dd><p>number of variables in the dataset</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="pymeteo.cm1.read_grads.CM1.nx">
-<code class="descname">nx</code><em class="property"> = 0</em><a class="headerlink" href="#pymeteo.cm1.read_grads.CM1.nx" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pymeteo.cm1.read_grads.CM1.nx">
+<span class="sig-name descname"><span class="pre">nx</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#pymeteo.cm1.read_grads.CM1.nx" title="Link to this definition">¶</a></dt>
 <dd><p>gridpoints in the x direction</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="pymeteo.cm1.read_grads.CM1.ny">
-<code class="descname">ny</code><em class="property"> = 0</em><a class="headerlink" href="#pymeteo.cm1.read_grads.CM1.ny" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pymeteo.cm1.read_grads.CM1.ny">
+<span class="sig-name descname"><span class="pre">ny</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#pymeteo.cm1.read_grads.CM1.ny" title="Link to this definition">¶</a></dt>
 <dd><p>gridpoints in the y direction</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="pymeteo.cm1.read_grads.CM1.nz">
-<code class="descname">nz</code><em class="property"> = 0</em><a class="headerlink" href="#pymeteo.cm1.read_grads.CM1.nz" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pymeteo.cm1.read_grads.CM1.nz">
+<span class="sig-name descname"><span class="pre">nz</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#pymeteo.cm1.read_grads.CM1.nz" title="Link to this definition">¶</a></dt>
 <dd><p>gridpoints in the z direction</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="pymeteo.cm1.read_grads.CM1.read3d">
-<code class="descname">read3d</code><span class="sig-paren">(</span><em>time</em>, <em>varname</em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.cm1.read_grads.CM1.read3d" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="pymeteo.cm1.read_grads.CM1.read3d">
+<span class="sig-name descname"><span class="pre">read3d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">varname</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.cm1.read_grads.CM1.read3d" title="Link to this definition">¶</a></dt>
 <dd><p>Reads a 3D variable from the dataset</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>time</strong> – the timelevel to read</li>
-<li><strong>varname</strong> – the variable name to read</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>time</strong> – the timelevel to read</p></li>
+<li><p><strong>varname</strong> – the variable name to read</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Reaturns:</th><td class="field-body"><p class="first last">3D array containing the variable at the time</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Reaturns<span class="colon">:</span></dt>
+<dd class="field-even"><p>3D array containing the variable at the time</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
 
-<span class="target" id="module-pymeteo.cm1.read_hdf5"></span></div>
-<div class="section" id="module-pymeteo.dynamics">
-<span id="dynamics"></span><h2>Dynamics<a class="headerlink" href="#module-pymeteo.dynamics" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-pymeteo.dynamics">
+<span id="dynamics"></span><span id="module-pymeteo.cm1.read_hdf5"></span><h2>Dynamics<a class="headerlink" href="#module-pymeteo.dynamics" title="Link to this heading">¶</a></h2>
 <p>This module provides routine thermodynamic functions</p>
-<dl class="function">
-<dt id="pymeteo.dynamics.mean_wind">
-<code class="descclassname">pymeteo.dynamics.</code><code class="descname">mean_wind</code><span class="sig-paren">(</span><em>_u</em>, <em>_v</em>, <em>_z</em>, <em>zbot</em>, <em>ztop</em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.dynamics.mean_wind" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="pymeteo.dynamics.mean_wind">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.dynamics.</span></span><span class="sig-name descname"><span class="pre">mean_wind</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_v</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zbot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ztop</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.dynamics.mean_wind" title="Link to this definition">¶</a></dt>
 <dd><p>Calculates the mean wind in the layer between zbot and ztop</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>_u</strong> – U winds (1D vector in z)</li>
-<li><strong>_u</strong> – V winds (1D vector in z)</li>
-<li><strong>_z</strong> – z heights (1D vector in z)</li>
-<li><strong>zbot</strong> – Bottom of the layer</li>
-<li><strong>ztop</strong> – Top of the layer</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>_u</strong> – U winds (1D vector in z)</p></li>
+<li><p><strong>_u</strong> – V winds (1D vector in z)</p></li>
+<li><p><strong>_z</strong> – z heights (1D vector in z)</p></li>
+<li><p><strong>zbot</strong> – Bottom of the layer</p></li>
+<li><p><strong>ztop</strong> – Top of the layer</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="pymeteo.dynamics.shear">
-<code class="descclassname">pymeteo.dynamics.</code><code class="descname">shear</code><span class="sig-paren">(</span><em>_u</em>, <em>_v</em>, <em>_z</em>, <em>zbot</em>, <em>ztop</em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.dynamics.shear" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="pymeteo.dynamics.shear">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.dynamics.</span></span><span class="sig-name descname"><span class="pre">shear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_v</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zbot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ztop</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.dynamics.shear" title="Link to this definition">¶</a></dt>
 <dd><p>Calculates the shear in the layer between zbot and ztop</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>_u</strong> – U winds (1D vector in z)</li>
-<li><strong>_u</strong> – V winds (1D vector in z)</li>
-<li><strong>_z</strong> – z heights (1D vector in z)</li>
-<li><strong>zbot</strong> – Bottom of the layer</li>
-<li><strong>ztop</strong> – Top of the layer</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>_u</strong> – U winds (1D vector in z)</p></li>
+<li><p><strong>_u</strong> – V winds (1D vector in z)</p></li>
+<li><p><strong>_z</strong> – z heights (1D vector in z)</p></li>
+<li><p><strong>zbot</strong> – Bottom of the layer</p></li>
+<li><p><strong>ztop</strong> – Top of the layer</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="pymeteo.dynamics.srh">
-<code class="descclassname">pymeteo.dynamics.</code><code class="descname">srh</code><span class="sig-paren">(</span><em>_u</em>, <em>_v</em>, <em>_z</em>, <em>zbot</em>, <em>ztop</em>, <em>cx</em>, <em>cy</em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.dynamics.srh" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="pymeteo.dynamics.srh">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.dynamics.</span></span><span class="sig-name descname"><span class="pre">srh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_v</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zbot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ztop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cy</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.dynamics.srh" title="Link to this definition">¶</a></dt>
 <dd><p>Calculates the storm relative helicity in the layer between zbot and ztop</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>_u</strong> – U winds (1D vector in z)</li>
-<li><strong>_u</strong> – V winds (1D vector in z)</li>
-<li><strong>_z</strong> – z heights (1D vector in z)</li>
-<li><strong>zbot</strong> – Bottom of the layer</li>
-<li><strong>ztop</strong> – Top of the layer</li>
-<li><strong>cx</strong> – u component of storm motion</li>
-<li><strong>cy</strong> – v component of storm motion</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>_u</strong> – U winds (1D vector in z)</p></li>
+<li><p><strong>_u</strong> – V winds (1D vector in z)</p></li>
+<li><p><strong>_z</strong> – z heights (1D vector in z)</p></li>
+<li><p><strong>zbot</strong> – Bottom of the layer</p></li>
+<li><p><strong>ztop</strong> – Top of the layer</p></li>
+<li><p><strong>cx</strong> – u component of storm motion</p></li>
+<li><p><strong>cy</strong> – v component of storm motion</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="pymeteo.dynamics.uv_to_deg">
-<code class="descclassname">pymeteo.dynamics.</code><code class="descname">uv_to_deg</code><span class="sig-paren">(</span><em>u</em>, <em>v</em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.dynamics.uv_to_deg" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="pymeteo.dynamics.uv_to_deg">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.dynamics.</span></span><span class="sig-name descname"><span class="pre">uv_to_deg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.dynamics.uv_to_deg" title="Link to this definition">¶</a></dt>
 <dd><p>transforms u, v, to direction, maginutide</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>u</strong> – u wind component</li>
-<li><strong>v</strong> – v wind component</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>u</strong> – u wind component</p></li>
+<li><p><strong>v</strong> – v wind component</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">wind direction and magnitude</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>wind direction and magnitude</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="pymeteo.dynamics.wind_deg_to_uv">
-<code class="descclassname">pymeteo.dynamics.</code><code class="descname">wind_deg_to_uv</code><span class="sig-paren">(</span><em>direction</em>, <em>speed</em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.dynamics.wind_deg_to_uv" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="pymeteo.dynamics.wind_deg_to_uv">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.dynamics.</span></span><span class="sig-name descname"><span class="pre">wind_deg_to_uv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">direction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.dynamics.wind_deg_to_uv" title="Link to this definition">¶</a></dt>
 <dd><p>Converts direction and speed into u,v wind</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>direction</strong> – wind direction (mathmatical angle)</li>
-<li><strong>speed</strong> – wind magnitude</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>direction</strong> – wind direction (mathmatical angle)</p></li>
+<li><p><strong>speed</strong> – wind magnitude</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">u and v wind components</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>u and v wind components</p>
+</dd>
+</dl>
 </dd></dl>
 
-</div>
-<div class="section" id="module-pymeteo.thermo">
-<span id="thermodynamic-routines"></span><h2>Thermodynamic routines<a class="headerlink" href="#module-pymeteo.thermo" title="Permalink to this headline">¶</a></h2>
-<span class="target" id="module-pymeteo.thermo"></span><dl class="function">
-<dt id="pymeteo.thermo.T">
-<code class="descclassname">pymeteo.thermo.</code><code class="descname">T</code><span class="sig-paren">(</span><em>theta</em>, <em>p</em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.thermo.T" title="Permalink to this definition">¶</a></dt>
+</section>
+<section id="module-1">
+<span id="thermodynamic-routines"></span><h2>Thermodynamic routines<a class="headerlink" href="#module-1" title="Link to this heading">¶</a></h2>
+<dl class="py function" id="module-pymeteo.thermo">
+<dt class="sig sig-object py" id="pymeteo.thermo.T">
+<span class="sig-prename descclassname"><span class="pre">pymeteo.thermo.</span></span><span class="sig-name descname"><span class="pre">T</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pymeteo.thermo.T" title="Link to this definition">¶</a></dt>
 <dd><p>Convert Potential Temperature <span class="math notranslate nohighlight">\(\theta\)</span> to Temperature</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>theta</strong> – Potential temperature (K)</li>
-<li><strong>p</strong> – Pressure (Pa)</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>theta</strong> – Potential temperature (K)</p></li>
+<li><p><strong>p</strong> – Pressure (Pa)</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Temperature (K)</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Temperature (K)</p>
+</dd>
+</dl>
 </dd></dl>
 
-</div>
-<div class="section" id="module-pymeteo.constants">
-<span id="meteorological-constants"></span><h2>Meteorological constants<a class="headerlink" href="#module-pymeteo.constants" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-pymeteo.constants">
+<span id="meteorological-constants"></span><h2>Meteorological constants<a class="headerlink" href="#module-pymeteo.constants" title="Link to this heading">¶</a></h2>
 <p>This module provides constants used in the rest of the package</p>
-</div>
-</div>
-<div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+</section>
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading">¶</a></h1>
 <ul class="simple">
-<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
-<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
-<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
 </ul>
-</div>
+</section>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="#">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="#">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">pyMeteo documentation</a><ul>
-<li><a class="reference internal" href="#module-pymeteo.skewt">Skew-t/Log-p Plotting</a><ul>
+<li><a class="reference internal" href="#module-0">Skew-t/Log-p Plotting</a><ul>
 <li><a class="reference internal" href="#plotting">Plotting</a><ul>
 <li><a class="reference internal" href="#high-level-plotting-functions">High level plotting functions</a></li>
 <li><a class="reference internal" href="#variables-affecting-the-plot-output">Variables affecting the plot output</a></li>
@@ -1029,17 +939,96 @@ magic that turns a cartesian plot into a Skew-T/Log-p plot.</p>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-reference">Module reference</a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.Tmax"><code class="docutils literal notranslate"><span class="pre">Tmax</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.Tmin"><code class="docutils literal notranslate"><span class="pre">Tmin</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.dp"><code class="docutils literal notranslate"><span class="pre">dp</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.draw_dry_adiabat"><code class="docutils literal notranslate"><span class="pre">draw_dry_adiabat()</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.draw_isobars"><code class="docutils literal notranslate"><span class="pre">draw_isobars()</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.draw_isotherms"><code class="docutils literal notranslate"><span class="pre">draw_isotherms()</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.draw_moist_adiabat"><code class="docutils literal notranslate"><span class="pre">draw_moist_adiabat()</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.draw_water_mix_ratio"><code class="docutils literal notranslate"><span class="pre">draw_water_mix_ratio()</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.dry_adiabats"><code class="docutils literal notranslate"><span class="pre">dry_adiabats</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.isobars"><code class="docutils literal notranslate"><span class="pre">isobars</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.isotherms"><code class="docutils literal notranslate"><span class="pre">isotherms</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.label_std_heights"><code class="docutils literal notranslate"><span class="pre">label_std_heights()</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.lc_major"><code class="docutils literal notranslate"><span class="pre">lc_major</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.lc_minor"><code class="docutils literal notranslate"><span class="pre">lc_minor</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.linecolor_Parcel_T"><code class="docutils literal notranslate"><span class="pre">linecolor_Parcel_T</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.linecolor_T"><code class="docutils literal notranslate"><span class="pre">linecolor_T</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.linecolor_Td"><code class="docutils literal notranslate"><span class="pre">linecolor_Td</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.linecolor_Tve"><code class="docutils literal notranslate"><span class="pre">linecolor_Tve</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.linecolor_Tvp"><code class="docutils literal notranslate"><span class="pre">linecolor_Tvp</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.linecolor_Twb"><code class="docutils literal notranslate"><span class="pre">linecolor_Twb</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.linestyle_Tve"><code class="docutils literal notranslate"><span class="pre">linestyle_Tve</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.linestyle_Tvp"><code class="docutils literal notranslate"><span class="pre">linestyle_Tvp</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.linewidth_Parcel_T"><code class="docutils literal notranslate"><span class="pre">linewidth_Parcel_T</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.linewidth_T"><code class="docutils literal notranslate"><span class="pre">linewidth_T</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.linewidth_Td"><code class="docutils literal notranslate"><span class="pre">linewidth_Td</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.linewidth_Tve"><code class="docutils literal notranslate"><span class="pre">linewidth_Tve</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.linewidth_Tvp"><code class="docutils literal notranslate"><span class="pre">linewidth_Tvp</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.linewidth_Twb"><code class="docutils literal notranslate"><span class="pre">linewidth_Twb</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.lw_major"><code class="docutils literal notranslate"><span class="pre">lw_major</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.lw_minor"><code class="docutils literal notranslate"><span class="pre">lw_minor</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.mixing_ratios"><code class="docutils literal notranslate"><span class="pre">mixing_ratios</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.moist_adiabats"><code class="docutils literal notranslate"><span class="pre">moist_adiabats</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.pbot"><code class="docutils literal notranslate"><span class="pre">pbot</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.plevs"><code class="docutils literal notranslate"><span class="pre">plevs</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.plot"><code class="docutils literal notranslate"><span class="pre">plot()</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.plot_cm1"><code class="docutils literal notranslate"><span class="pre">plot_cm1()</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.plot_cm1h5"><code class="docutils literal notranslate"><span class="pre">plot_cm1h5()</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.plot_hodo_axes"><code class="docutils literal notranslate"><span class="pre">plot_hodo_axes()</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.plot_hodograph"><code class="docutils literal notranslate"><span class="pre">plot_hodograph()</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.plot_legend"><code class="docutils literal notranslate"><span class="pre">plot_legend()</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.plot_sounding"><code class="docutils literal notranslate"><span class="pre">plot_sounding()</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.plot_sounding_axes"><code class="docutils literal notranslate"><span class="pre">plot_sounding_axes()</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.plot_sounding_data"><code class="docutils literal notranslate"><span class="pre">plot_sounding_data()</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.plot_sounding_data_csv"><code class="docutils literal notranslate"><span class="pre">plot_sounding_data_csv()</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.plot_sounding_data_uwyo"><code class="docutils literal notranslate"><span class="pre">plot_sounding_data_uwyo()</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.plot_wrf"><code class="docutils literal notranslate"><span class="pre">plot_wrf()</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.ptickbot"><code class="docutils literal notranslate"><span class="pre">ptickbot</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.pticktop"><code class="docutils literal notranslate"><span class="pre">pticktop</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.ptop"><code class="docutils literal notranslate"><span class="pre">ptop</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.skew"><code class="docutils literal notranslate"><span class="pre">skew()</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.skew_angle"><code class="docutils literal notranslate"><span class="pre">skew_angle</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.skewt.tickdp"><code class="docutils literal notranslate"><span class="pre">tickdp</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-pymeteo.cm1.read_grads">Interfacining with CM1</a></li>
-<li><a class="reference internal" href="#module-pymeteo.dynamics">Dynamics</a></li>
-<li><a class="reference internal" href="#module-pymeteo.thermo">Thermodynamic routines</a></li>
+<li><a class="reference internal" href="#module-pymeteo.cm1.read_grads">Interfacining with CM1</a><ul>
+<li><a class="reference internal" href="#pymeteo.cm1.read_grads.CM1"><code class="docutils literal notranslate"><span class="pre">CM1</span></code></a><ul>
+<li><a class="reference internal" href="#pymeteo.cm1.read_grads.CM1.dimT"><code class="docutils literal notranslate"><span class="pre">CM1.dimT</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.cm1.read_grads.CM1.dimX"><code class="docutils literal notranslate"><span class="pre">CM1.dimX</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.cm1.read_grads.CM1.dimY"><code class="docutils literal notranslate"><span class="pre">CM1.dimY</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.cm1.read_grads.CM1.dimZ"><code class="docutils literal notranslate"><span class="pre">CM1.dimZ</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.cm1.read_grads.CM1.dt"><code class="docutils literal notranslate"><span class="pre">CM1.dt</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.cm1.read_grads.CM1.nt"><code class="docutils literal notranslate"><span class="pre">CM1.nt</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.cm1.read_grads.CM1.nv"><code class="docutils literal notranslate"><span class="pre">CM1.nv</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.cm1.read_grads.CM1.nx"><code class="docutils literal notranslate"><span class="pre">CM1.nx</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.cm1.read_grads.CM1.ny"><code class="docutils literal notranslate"><span class="pre">CM1.ny</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.cm1.read_grads.CM1.nz"><code class="docutils literal notranslate"><span class="pre">CM1.nz</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.cm1.read_grads.CM1.read3d"><code class="docutils literal notranslate"><span class="pre">CM1.read3d()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-pymeteo.dynamics">Dynamics</a><ul>
+<li><a class="reference internal" href="#pymeteo.dynamics.mean_wind"><code class="docutils literal notranslate"><span class="pre">mean_wind()</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.dynamics.shear"><code class="docutils literal notranslate"><span class="pre">shear()</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.dynamics.srh"><code class="docutils literal notranslate"><span class="pre">srh()</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.dynamics.uv_to_deg"><code class="docutils literal notranslate"><span class="pre">uv_to_deg()</span></code></a></li>
+<li><a class="reference internal" href="#pymeteo.dynamics.wind_deg_to_uv"><code class="docutils literal notranslate"><span class="pre">wind_deg_to_uv()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-1">Thermodynamic routines</a><ul>
+<li><a class="reference internal" href="#pymeteo.thermo.T"><code class="docutils literal notranslate"><span class="pre">T()</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#module-pymeteo.constants">Meteorological constants</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
 </ul>
 
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -1048,17 +1037,15 @@ magic that turns a cartesian plot into a Skew-T/Log-p plot.</p>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -1072,12 +1059,13 @@ magic that turns a cartesian plot into a Skew-T/Log-p plot.</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">pyMeteo 1.0.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">pyMeteo 1.0.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">pyMeteo documentation</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2015-2019, Casey Webster.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
+    &#169; Copyright 2015-2023, Casey Webster.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
 </html>
