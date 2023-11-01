@@ -1,5 +1,5 @@
 h5py==3.7.0
 matplotlib==3.5.3
-netCDF4==1.6.0
+netCDF4==1.6.5
 numpy==1.23.2
 PyQt5==5.15.7
