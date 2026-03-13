@@ -270,3 +270,41 @@ class TestCAPE:
         result = thermo.CAPE(z, p, t, q, 1)
         # Very small or zero CAPE for stable sounding
         assert result["cape"] < 100.0
+
+    def test_cape_duplicate_z_levels_no_crash(self):
+        """CAPE with duplicate height levels should not crash (mixed-layer guard)."""
+        nk = 20
+        z = np.linspace(0, 12000, nk).astype(np.float32)
+        # Introduce duplicate height levels near the surface
+        z[1] = z[0]
+        z[3] = z[2]
+        p = np.array(
+            [100000 * np.exp(-c.g * zi / (c.Rd * 270)) for zi in z],
+            dtype=np.float32,
+        )
+        t = np.array([290.0 - 7.0 * zi / 1000.0 for zi in z], dtype=np.float32)
+        q = np.array([0.012 * np.exp(-zi / 3000.0) for zi in z], dtype=np.float32)
+
+        # Should not raise ZeroDivisionError
+        result = thermo.CAPE(z, p, t, q, 3)
+        assert isinstance(result, dict)
+        assert "cape" in result
+
+    def test_cape_short_sounding_no_crash(self):
+        """CAPE with a very short sounding should not crash on LI calculation."""
+        nk = 5
+        z = np.linspace(0, 3000, nk).astype(np.float32)
+        p = np.array(
+            [100000 * np.exp(-c.g * zi / (c.Rd * 270)) for zi in z],
+            dtype=np.float32,
+        )
+        t = np.array([290.0 - 7.0 * zi / 1000.0 for zi in z], dtype=np.float32)
+        q = np.array([0.012 * np.exp(-zi / 3000.0) for zi in z], dtype=np.float32)
+
+        # The sounding doesn't reach 500 or 300 hPa, so interp_height
+        # returns sentinel values. Should not crash.
+        result = thermo.CAPE(z, p, t, q, 1)
+        assert isinstance(result, dict)
+        # LI values should default to 0 when pressure level not in sounding
+        assert result["li500"] == 0
+        assert result["li300"] == 0

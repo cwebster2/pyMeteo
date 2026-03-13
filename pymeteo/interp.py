@@ -25,6 +25,8 @@ def linear(dim: ArrayLike, var: ArrayLike, dval: float) -> float:
     array_mask = dim.mask | var.mask
     array_x = dim.data[~array_mask]
     array_y = var.data[~array_mask]
+    if len(array_x) == 0:
+        return np.nan
     index_sort = np.argsort(array_x)
 
     return np.interp(dval, array_x[index_sort], array_y[index_sort])
