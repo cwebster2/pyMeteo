@@ -1,32 +1,31 @@
+{% set version = environ.get('PYMETEO_VERSION', '0.0.0') %}
+
 package:
   name: pymeteo
-  version: "1.1.0"
+  version: "{{ version }}"
 
 build:
   noarch: python
   number: 0
-  script: python setup.py install
+  script: python -m pip install --no-deps --no-build-isolation ..
 
 source:
-  git_url: https://github.com/cwebster2/pyMeteo.git
-  git_rev: "1.1.0"
-  git_depth: 1
+  path: ..
 
 requirements:
-  build:
-    - python
-    - setuptools
+  host:
+    - python >=3.10
+    - pip
+    - setuptools >=68.0
 
   run:
-    - python
-    - pyqt
-    - numpy
-    - matplotlib
-    - hdf5
+    - python >=3.10
+    - numpy >=1.23
+    - matplotlib >=3.5
 
 about:
   home: https://github.com/cwebster2/pyMeteo
-  license: BSD3
+  license: BSD-3-Clause
   license_file: LICENSE
   summary: General meteorological routines, skew-T/log-p plotting and working with CM1 model data.
 
