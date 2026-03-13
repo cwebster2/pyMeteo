@@ -25,9 +25,8 @@ jobs:
       - name: Build
         env:
           ANACONDA_TOKEN: ${{ secrets.ANACONDA_TOKEN }}
+          PYMETEO_VERSION: ${{ github.event.release.tag_name || '0.0.0' }}
         run: |
-          cd .conda
-          conda install conda-build conda-index
+          conda install conda-build
           conda config --set anaconda_upload yes
-          conda-build --token $ANACONDA_TOKEN --output-folder . .
-          conda-index .
+          conda-build --token $ANACONDA_TOKEN .conda
