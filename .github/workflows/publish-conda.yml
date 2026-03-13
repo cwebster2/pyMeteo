@@ -12,15 +12,15 @@ jobs:
     runs-on: ubuntu-latest
     needs: setup-and-test
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: "3.13"
       - uses: s-weigand/setup-conda@v1
         with:
           update-conda: true
-          python-version: "3.10"
+          python-version: "3.13"
           conda-channels: anaconda, conda-forge, cwebster2
       - name: Build
         env:
@@ -31,9 +31,3 @@ jobs:
           conda index ..
           conda config --set anaconda_upload yes
           conda-build --token $ANACONDA_TOKEN --output-folder . .
-
-
-
-
-
-

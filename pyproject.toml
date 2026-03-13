@@ -1,0 +1,79 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pymeteo"
+dynamic = ["version"]
+description = "Meteorology utilities, SkewT plotting and more"
+readme = "README.md"
+license = "BSD-3-Clause"
+requires-python = ">=3.10"
+authors = [
+    { name = "Casey Webster", email = "casey.webster@gmail.com" },
+]
+maintainers = [
+    { name = "Casey Webster", email = "casey.webster@gmail.com" },
+]
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Atmospheric Science",
+    "Development Status :: 5 - Production/Stable",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+dependencies = [
+    "numpy>=1.23",
+    "matplotlib>=3.5",
+]
+
+[project.optional-dependencies]
+hdf5 = ["h5py>=3.7"]
+netcdf = ["netCDF4>=1.6"]
+gui = ["PyQt5>=5.15"]
+all = [
+    "h5py>=3.7",
+    "netCDF4>=1.6",
+    "PyQt5>=5.15",
+]
+dev = [
+    "pytest>=7.0",
+    "flake8>=6.0",
+    "build>=1.0",
+]
+
+[project.urls]
+Homepage = "https://wxster.com/projects/pymeteo"
+Repository = "https://github.com/cwebster2/pymeteo"
+Issues = "https://github.com/cwebster2/pymeteo/issues"
+
+[tool.setuptools]
+script-files = [
+    "bin/skewt",
+    "bin/skewt-blank",
+    "bin/skewt-hdf",
+    "bin/skewt-wrf",
+    "bin/cm1_geninit",
+    "bin/plot-acars",
+]
+
+[tool.setuptools.dynamic]
+version = { file = "VERSION" }
+
+[tool.setuptools.packages.find]
+include = ["pymeteo*"]
+
+[tool.setuptools.package-data]
+"pymeteo.data" = ["airport_info.dat"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.flake8]
+max-line-length = 127
+max-complexity = 10
+select = ["E9", "F63", "F7", "F82"]
