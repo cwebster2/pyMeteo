@@ -1,44 +1,41 @@
-"""This module provides constants used in the rest of the package
-
-"""
+"""This module provides constants used in the rest of the package"""
 # some constants
 
-missingval = -99999999.
-m2km = 0.001
-km2m = 1000.
-gravity = 9.81
-maxparcels = 99999
-L = 2.501e6    # latent heat of vaporization
-Rd = 287.04         # gas constant dry air
-Rv = 461.5              # gas constant water vapor
-epsilon = Rd/Rv
-cp = 1005.7              # what about cpd vs cpv
-cpd = 1005.7             # what about cpd vs cpv
-cpv = 1875.0
-cpl = 4190.0
-cpi = 2118.636
-cv = 718.
-g = 9.81
-p00 = 100000.   # reference pressure
-T00 = 273.15
-xlv = L
-xls = 2836017.0
+missingval: float = -99999999.0
+m2km: float = 0.001
+km2m: float = 1000.0
+gravity: float = 9.81
+maxparcels: int = 99999
+L: float = 2.501e6  # latent heat of vaporization
+Rd: float = 287.04  # gas constant dry air
+Rv: float = 461.5  # gas constant water vapor
+epsilon: float = Rd / Rv
+cp: float = 1005.7  # what about cpd vs cpv
+cpd: float = 1005.7  # what about cpd vs cpv
+cpv: float = 1875.0
+cpl: float = 4190.0
+cpi: float = 2118.636
+cv: float = 718.0
+g: float = 9.81
+p00: float = 100000.0  # reference pressure
+T00: float = 273.15
+xlv: float = L
+xls: float = 2836017.0
 
-# Derivced values
+# Derived values
 
-lv1 = xlv+(cpl-cpv)*T00
-lv2 = cpl - cpv
-ls1 = xls+(cpi-cpv)*T00
-ls2 = cpi - cpv
+lv1: float = xlv + (cpl - cpv) * T00
+lv2: float = cpl - cpv
+ls1: float = xls + (cpi - cpv) * T00
+ls2: float = cpi - cpv
 
-kappa = (cp-cv)/cp
-kappa_d = Rd/cp
-rp00 = 1./p00
-reps = Rv/Rd
-eps = epsilon
-rddcp = kappa_d
-cpdrd = cp/Rd
-cpdg = cp/g
+kappa: float = (cp - cv) / cp
+kappa_d: float = Rd / cp
+rp00: float = 1.0 / p00
+reps: float = Rv / Rd
+eps: float = epsilon
+rddcp: float = kappa_d
+cpdrd: float = cp / Rd
+cpdg: float = cp / g
 
-converge = 0.0002
-
+converge: float = 0.0002

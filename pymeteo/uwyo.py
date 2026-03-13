@@ -25,16 +25,12 @@ Module Reference
 ++++++++++++++++
 """
 
+import re
 import numpy as np
 import io
-import datetime
 import pymeteo.dynamics as dynamics
-try:
-    # For Python 3.0 and later
-    from urllib import request
-except ImportError:
-    # Fall back to Python 2's urllib2
-    import urllib2 as request
+from urllib import request
+
 
 def fetch_from_file(filename):
     """Load Uinversity of Wyoming sound data from a file
@@ -47,17 +43,22 @@ def fetch_from_file(filename):
     for SkewT plotting.  The data format is the same as copy/pasting data from
     the uwyo website.
     """
-    with open(filename, 'r') as f:
+    with open(filename, "r") as f:
         title = f.readline()
         skiprows = 7
         if "Obs" not in title:
             title = filename
             skiprows = 5
 
-    p, z, qv, wind_dir, wind_speed, th = np.genfromtxt(filename, unpack=True, skip_header=skiprows,
-                                                           delimiter=(7,7,7,7,7,7,7,7,7,7,7,7),
-                                                           usecols=(0,1,5,6,7,8))
+    p, z, qv, wind_dir, wind_speed, th = np.genfromtxt(
+        filename,
+        unpack=True,
+        skip_header=skiprows,
+        delimiter=(7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7),
+        usecols=(0, 1, 5, 6, 7, 8),
+    )
     return (title, p, z, qv, wind_dir, wind_speed, th)
+
 
 def fetch_from_web(date, station):
     """Load Uinversity of Wyoming sound data from the uwyo website
@@ -89,58 +90,64 @@ def fetch_from_web(date, station):
     else:
         hour = 12
     print(year, month, day, hour, station)
-    base_url = "http://weather.uwyo.edu/cgi-bin/sounding"
+    # Validate station ID to prevent URL injection
+    station_str = str(station)
+    if not re.match(r"^\d{1,6}$", station_str):
+        raise ValueError(f"Invalid station ID: {station}. Must be a 1-6 digit number.")
+    base_url = "https://weather.uwyo.edu/cgi-bin/sounding"
     url = "{0}?TYPE=TEXT%3ALIST&YEAR={1}&MONTH={2:02d}&FROM={3:02d}{4:02d}&TO={3:02d}{4:02d}&STNM={5}".format(
-           base_url, year, month, day, hour, station)
-    #print(url)
-    data=[]
-    bulkdata=[]
-    urlreq = request.Request(url) #, method='GET')
+        base_url, year, month, day, hour, station_str
+    )
+    # print(url)
+    data = []
+    bulkdata = []
+    urlreq = request.Request(url)  # , method='GET')
 
     try:
         with request.urlopen(urlreq) as f:
-            bulkdata = str(f.read()).split(r'\n')[0:-1]
+            bulkdata = str(f.read()).split(r"\n")[0:-1]
             for i in range(len(bulkdata)):
                 bulkdata[i] = bulkdata[i][0:]
 
         if f.status != 200:
-            print("Error fetching data");
-            return
+            raise ConnectionError(f"Error fetching data: HTTP status {f.status}")
 
-    except AttributeError:
-        print("python2")
-        f = request.urlopen(urlreq)
-        bulkdata = f.read().split('\n')
-        for i in range(len(bulkdata)):
-            bulkdata[i] = bulkdata[i][0:]
+    except (ConnectionError, OSError) as e:
+        raise ConnectionError(f"Failed to fetch sounding data from {url}") from e
 
-    parse_state = 'start'
+    parse_state = "start"
+    title = ""
     for i in range(len(bulkdata)):
-        if parse_state == 'start':
-            if '<H2>' not in bulkdata[i]:
+        if parse_state == "start":
+            if "<H2>" not in bulkdata[i]:
                 continue
-            title = (bulkdata[i][4:-5])
-            parse_state = 'data'
-        elif parse_state == 'data':
-            if '</PRE>' in bulkdata[i]:
-                parse_state = 'finished'
+            title = bulkdata[i][4:-5]
+            parse_state = "data"
+        elif parse_state == "data":
+            if "</PRE>" in bulkdata[i]:
+                parse_state = "finished"
                 continue
-            if '<PRE>' in bulkdata[i]:
+            if "<PRE>" in bulkdata[i]:
                 continue
             data.append(bulkdata[i])
-        elif parse_state == 'finished':
+        elif parse_state == "finished":
             pass
     data = "\n".join(data)
 
-    if (data == ""):
-        raise ValueError("ERROR: No sounding data found in data returned from the server");
+    if data == "":
+        raise ValueError(
+            "ERROR: No sounding data found in data returned from the server"
+        )
 
-    p, z, qv, wind_dir, wind_speed, th = np.genfromtxt(io.BytesIO(data.encode()), unpack=True,
-                                                       skip_header=5,
-                                                       delimiter=7,
-                                                       usecols=(0,1,5,6,7,8))
+    p, z, qv, wind_dir, wind_speed, th = np.genfromtxt(
+        io.BytesIO(data.encode()),
+        unpack=True,
+        skip_header=5,
+        delimiter=7,
+        usecols=(0, 1, 5, 6, 7, 8),
+    )
 
-    return (title,p,z,qv,wind_dir, wind_speed, th)
+    return (title, p, z, qv, wind_dir, wind_speed, th)
 
 
 def transform_and_check_data(p, z, qv, wind_dir, wind_speed, th):
@@ -160,29 +167,29 @@ def transform_and_check_data(p, z, qv, wind_dir, wind_speed, th):
     """
     # clean up NaNs and mark invalid rows for deletion
     nk = len(z)
+    delete_rows = []
     for k in np.arange(nk):
-        delete_rows = []
         if np.isnan(p[k]):
             delete_rows.append(k)
         if np.isnan(qv[k]):
             qv[k] = 0
         if np.isnan(wind_speed[k]):
-            wind_speed[k] = wind_speed[k-1]
+            wind_speed[k] = wind_speed[k - 1]
         if np.isnan(wind_dir[k]):
-            wind_dir[k] = wind_dir[k-1]
+            wind_dir[k] = wind_dir[k - 1]
 
     # delete invalid rows
-    p = np.delete(p,delete_rows)
-    z = np.delete(z,delete_rows)
-    qv = np.delete(qv,delete_rows)
+    p = np.delete(p, delete_rows)
+    z = np.delete(z, delete_rows)
+    qv = np.delete(qv, delete_rows)
     wind_dir = np.delete(wind_dir, delete_rows)
     wind_speed = np.delete(wind_speed, delete_rows)
     th = np.delete(th, delete_rows)
 
     # convert ingested units to our package standard units
     nk = len(z)
-    p = p * 100. # hPa to Pa
-    qv = qv / 1000. # g/kg to kg/kg
+    p = p * 100.0  # hPa to Pa
+    qv = qv / 1000.0  # g/kg to kg/kg
     wind_speed = wind_speed * 0.51444  # kts to m/s
 
     # convert wind direction,speed to u,v components
@@ -195,5 +202,5 @@ def transform_and_check_data(p, z, qv, wind_dir, wind_speed, th):
     qv[np.isnan(qv)] = 0
     u[np.isnan(u)] = 0
     v[np.isnan(v)] = 0
-    #reutrn data
+    # reutrn data
     return (p, z, qv, u, v, th)
