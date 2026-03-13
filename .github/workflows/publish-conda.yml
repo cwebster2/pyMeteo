@@ -30,6 +30,6 @@ jobs:
           if [ -z "$PACKAGE_VERSION" ]; then
             export PACKAGE_VERSION=$(cat VERSION | tr -d '[:space:]')
           fi
-          conda install conda-build
+          conda install conda-build anaconda-client
           conda config --set anaconda_upload yes
           conda-build --token $ANACONDA_TOKEN .conda
