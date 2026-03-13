@@ -25,7 +25,11 @@ jobs:
       - name: Build
         env:
           ANACONDA_TOKEN: ${{ secrets.ANACONDA_TOKEN }}
+          PACKAGE_VERSION: ${{ github.event.release.tag_name || '' }}
         run: |
+          if [ -z "$PACKAGE_VERSION" ]; then
+            export PACKAGE_VERSION=$(cat VERSION | tr -d '[:space:]')
+          fi
           conda install conda-build
           conda config --set anaconda_upload yes
           conda-build --token $ANACONDA_TOKEN .conda

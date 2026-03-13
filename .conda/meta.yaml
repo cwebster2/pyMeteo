@@ -1,5 +1,4 @@
-{% set version_match = load_file_regex(load_file='VERSION', regex_pattern='(.+)') %}
-{% set version = version_match[1].strip() %}
+{% set version = environ.get('PACKAGE_VERSION', '0.0.0') %}
 
 package:
   name: pymeteo
