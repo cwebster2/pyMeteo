@@ -1,0 +1,40 @@
+{
+  "channeldata_version": 1,
+  "packages": {
+    "pymeteo": {
+      "activate.d": false,
+      "binary_prefix": false,
+      "deactivate.d": false,
+      "description": null,
+      "dev_url": null,
+      "doc_source_url": null,
+      "doc_url": null,
+      "home": "https://github.com/cwebster2/pyMeteo",
+      "icon_hash": null,
+      "icon_url": null,
+      "identifiers": null,
+      "keywords": null,
+      "license": "BSD3",
+      "post_link": false,
+      "pre_link": false,
+      "pre_unlink": false,
+      "recipe_origin": null,
+      "run_exports": {},
+      "source_git_url": "https://github.com/cwebster2/pyMeteo.git",
+      "source_url": null,
+      "subdirs": [
+        "linux-64",
+        "noarch"
+      ],
+      "summary": "General meteorological routines, skew-T/log-p plotting and working with CM1 model data.",
+      "tags": null,
+      "text_prefix": true,
+      "timestamp": 1662066575,
+      "version": "1.1.0"
+    }
+  },
+  "subdirs": [
+    "linux-64",
+    "noarch"
+  ]
+}
