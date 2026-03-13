@@ -130,6 +130,26 @@ class TestStormMotion:
         result = dyn.storm_motion_rasmussen(u, v, z)
         assert len(result) == 4
 
+    def test_bunkers_zero_shear_no_crash(self):
+        """Bunkers should not crash when du=0 (previously divided by zero)."""
+        u = np.array([10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0])
+        v = np.array([5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0])
+        z = np.array([0.0, 1000.0, 2000.0, 3000.0, 4000.0, 5000.0, 6000.0])
+        result = dyn.storm_motion_bunkers(u, v, z)
+        assert len(result) == 4
+        for val in result:
+            assert np.isfinite(val)
+
+    def test_rasmussen_zero_shear_no_crash(self):
+        """Rasmussen should not crash when du=0 (previously divided by zero)."""
+        u = np.array([10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0])
+        v = np.array([5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0])
+        z = np.array([0.0, 1000.0, 2000.0, 3000.0, 4000.0, 5000.0, 6000.0])
+        result = dyn.storm_motion_rasmussen(u, v, z)
+        assert len(result) == 4
+        for val in result:
+            assert np.isfinite(val)
+
 
 class TestCirculation:
     """Test circulation calculation."""

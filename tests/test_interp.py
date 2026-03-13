@@ -39,6 +39,20 @@ class TestLinear:
         with pytest.raises(Exception, match="Dimensions"):
             interp.linear(dim, var, 1.0)
 
+    def test_all_nan_returns_nan(self):
+        """linear() should return NaN when all values are NaN/invalid."""
+        dim = np.array([np.nan, np.nan, np.nan])
+        var = np.array([np.nan, np.nan, np.nan])
+        result = interp.linear(dim, var, 1.0)
+        assert np.isnan(result)
+
+    def test_all_nan_var_returns_nan(self):
+        """linear() should return NaN when var is all NaN."""
+        dim = np.array([0.0, 1.0, 2.0])
+        var = np.array([np.nan, np.nan, np.nan])
+        result = interp.linear(dim, var, 1.0)
+        assert np.isnan(result)
+
 
 class TestInterpHeight:
     """Test height interpolation to a pressure level."""

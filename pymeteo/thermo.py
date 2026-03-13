@@ -393,12 +393,14 @@ def CAPE(z: ArrayLike, p: ArrayLike, t: ArrayLike, q: ArrayLike, parcel: int) ->
 
                 k += 1
 
-            th2 = th[k - 1] + (th[k] - th[k - 1]) * (ml_depth - z[k - 1]) / (
-                z[k] - z[k - 1]
-            )
-            qv2 = q[k - 1] + (q[k] - q[k - 1]) * (ml_depth - z[k - 1]) / (
-                z[k] - z[k - 1]
-            )
+            dz = z[k] - z[k - 1]
+            if dz == 0.0:
+                # Duplicate height levels — use value at current level
+                th2 = th[k]
+                qv2 = q[k]
+            else:
+                th2 = th[k - 1] + (th[k] - th[k - 1]) * (ml_depth - z[k - 1]) / dz
+                qv2 = q[k - 1] + (q[k] - q[k - 1]) * (ml_depth - z[k - 1]) / dz
 
             if debuglevel >= 100:
                 print("  k,z,th,q = {0}, {1}, {2}, {3}".format(999, ml_depth, th2, qv2))
@@ -676,15 +678,19 @@ def CAPE(z: ArrayLike, p: ArrayLike, t: ArrayLike, q: ArrayLike, parcel: int) ->
 
     lev = 50000.0
     k = pymeteo.interp.interp_height(z, p, lev)
-    t_p_lev = pymeteo.interp.linear(z, ptv, k)
-    t_e_lev = T(pymeteo.interp.linear(z, thv, k), lev)
-    li500 = t_e_lev - t_p_lev
+    if k not in (0, -1) and np.any(np.isfinite(ptv)):
+        t_p_lev = pymeteo.interp.linear(z, ptv, k)
+        t_e_lev = T(pymeteo.interp.linear(z, thv, k), lev)
+        if np.isfinite(t_p_lev) and np.isfinite(t_e_lev):
+            li500 = t_e_lev - t_p_lev
 
     lev = 30000
     k = pymeteo.interp.interp_height(z, p, lev)
-    t_p_lev = pymeteo.interp.linear(z, ptv, k)
-    t_e_lev = T(pymeteo.interp.linear(z, thv, k), lev)
-    li300 = t_e_lev - t_p_lev
+    if k not in (0, -1) and np.any(np.isfinite(ptv)):
+        t_p_lev = pymeteo.interp.linear(z, ptv, k)
+        t_e_lev = T(pymeteo.interp.linear(z, thv, k), lev)
+        if np.isfinite(t_p_lev) and np.isfinite(t_e_lev):
+            li300 = t_e_lev - t_p_lev
 
     # print('CAPE = {0}'.format(cape))
     parcel_stats = {

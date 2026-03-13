@@ -59,7 +59,7 @@ def storm_motion_rasmussen(
     )
     du = u_4km[0] - u_0_500[0]
     dv = u_4km[1] - u_0_500[1]
-    theta = math.atan(dv / du)
+    theta = math.atan2(dv, du)
     u60 = dist_60pct * math.cos(theta) + u_0_500[0]
     v60 = dist_60pct * math.sin(theta) + u_0_500[1]
     theta -= math.pi / 2.0
@@ -88,7 +88,7 @@ def storm_motion_bunkers(
     u_0_6km = avg_wind(_u, _v, _z, 0.0, 6000.0)
     du = u_0_6km[0] - u_0_500[0]
     dv = u_0_6km[1] - u_0_500[1]
-    theta = math.atan(dv / du) - math.pi / 2.0
+    theta = math.atan2(dv, du) - math.pi / 2.0
     dist = 7.5
     u_cr = dist * math.cos(theta) + u_0_6km[0]
     v_cr = dist * math.sin(theta) + u_0_6km[1]
