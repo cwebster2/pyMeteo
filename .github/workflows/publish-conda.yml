@@ -27,6 +27,7 @@ jobs:
           ANACONDA_TOKEN: ${{ secrets.ANACONDA_TOKEN }}
         run: |
           cd .conda
-          conda install conda-build
+          conda install conda-build conda-index
           conda config --set anaconda_upload yes
           conda-build --token $ANACONDA_TOKEN --output-folder . .
+          conda-index .
