@@ -1,259 +1,391 @@
-
 # cm1.py
 #
 # access routines for cm1 grads format output
+"""Read CM1 model output in HDF5 format.
 
-#TODO exception throwing?  Error handling, support the u,v,w,stats files
+Provides the :class:`CM1` class for opening CM1 HDF5 datasets, reading grid
+metadata, and extracting 2-D and 3-D variable slices.
+"""
+
+# TODO exception throwing?  Error handling, support the u,v,w,stats files
 
 import numpy as np
-import mmap
 import h5py
 import glob
 import re
 import os
 
+
 class CM1(object):
-   nx   = 0
-   ny   = 0
-   nz   = 0
-   nxp1 = 0
-   nyp1 = 0
-   nzp1 = 0
-   nt   = 0
-   dt   = 0
-   dimX = 0
-   dimY = 0
-   dimZ = 0
-   dimU = 0
-   dimV = 0
-   dimW = 0
-   dimT = 0
-   dsetname = ''
-   path = ''
-   datafile = 0
+    """Reader for CM1 cloud-model output stored in HDF5 files.
 
-#-------------------------------------------------------
+    :param path: Directory path containing the HDF5 data files.
+    :param datasetname: Base name of the CM1 dataset (used to construct
+        file names like ``<datasetname>.00001.h5``).
 
-   def __init__(self,__path,__datasetname):
+    On construction the class scans for matching HDF5 files, reads grid
+    dimensions from the first file, and stores them as instance attributes
+    (``nx``, ``ny``, ``nz``, ``dimX``, ``dimY``, ``dimZ``, etc.).
+    """
 
-      self.path = __path
-      self.dsetname = __datasetname
+    nx = 0
+    ny = 0
+    nz = 0
+    nxp1 = 0
+    nyp1 = 0
+    nzp1 = 0
+    nt = 0
+    dt = 0
+    dimX = 0
+    dimY = 0
+    dimZ = 0
+    dimU = 0
+    dimV = 0
+    dimW = 0
+    dimT = 0
+    dsetname = ""
+    path = ""
+    datafile = 0
 
-      #We need to open the control file and read the dataset metadata
+    # -------------------------------------------------------
 
-      #read ctl file
-      self.getmetadata()
+    def __init__(self, __path, __datasetname):
 
-#-------------------------------------------------------
-#  This function currently only works for cm1 domains with stretched x/y/z grids.
+        self.path = __path
+        self.dsetname = __datasetname
 
-   def getmetadata(self):
+        # We need to open the control file and read the dataset metadata
 
-      # This searches files that describe the time dimension
-      cm1hdf_files = glob.glob("{0}/{1}*h5".format(self.path, self.dsetname))
-      cm1hdf_files.sort()
-      # replaces curved90-qv14.(\d{5}).h5  with \1
-      self.dimT = np.array([int(re.sub(r'{0}.(\d{{5}}).h5'.format(self.dsetname),r'\1',os.path.basename(f))) for f in cm1hdf_files])
-      if len(self.dimT) == 0:
-         raise ValueError('Invalid dataset specified: {0}/{1}'.format(self.path, self.dsetname))
-#TODO: check dimT, if 0 then no dataset found, bail out
-      self.nt   = len(self.dimT)
-      #self.dt   = self.dimT[1] - self.dimT[0]
-      self.dt = 15
-      self.nt = 601
-      # TODO!!!! FIX THIS
-      print('    Found T with {0} steps of {1} s'.format(self.nt, self.dt))
+        # read ctl file
+        self.getmetadata()
 
-      filename = "{0}/{1}.{2:05d}.h5".format(self.path, self.dsetname, self.dimT[0])
-      print('  Getting metadata from {0}'.format(filename))
-      cm1file = h5py.File(filename,'r')
+    # -------------------------------------------------------
+    #  This function currently only works for cm1 domains with stretched x/y/z grids.
 
-      self.nx = int(cm1file['/grid/nx'][()])
-      self.ny = int(cm1file['/grid/ny'][()])
-      self.nz = int(cm1file['/grid/nz'][()])
-      self.nxp1 = self.nx + 1
-      self.nyp1 = self.ny + 1
-      self.nzp1 = self.nz + 1
+    def getmetadata(self):
+        """Read grid metadata from the first HDF5 file in the dataset.
 
-      # scale dimensions to km for existing code
-      self.dimX = np.array(cm1file['/mesh/xh'])
-      self.dimX[:] /= 1000.
-      self.dimY = np.array(cm1file['/mesh/yh'])
-      self.dimY[:] /= 1000.
-      self.dimZ = np.array(cm1file['/mesh/zh'])
-      self.dimZ[:] /= 1000.
-      self.dimU = np.array(cm1file['/mesh/xf'])
-      self.dimU[:] /= 1000.
-      self.dimV = np.array(cm1file['/mesh/yf'])
-      self.dimV[:] /= 1000.
-      self.dimW = np.array(cm1file['/mesh/zf'])
-      self.dimW[:] /= 1000.
+        Populates ``dimT``, ``nt``, ``dt``, ``nx``, ``ny``, ``nz`` and the
+        spatial dimension arrays (``dimX``, ``dimY``, ``dimZ``, ``dimU``,
+        ``dimV``, ``dimW``).  Dimensions are converted from meters to
+        kilometres.
 
-      print('    Found X with {0} values'.format(self.nx))
-      print('    Found Y with {0} values'.format(self.ny))
-      print('    Found Z with {0} values'.format(self.nz))
+        :raises ValueError: If no HDF5 files matching the dataset name are found.
+        """
+        # This searches files that describe the time dimension
+        cm1hdf_files = glob.glob("{0}/{1}*h5".format(self.path, self.dsetname))
+        cm1hdf_files.sort()
+        # replaces curved90-qv14.(\d{5}).h5  with \1
+        self.dimT = np.array(
+            [
+                int(
+                    re.sub(
+                        r"{0}.(\d{{5}}).h5".format(self.dsetname),
+                        r"\1",
+                        os.path.basename(f),
+                    )
+                )
+                for f in cm1hdf_files
+            ]
+        )
+        if len(self.dimT) == 0:
+            raise ValueError(
+                "Invalid dataset specified: {0}/{1}".format(self.path, self.dsetname)
+            )
+        # TODO: check dimT, if 0 then no dataset found, bail out
+        self.nt = len(self.dimT)
+        # self.dt   = self.dimT[1] - self.dimT[0]
+        self.dt = 15
+        self.nt = 601
+        # TODO!!!! FIX THIS
+        print("    Found T with {0} steps of {1} s".format(self.nt, self.dt))
 
-      cm1file.close()
+        filename = "{0}/{1}.{2:05d}.h5".format(self.path, self.dsetname, self.dimT[0])
+        print("  Getting metadata from {0}".format(filename))
+        cm1file = h5py.File(filename, "r")
 
-#-------------------------------------------------------
+        self.nx = int(cm1file["/grid/nx"][()])
+        self.ny = int(cm1file["/grid/ny"][()])
+        self.nz = int(cm1file["/grid/nz"][()])
+        self.nxp1 = self.nx + 1
+        self.nyp1 = self.ny + 1
+        self.nzp1 = self.nz + 1
 
-   def read2d_slice(self, time, ib, ie, jb, je, varname):
-      filename = self.path + '/' + self.dsetname + '.{0:05d}.h5'.format(int(time))
-      datafile = h5py.File(filename, 'r')
-      print('    Reading {0} from ({1}:{2},{3}:{4}) at time {5} s'.format(varname, ib, ie, jb, je, time))
+        # scale dimensions to km for existing code
+        self.dimX = np.array(cm1file["/mesh/xh"])
+        self.dimX[:] /= 1000.0
+        self.dimY = np.array(cm1file["/mesh/yh"])
+        self.dimY[:] /= 1000.0
+        self.dimZ = np.array(cm1file["/mesh/zh"])
+        self.dimZ[:] /= 1000.0
+        self.dimU = np.array(cm1file["/mesh/xf"])
+        self.dimU[:] /= 1000.0
+        self.dimV = np.array(cm1file["/mesh/yf"])
+        self.dimV[:] /= 1000.0
+        self.dimW = np.array(cm1file["/mesh/zf"])
+        self.dimW[:] /= 1000.0
 
-      nx = ie-ib
-      ny = je-jb
+        print("    Found X with {0} values".format(self.nx))
+        print("    Found Y with {0} values".format(self.ny))
+        print("    Found Z with {0} values".format(self.nz))
 
-      data = np.empty((ny,nx), dtype=np.float32)
-      data = datafile[varname][jb:je,ib:ie]
+        cm1file.close()
 
-      datafile.close()
-      return data
+    # -------------------------------------------------------
 
-#-------------------------------------------------------
+    def read2d_slice(self, time, ib, ie, jb, je, varname):
+        """Read a 2-D horizontal slice of a variable.
 
-   def read3d_slice(self, time, ib, ie, jb, je, kb, ke, varname):
-      filename = self.path + '/' + self.dsetname + '.{0:05d}.h5'.format(int(time))
-      datafile = h5py.File(filename, 'r')
-      print('    Reading {0} from ({1}:{2},{3}:{4},{5}:{6}) at time {7} s'.format(varname, ib, ie, jb, je, kb, ke, time))
+        :parameter time: Time level index for constructing the file name.
+        :parameter ib: Starting x-index (inclusive).
+        :parameter ie: Ending x-index (exclusive).
+        :parameter jb: Starting y-index (inclusive).
+        :parameter je: Ending y-index (exclusive).
+        :parameter varname: HDF5 dataset path for the variable.
+        :returns: 2-D numpy array of shape ``(je-jb, ie-ib)``.
+        """
+        filename = self.path + "/" + self.dsetname + ".{0:05d}.h5".format(int(time))
+        datafile = h5py.File(filename, "r")
+        print(
+            "    Reading {0} from ({1}:{2},{3}:{4}) at time {5} s".format(
+                varname, ib, ie, jb, je, time
+            )
+        )
 
-      nx = ie-ib
-      ny = je-jb
-      nz = ke-kb
+        nx = ie - ib
+        ny = je - jb
 
-      data = np.empty((nz,ny,nx), dtype=np.float32)
-      data = datafile[varname][kb:ke,jb:je,ib:ie]
+        data = np.empty((ny, nx), dtype=np.float32)
+        data = datafile[varname][jb:je, ib:ie]
 
-      datafile.close()
-      return data
+        datafile.close()
+        return data
 
-   
-   def read3d_slice_derived(self, time, ib, ie, jb, je, kb, ke, varname3D, varname1D):
-      filename = self.path + '/' + self.dsetname + '.{0:05d}.h5'.format(int(time))
-      datafile = h5py.File(filename, 'r')
-      print('    Reading {0} and {8} from ({1}:{2},{3}:{4},{5}:{6}) at time {7} s'.format(varname3D, ib, ie, jb, je, kb, ke, time, varname1D))
+    # -------------------------------------------------------
 
-      nx = ie-ib
-      ny = je-jb
-      nz = ke-kb
+    def read3d_slice(self, time, ib, ie, jb, je, kb, ke, varname):
+        """Read a 3-D sub-volume of a variable.
 
-      data = np.empty((nz, ny, nx), dtype=np.float32)
-      # Have to transpose before right-broadcasting doesnt work
-      data = (datafile[varname3D][kb:ke, jb:je, ib:ie].T + datafile[varname1D][kb:ke].T).T
+        :parameter time: Time level index for constructing the file name.
+        :parameter ib: Starting x-index (inclusive).
+        :parameter ie: Ending x-index (exclusive).
+        :parameter jb: Starting y-index (inclusive).
+        :parameter je: Ending y-index (exclusive).
+        :parameter kb: Starting z-index (inclusive).
+        :parameter ke: Ending z-index (exclusive).
+        :parameter varname: HDF5 dataset path for the variable.
+        :returns: 3-D numpy array of shape ``(ke-kb, je-jb, ie-ib)``.
+        """
+        filename = self.path + "/" + self.dsetname + ".{0:05d}.h5".format(int(time))
+        datafile = h5py.File(filename, "r")
+        print(
+            "    Reading {0} from ({1}:{2},{3}:{4},{5}:{6}) at time {7} s".format(
+                varname, ib, ie, jb, je, kb, ke, time
+            )
+        )
 
-      datafile.close()
-      return data
+        nx = ie - ib
+        ny = je - jb
+        nz = ke - kb
+
+        data = np.empty((nz, ny, nx), dtype=np.float32)
+        data = datafile[varname][kb:ke, jb:je, ib:ie]
+
+        datafile.close()
+        return data
+
+    def read3d_slice_derived(self, time, ib, ie, jb, je, kb, ke, varname3D, varname1D):
+        """Read a 3-D sub-volume and add a 1-D profile to each column.
+
+        Computes ``varname3D[kb:ke, jb:je, ib:ie] + varname1D[kb:ke]``
+        using numpy broadcasting after transposing for alignment.
+
+        :parameter time: Time level index for constructing the file name.
+        :parameter ib: Starting x-index (inclusive).
+        :parameter ie: Ending x-index (exclusive).
+        :parameter jb: Starting y-index (inclusive).
+        :parameter je: Ending y-index (exclusive).
+        :parameter kb: Starting z-index (inclusive).
+        :parameter ke: Ending z-index (exclusive).
+        :parameter varname3D: HDF5 dataset path for the 3-D variable.
+        :parameter varname1D: HDF5 dataset path for the 1-D profile to add.
+        :returns: 3-D numpy array of shape ``(ke-kb, je-jb, ie-ib)``.
+        """
+        filename = self.path + "/" + self.dsetname + ".{0:05d}.h5".format(int(time))
+        datafile = h5py.File(filename, "r")
+        print(
+            "    Reading {0} and {8} from ({1}:{2},{3}:{4},{5}:{6}) at time {7} s".format(
+                varname3D, ib, ie, jb, je, kb, ke, time, varname1D
+            )
+        )
+
+        nx = ie - ib
+        ny = je - jb
+        nz = ke - kb
+
+        data = np.empty((nz, ny, nx), dtype=np.float32)
+        # Have to transpose before right-broadcasting doesnt work
+        data = (
+            datafile[varname3D][kb:ke, jb:je, ib:ie].T + datafile[varname1D][kb:ke].T
+        ).T
+
+        datafile.close()
+        return data
+
+    # -------------------------------------------------------
+    # Reads a single 3d variable from the datafile
+
+    def read3d(self, time, grid, varname):
+        """Read a full 3-D variable from the dataset.
+
+        :parameter time: Time level index for constructing the file name.
+        :parameter grid: Grid stagger type — ``'u'``, ``'v'``, ``'w'``, or
+            ``'s'`` (scalar).  Determines array dimensions.
+        :parameter varname: HDF5 dataset path for the variable.
+        :returns: 3-D numpy array.
+        """
+        # open dat file
+        filename = self.path + "/" + self.dsetname + ".{0:05d}.h5".format(int(time))
+
+        # print('  Opening {0} for reading'.format(filename))
+        print("    Reading {0} from grid {1} at time {2} s".format(varname, grid, time))
+
+        # open the data file
+        datafile = h5py.File(filename, "r")
+
+        if grid == "u":
+            nx = self.nxp1
+        else:
+            nx = self.nx
+        if grid == "v":
+            ny = self.nyp1
+        else:
+            ny = self.ny
+        if grid == "w":
+            nz = self.nzp1
+        else:
+            nz = self.nz
+
+        data = np.empty((nz, ny, nx), dtype=np.float32)
+        data = datafile[varname]
+        print(data)
+
+        # print('  {0} closed'.format(filename))
+
+        datafile.close()
+
+        return data
+
+    # -------------------------------------------------------
+    # These 3 functions seperate the opening, reading and closing
+    #  actions so that mutliple variables can be read from the same
+    #  datafile with only 1 open/close action.
+
+    def read3dMultStart(self, time):
+        """Open an HDF5 file for reading multiple variables at a given time.
+
+        Call :meth:`read3dMult` for each variable, then :meth:`read3dMultStop`
+        to close the file.
+
+        :parameter time: Time level index for constructing the file name.
+        """
+        filename = self.path + "/" + self.dsetname + ".{0:05d}.h5".format(int(time))
+
+        print("  Opening {0} for reading".format(filename))
+        print("    Reading at time {2} s".format(time))
+
+        # open the data file
+        self.datafile = h5py.File(filename, "r")
+
+    # -------------------------------------------------------
+
+    def read3dMultStop(self):
+        """Close the HDF5 file opened by :meth:`read3dMultStart`."""
+
+        # close the memory map and the data file
+        self.datafile.close()
+        print("  File closed")
+
+    # -------------------------------------------------------
+
+    def read3dMult(self, grid, varname):
+        """Read a 3-D variable from the currently open HDF5 file.
+
+        The file must have been previously opened with :meth:`read3dMultStart`.
+
+        :parameter grid: Grid stagger type — ``'u'``, ``'v'``, ``'w'``, or
+            ``'s'`` (scalar).
+        :parameter varname: HDF5 dataset path for the variable.
+        :returns: Transposed 3-D numpy array (x, y, z ordering).
+        """
+        if grid == "u":
+            nx = self.nxp1
+        else:
+            nx = self.nx
+        if grid == "v":
+            ny = self.nyp1
+        else:
+            ny = self.ny
+        if grid == "w":
+            nz = self.nzp1
+        else:
+            nz = self.nz
+
+        data = np.empty((nz, ny, nx), dtype=np.float32)
+        data = self.datafile[varname]
+
+        return np.array(data).T
+
+    # -------------------------------------------------------
+
+    def restrict_bounds(self, east, west, north, south, height):
+        """Compute array index bounds for a geographic sub-domain.
+
+        Given geographic extents in kilometres, finds the nearest grid
+        indices on both the scalar and staggered grids.
+
+        :parameter east: Eastern boundary (km).
+        :parameter west: Western boundary (km).
+        :parameter north: Northern boundary (km).
+        :parameter south: Southern boundary (km).
+        :parameter height: Upper height boundary (km).
+        :returns: Tuple of 10 indices:
+            ``(idx_s_e, idx_s_w, idx_s_n, idx_s_s, idx_u_e, idx_u_w,
+            idx_v_n, idx_v_s, idx_s_z, idx_w_z)``.
+        """
+
+        def find_nearest_idx(array, value):
+            return (np.abs(array - value)).argmin()
+
+        idx_s_e = find_nearest_idx(self.dimX, east)
+        idx_u_e = find_nearest_idx(self.dimU, east)
+
+        idx_s_w = find_nearest_idx(self.dimX, west)
+        idx_u_w = find_nearest_idx(self.dimU, west)
+
+        idx_s_n = find_nearest_idx(self.dimY, north)
+        idx_v_n = find_nearest_idx(self.dimV, north)
+
+        idx_s_s = find_nearest_idx(self.dimY, south)
+        idx_v_s = find_nearest_idx(self.dimV, south)
+
+        idx_s_z = find_nearest_idx(self.dimZ, height)
+        idx_w_z = find_nearest_idx(self.dimW, height)
+
+        return (
+            idx_s_e,
+            idx_s_w,
+            idx_s_n,
+            idx_s_s,
+            idx_u_e,
+            idx_u_w,
+            idx_v_n,
+            idx_v_s,
+            idx_s_z,
+            idx_w_z,
+        )
 
 
-#-------------------------------------------------------
-# Reads a single 3d variable from the datafile
-
-   def read3d(self, time, grid, varname):
-
-      # open dat file
-      filename = self.path + '/' + self.dsetname + '.{0:05d}.h5'.format(int(time))
-
-      #print('  Opening {0} for reading'.format(filename))
-      print('    Reading {0} from grid {1} at time {2} s'.format(varname, grid, time))
-
-      # open the data file
-      datafile = h5py.File(filename, 'r')
-
-      if (grid == 'u'):
-         nx = self.nxp1
-      else:
-         nx = self.nx
-      if (grid == 'v'):
-         ny = self.nyp1
-      else:
-         ny = self.ny
-      if (grid == 'w'):
-         nz = self.nzp1
-      else:
-         nz = self.nz
-
-      data = np.empty((nz, ny, nx), dtype=np.float32)
-      data = datafile[varname]
-      print(data)
-
-      #print('  {0} closed'.format(filename))
-
-      datafile.close()
-
-      return data
-
-#-------------------------------------------------------
-# These 3 functions seperate the opening, reading and closing
-#  actions so that mutliple variables can be read from the same
-#  datafile with only 1 open/close action.
-
-   def read3dMultStart(self,time):
-
-      filename = self.path + '/' + self.dsetname + '.{0:05d}.h5'.format(int(time))
-
-      print('  Opening {0} for reading'.format(filename))
-      print('    Reading at time {2} s'.format(time))
-
-      # open the data file
-      self.datafile = h5py.File(filename, 'r')
-
-#-------------------------------------------------------
-
-   def read3dMultStop(self):
-
-      # close the memory map and the data file
-      self.datafile.close()
-      print('  File closed')
-
-#-------------------------------------------------------
-
-   def read3dMult(self, grid, varname):
-
-      if (grid == 'u'):
-         nx = self.nxp1
-      else:
-         nx = self.nx
-      if (grid == 'v'):
-         ny = self.nyp1
-      else:
-         ny = self.ny
-      if (grid == 'w'):
-         nz = self.nzp1
-      else:
-         nz = self.nz
-
-      data = np.empty((nz, ny, nx), dtype=np.float32)
-      data = self.datafile[varname]
-
-      return np.array(data).T
-
-#-------------------------------------------------------
-
-   def restrict_bounds(self,east,west,north,south,height):
-
-       def find_nearest_idx(array,value):
-           return (np.abs(array-value)).argmin()
-
-       idx_s_e = find_nearest_idx(self.dimX, east)
-       idx_u_e = find_nearest_idx(self.dimU, east)
-
-       idx_s_w = find_nearest_idx(self.dimX, west)
-       idx_u_w = find_nearest_idx(self.dimU, west)
-
-       idx_s_n = find_nearest_idx(self.dimY, north)
-       idx_v_n = find_nearest_idx(self.dimV, north)
-
-       idx_s_s = find_nearest_idx(self.dimY, south)
-       idx_v_s = find_nearest_idx(self.dimV, south)
-
-       idx_s_z = find_nearest_idx(self.dimZ, height)
-       idx_w_z = find_nearest_idx(self.dimW, height)
-
-       return (idx_s_e, idx_s_w, idx_s_n, idx_s_s,
-               idx_u_e, idx_u_w, idx_v_n, idx_v_s,
-               idx_s_z, idx_w_z)
-
-#-------------------------------------------------------
+# -------------------------------------------------------
 # def get var by id, get varid by name
 # def var exists?

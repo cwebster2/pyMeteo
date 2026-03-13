@@ -1,5 +1,12 @@
 # Acars data access
 # Thanks to Rich Mamrosh @ NOAA for pointing the availability of this data out to me
+"""ACARS (Aircraft Communications Addressing and Reporting System) data access.
+
+Downloads, decompresses, and parses ACARS aircraft sounding observations from
+NOAA's MADIS (Meteorological Assimilation Data Ingest System) public archive.
+Each sounding profile is split into ascending/descending segments and returned
+with thermodynamic and kinematic variables ready for plotting on a Skew-T.
+"""
 
 import re
 import netCDF4
@@ -12,44 +19,65 @@ from PyQt5 import QtWidgets, QtGui, QtCore
 from PyQt5.QtCore import pyqtSignal, pyqtSlot
 from datetime import datetime
 from pymeteo import dynamics, thermo
-try:
-    # For Python 3.0 and later
-    from urllib import request
-except ImportError:
-    # Fall back to Python 2's urllib2
-    import urllib2 as request
+from urllib import request
 
 data_url = "https://madis-data.ncep.noaa.gov/madisPublic1/data/point/acars/netcdf/"
 airport_ids = {}
 
+
 def getAvailableDatasets():
+    """Fetch the list of available ACARS dataset files from MADIS.
+
+    Scrapes the MADIS public data directory for gzip-compressed NetCDF
+    filenames matching the ``YYYYMMDD_HHMM.gz`` pattern.
+
+    :returns: List of filename strings, or *None* on failure.
+    """
     # crawl links at https://madis-data.ncep.noaa.gov/madisPublic1/data/point/acars/netcdf/
     req = request.Request(data_url)
     linkMatcher = re.compile(r"\"([0-9_]+\.gz)\"")
-    try: 
+    try:
         print("[+] Fetching list of resources available")
         with request.urlopen(req) as f:
             print("[-] Parsing list")
             data = str(f.read())
             sets = linkMatcher.findall(data)
             return sets
-    except:
-        print("error")
+    except (OSError, ValueError) as e:
+        print(f"Error fetching available datasets: {e}")
 
-def getDataSet(set):
-    req = request.Request(data_url + set)
+
+def getDataSet(dataset_name):
+    """Download and decompress a single ACARS dataset from MADIS.
+
+    :parameter dataset_name: Filename of the gzipped dataset (e.g.
+        ``'20230115_1200.gz'``).
+    :returns: A file-like :class:`~gzip.GzipFile` object containing the
+        uncompressed NetCDF data, or *None* on failure.
+    """
+    req = request.Request(data_url + dataset_name)
     try:
-        print("[+] Fetching dataset {0}".format(set))
+        print("[+] Fetching dataset {0}".format(dataset_name))
         with request.urlopen(req) as f:
-            compressedData = io.BytesIO(f.read()) # gzipped data
+            compressedData = io.BytesIO(f.read())  # gzipped data
             print("[-] Decompressing response data")
             data = gzip.GzipFile(fileobj=compressedData)
-            
+
             return data
-    except:
-        print("error")
+    except (OSError, ValueError) as e:
+        print(f"Error fetching dataset {dataset_name}: {e}")
+
 
 def getAirportByCode(airport_id):
+    """Look up an airport name by its numeric MADIS identifier.
+
+    On first call the ``airport_info.dat`` file is loaded and cached in
+    the module-level :data:`airport_ids` dictionary.
+
+    :parameter airport_id: Integer airport identifier from the ACARS data.
+    :returns: Airport code string (e.g. ``'KORD'``).
+    :raises KeyError: If *airport_id* is not found in the data file.
+    """
     print("[+] Looking up airport id '{0}'".format(airport_id))
     datfile = os.path.join(os.path.dirname(__file__), "airport_info.dat")
     if not bool(airport_ids):
@@ -59,14 +87,28 @@ def getAirportByCode(airport_id):
                 airport_ids[int(fields[0])] = fields[1]
     return airport_ids[airport_id]
 
+
 def processDataSet(data):
+    """Parse a decompressed ACARS NetCDF dataset into sounding profiles.
+
+    Reads altitude, temperature, mixing ratio, wind, and location variables
+    from the NetCDF file.  Computes derived quantities (pressure, potential
+    temperature, u/v wind components) and splits the data into individual
+    sounding profiles based on timestamp changes.
+
+    :parameter data: A file-like object (from :func:`getDataSet`) containing
+        uncompressed NetCDF data.
+    :returns: List of dicts, each representing one sounding profile with keys:
+        ``'i'``, ``'n'``, ``'z'``, ``'p'``, ``'th'``, ``'qv'``, ``'u'``,
+        ``'v'``, ``'lat'``, ``'lon'``, ``'airport'``, ``'time'``, ``'flag'``.
+    """
     print("[+] Writing data into temporary file")
     tdata = tempfile.NamedTemporaryFile()
     tdata.write(data.read())
     print("[-] Data written to {0}".format(tdata.name))
     print("[+] Opening data as NetCDF")
     d = data.read()
-    with netCDF4.Dataset(tdata.name, mode='r') as nc:
+    with netCDF4.Dataset(tdata.name, mode="r") as nc:
         print("[-] Dataset open with")
 
         _z = nc["altitude"][:]
@@ -80,14 +122,14 @@ def processDataSet(data):
         _airport = nc["sounding_airport_id"][:]
         time = nc["soundingSecs"][:]
 
-        print ("[-] {0} Records".format(len(_z)))
-        #conversions
+        print("[-] {0} Records".format(len(_z)))
+        # conversions
         _p = thermo.p_from_pressure_altitude(_z, _T)
         _u, _v = dynamics.wind_deg_to_uv(windDir, windSpeed)
         _th = thermo.theta(_T, _p)
 
         # split the arrays when the flag changes sign
-        splits = np.where(np.diff(time))[0]+1
+        splits = np.where(np.diff(time))[0] + 1
 
         _z = np.split(_z, splits)
         _p = np.split(_p, splits)
@@ -103,16 +145,16 @@ def processDataSet(data):
 
         print("[-] Found {0} profiles".format(len(_z)))
 
-        #re-shape data
+        # re-shape data
         outputData = []
         for i in range(len(_z)):
             ts = time[i].compressed()
             if len(ts) == 0:
                 # profiles without timestamps invalid?
-                continue 
+                continue
 
             profileDir = flag[i][0]
-            if (profileDir == 0):
+            if profileDir == 0:
                 continue
 
             z = _z[i].filled()
@@ -124,10 +166,10 @@ def processDataSet(data):
             lat = _lat[i].filled()
             lon = _lon[i].filled()
             try:
-               airport = getAirportByCode(_airport[i][0])
+                airport = getAirportByCode(_airport[i][0])
             except KeyError:
-               print('Airport not found ', _airport[i][0])
-               airport = "ERROR"
+                print("Airport not found ", _airport[i][0])
+                airport = "ERROR"
 
             profileData = {
                 "i": i,
@@ -142,7 +184,7 @@ def processDataSet(data):
                 "lon": lon if profileDir > 0 else lon[::-1],
                 "airport": airport,
                 "time": datetime.utcfromtimestamp(ts.mean()).strftime("%H%MZ"),
-                "flag": profileDir
+                "flag": profileDir,
             }
             outputData.append(profileData)
 

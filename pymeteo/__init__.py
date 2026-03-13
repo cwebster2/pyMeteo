@@ -6,4 +6,5 @@ pull requests to https://github.com/cwebster2/pymeteo. Please report
 bugs using the github issue tracker at https://github.com/cwebster2/pymeteo/issues.
 
 """
-__version__="1.0.1"
+
+__version__ = "1.0.3"
