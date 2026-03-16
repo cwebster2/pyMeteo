@@ -24,7 +24,7 @@ jobs:
           conda-channels: anaconda, conda-forge, cwebster2
       - name: Build
         env:
-          ANACONDA_TOKEN: ${{ secrets.ANACONDA_TOKEN }}
+          ANACONDA_API_TOKEN: ${{ secrets.ANACONDA_TOKEN }}
           PACKAGE_VERSION: ${{ github.event.release.tag_name || '' }}
         run: |
           if [ -z "$PACKAGE_VERSION" ]; then
@@ -32,4 +32,4 @@ jobs:
           fi
           conda install conda-build anaconda-client
           conda config --set anaconda_upload yes
-          conda-build --token $ANACONDA_TOKEN .conda
+          conda-build .conda
